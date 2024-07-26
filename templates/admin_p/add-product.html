@@ -1,0 +1,284 @@
+{% extends 'admin_p/base.html' %}
+{% block body_block %}
+
+
+
+<style>
+    .btn-section{
+        padding-top: 40px!important;
+    }
+    .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+    }
+    .card {
+        margin-bottom: 20px;
+    }
+    .form-group label {
+        font-weight: bold;
+    }
+    .text-right {
+        text-align: right;
+    }
+    .btn-secondary {
+        margin-left: 10px;
+    }
+</style>
+
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+        <div class="container-fluid">
+            <div class="header">
+                <div class="page-title-box">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <h4 class="page-title mb-0">Add Product</h4>
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="#">Products</a></li>
+                                <li class="breadcrumb-item active"><a href="#">Add Product</a></li>
+                                
+                            </ol>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div>
+                <a  href="{% url 'products' %}" class="btn btn-danger" onclick="confirm('Are you sure to delete this Product')><i class="fas fa-plus"></i> Discard</a>
+                <button type="submit" class="btn btn-primary">Publish product</button>
+                </div>
+            </div>
+
+
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                Product Information
+            </div>
+            <div class="card-body">
+     
+                    <div class="form-group">
+                        <label for="productName">Name</label>
+                        {{form.name}}
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="sku">SKU</label>
+                            {{form.sku}}
+                        </div>
+                        <!-- <div class="form-group col-md-6">
+                            <label for="barcode">Barcode</label>
+                            <input type="text" class="form-control" id="barcode" placeholder="0123-4567">
+                        </div> -->
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description (optional)</label>
+                        {{form.description}}
+                                {{form.media}}
+                    </div>
+                
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                Media
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Product Image</label>     
+                <div class="file-upload">
+                  <div class="image-upload-wrap">
+                 
+                    {{form.image}}
+                    <div class="drag-text">
+                      <h3>Drag and drop a file or click to add Image</h3>
+                    </div>
+                  </div>
+                  <div class="file-upload-content">
+                    
+                    <div class="row">
+                
+                    <div class="col-10"><img class="file-upload-image" src="#" alt="your image" /></div>
+                    
+                    <div  class="image-title-wrap col-2">
+                      <button type="button" onclick="removeUpload()" class="remove-image"><i class="fa-solid fa-xmark"></i></button>
+                    </div></div>
+                  </div>
+                </div>
+                </div>                      
+                
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                Variants
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Options</label>
+                    <div class="input-group mb-3">
+                        <select class="form-control">
+                            <option>Size</option>
+                            <option>Color</option>
+                        </select>
+                        <input type="text" class="form-control" placeholder="Enter size">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="button">Add another option</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                Inventory
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#restock">Restock</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#shipping">Shipping</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#globalDelivery">Global Delivery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#attributes">Attributes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#advanced">Advanced</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="restock" class="container tab-pane active"><br>
+                        <div class="form-group">
+                            <label>Add to stock</label>
+                            <input type="number" class="form-control" placeholder="Quantity">
+                            <button class="btn btn-primary mt-2">Confirm</button>
+                        </div>
+                        <p>Product in stock now: 54</p>
+                        <p>Product in transit: 390</p>
+                        <p>Last time restocked: 24th June, 2023</p>
+                        <p>Total stock over lifetime: 2430</p>
+                    </div>
+                    <!-- Other tabs content can be added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                Pricing
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="basePrice">Base Price</label>
+                    {{form.regular_price}}
+                </div>
+                <div class="form-group">
+            
+                   
+                    <div class="checkbox-wrapper-14">
+                     <label for="s1-14">On Sale</label>&nbsp;&nbsp;
+                     {{form.on_sale}}
+                     
+                   </div>
+                   
+                     
+                 </div>
+                <div class="form-group" style="display:none" id="sale-price">
+                    <label for="discountedPrice">Discounted Price</label>
+                    {{form.sale_price}}
+                </div>
+                
+                <!-- <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="chargeTax">
+                    <label class="form-check-label" for="chargeTax">Charge tax on this product</label>
+                </div> -->
+                <div class="form-group ">
+                    <div class="checkbox-wrapper-14">
+                    <label for="s1-14">In Stock ?</label>&nbsp;&nbsp;
+                    {{form.stock}}
+                    
+                </div>
+                </div>
+
+          
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                Organize
+            </div>
+            <div class="card-body">
+                <!-- <div class="form-group">
+                    <label for="vendor">Vendor</label>
+                    <select class="form-control" id="vendor">
+                        <option>Select Vendor</option>
+                    </select>
+                </div> -->
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    {{form.category}}
+                </div>
+                <div class="form-group">
+                    <label for="collection">Collection</label>
+                    <select class="form-control" id="collection">
+                        <option>Collection</option>
+                    </select>
+                </div>
+         
+                <div class="form-group">
+                    <label for="tags">Tags</label>
+                    <input type="text" class="form-control" id="tags" placeholder="Tags">
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</div>
+</form>
+
+<script>
+
+function sale() {
+  // Get the checkbox
+  var checkBox = document.getElementById("s1-14");
+  // Get the output text
+  var sale = document.getElementById("sale-price");
+
+  // If the checkbox is checked, display the output text
+  if (checkBox.checked == true){
+    sale.style.display = "block";
+    sale.style.transition = ".5s";
+  } else {
+    sale.style.display = "none";
+  }
+}
+sale()
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+
+{% endblock %}

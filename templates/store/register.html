@@ -1,0 +1,47 @@
+
+{% extends 'store/base.html' %}
+{% block body_block %}
+
+<div class="row">
+
+
+
+<div class="card col-md-3 m-auto">
+    <div class="card-body">
+        <div class="p-3">
+            <div class="float-right text-right">
+                <h4 class="font-18 mt-3 m-b-5">Register</h4>
+                <p class="text-muted">Get your free foxia account now.</p>
+            </div>
+            <a href="index.html" class="logo-admin"><img src="assets/images/logo_dark.png" height="26" alt="logo"></a>
+        </div>
+
+        <div class="p-3">
+            
+            <form method="POST">
+                {% csrf_token %}
+
+                {{form.as_p}}
+                <div class="form-group row m-t-20">
+                    <div class="col-12 text-right">
+                        <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Register</button>
+                    </div>
+                </div>
+
+                <div class="form-group m-t-30 mb-0 row">
+                    <div class="col-12">
+                        <p class="font-14 text-center text-muted mb-0">By registering you agree to the <a href="#" class="text-primary">Terms of Use</a></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+</div>
+<div class="m-t-40 text-center text-white-50">
+    <p>Already have an account ? <a href="{% url 'login' %}" class="font-600 text-white"> Login </a> </p>
+  
+</div>
+
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'admin_p/base.html' %}
+{% block body_block %}
+
+
+    <style>
+        body {
+            background-color: #f8f8f8;
+        }
+        .container-fluid {
+            margin-top: 20px;
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .header h2 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .header .btn-primary {
+            background-color: #7367f0;
+            border-color: #7367f0;
+            padding: 10px 20px;
+        }
+        .form-container {
+            margin-top: 20px;
+        }
+        .form-group label {
+            font-weight: 600;
+        }
+        .form-control {
+            border-radius: 5px;
+        }
+        .btn-primary {
+            background-color: #7367f0;
+            border-color: #7367f0;
+            padding: 10px 20px;
+            margin-top: 20px;
+        }
+        .btn-secondary {
+            padding: 10px 20px;
+            margin-top: 20px;
+        }
+        .custom-file-label::after {
+            content: "Browse";
+        }
+    </style>
+
+<div class="container-fluid">
+    <div class="header">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <h4 class="page-title mb-0">Add Category</h4>
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="#">Products</a></li>
+                        <li class="breadcrumb-item "><a href="#">Categories</a></li>
+                        <li class="breadcrumb-item active"><a href="#">Add Category</a></li>
+                        
+                    </ol>
+                </div>
+                
+            </div>
+            
+        </div>
+   
+    </div>
+
+    <div class="form-container">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="categoryName">Category Name</label>
+                {{form.name}}
+            </div>
+            <div class="form-group">
+                <label for="categoryDescription">Description</label>
+               {{form.description}}
+            </div>
+            <div class="form-group">
+                <label for="categoryImage">Category Image</label>
+                <div class="custom-file">
+                    {{form.image}}
+                    <label class="custom-file-label" for="categoryImage">Choose file</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Category</button>
+            <button type="reset" class="btn btn-secondary">Cancel</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+{% endblock %}

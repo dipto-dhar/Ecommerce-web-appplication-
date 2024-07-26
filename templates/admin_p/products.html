@@ -1,0 +1,164 @@
+{% extends 'admin_p/base.html' %}
+{% block body_block %}
+
+        <div class="container-fluid">
+            <div class="header">
+                <div class="page-title-box">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <h4 class="page-title mb-0">Products</h4>
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="#">Products</a></li>
+                                <li class="breadcrumb-item active"><a href="#">All Products</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <a href="{% url 'add-product' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Add Product</a>
+            </div>
+ {% if products %}
+    <div class="filter-container mb-3">
+        <div class="form-inline mb-3">
+            <select class="form-control mr-2">
+                <option>Status</option>
+            </select>
+            <select class="form-control mr-2">
+                <option>Category</option>
+            </select>
+            <select class="form-control mr-2">
+                <option>Stock</option>
+            </select>
+            <input class="form-control" type="search" placeholder="Search Product" aria-label="Search">
+        </div>
+    </div>
+
+    <div class="table-container">
+       
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col"><input type="checkbox"></th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Sale</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">SKU</th>
+                    <th scope="col">Price</th>
+                    <!-- <th scope="col">Qty</th> -->
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                
+
+              
+                {% for product in products %}
+
+
+
+
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img src="{{product.image.url}}" alt="Product Image">
+                            <div class="ml-3">
+                                <div>{{product.name}}</div>
+                                <div class="category-description">
+                                    
+                                    
+                                    <p>{{ product.description|striptags|truncatewords:10 }}</p></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{% if product.on_sale %}
+                        <span class="badge badge-primary">On Sale</span>
+                        {% else %}
+                        
+                        {% endif %}
+
+                        
+                    </td>
+                    <td>{{product.category}}</td>
+                    <td>
+                        {% if product.stock == True %}
+                        <span class="badge badge-success">In Stock</span>
+                        {% else %}
+                        <span class="badge badge-warning">Out of Stock</span>
+                        {% endif %}
+
+                    </td>
+                    <td>{{product.sku}}</td>
+                    <td>{{product.sale_price}}</td>
+                    <!-- <td>942</td> -->
+   
+                    <td class="actions"><a href="{% url 'edit-product' product.slug %}" class="btn btn-sm"><i class="fas fa-edit"></i></a>
+                        
+                        <a href="{% url 'delete-product' product.id %}" onclick="confirm('Are you sure to delete this Product')" class="btn btn-sm"><i class="fas fa-trash-alt"></i></a>
+                        
+                        
+                    </td>
+                </tr>
+
+{% endfor %}
+
+
+               
+                <!-- Add more product rows as needed -->
+            </tbody>
+        </table>
+
+    </div>
+
+        {% else %}
+
+
+        <div class="alert alert-primary" role="alert">
+             There is no products to show! <strong><a href="{% url 'add-product' %}"> Add Product</a></strong>
+        </div>
+{% endif %}
+<div class="pagination-container text-right">
+    <nav>
+        <ul class="pagination justify-content-end">
+            {% if products.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{products.previous_page_number}}">Previous</a></li>
+            {% endif %}
+            {%for n in total_pages%}
+
+
+            {% if products.number == n %}
+           
+                <li class="page-item active"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+          
+        {% else %}
+        <li class="page-item "><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+        {% endif %}
+
+
+            
+          
+
+
+
+
+
+
+
+            {% endfor %}
+            {% if products.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{products.next_page_number}}">Next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+{% endblock %}
