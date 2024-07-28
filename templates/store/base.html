@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="{% static "store/assets/css/style.css" %}">
     <link rel="stylesheet" href="{% static "store/assets/css/skins/skin-demo-8.css" %}">
     <link rel="stylesheet" href="{% static "store/assets/css/demos/demo-8.css" %}">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -66,12 +67,12 @@
                                   
                                 </li>
                                 <li>
-                                    <a href="category.html" class="sf-with-li">Shop</a>
+                                    <a href="{% url 'shop' %}" class="sf-with-li">Shop</a>
 
                           
                                 </li>
                                 <li>
-                                    <a href="product.html" class="sf-with-ul">Collections</a>
+                                    <a href="{% url 'category' %}" class="sf-with-ul">Collections</a>
 
                                     <div class="megamenu megamenu-sm">
                                         <div class="row no-gutters">
@@ -79,21 +80,18 @@
                                                 <div class="menu-col">
                                                     <div class="menu-title">Our Collections</div><!-- End .menu-title -->
                                                     <ul>
-                                                        
-                                                        <li><a href="">Centered</a></li>
-                                                        <li><a href=""><span>Extended Info<span class="tip tip-new">New</span></span></a></li>
-                                                        <li><a href="">Gallery</a></li>
-                                                        <li><a href="">Sticky Info</a></li>
-                                                        <li><a href="">Boxed With Sidebar</a></li>
-                                                        <li><a href="">Full Width</a></li>
-                                                        <li><a href="">Masonry Sticky Info</a></li>
+                                                        {% for category in categories %}
+                                                        <li><a href="{% url 'shop' category.slug %}">{{category.name}}</a></li>
+                                                        {% endfor %}
+                                                        <!-- <li><a href=""><span>Extended Info<span class="tip tip-new">New</span></span></a></li> -->
+                                                     
                                                     </ul>
                                                 </div><!-- End .menu-col -->
                                             </div><!-- End .col-md-6 -->
 
                                             <div class="col-md-6">
                                                 <div class="banner banner-overlay">
-                                                    <a href="category.html">
+                                                    <a href="{% url 'category' %}">
                                                         <img src="{% static "store/assets/images/menu/banner-2.jpg" %}" alt="Banner">
 
                                                         <div class="banner-content banner-content-bottom">
@@ -127,7 +125,15 @@
                                 </div><!-- End .header-search-wrapper -->
                             </form>
                         </div><!-- End .header-search -->
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'my-account' %}" class="wishlist-link">
+                            <i class="icon-user"></i></a>
+                        {% else %}
+                        <a href="{% url 'login' %}" class="wishlist-link">
+                            <i class="icon-user"></i></a>
+                        {% endif %}
 
+                        
                         <a href="wishlist.html" class="wishlist-link">
                             <i class="icon-heart-o"></i>
                             <span class="wishlist-count">3</span>
@@ -344,11 +350,11 @@
 
               </li>
               <li>
-                  <a href="category.html">Shop</a>
+                  <a href="{% url 'category' %}">Shop</a>
                   <ul>
                       <li><a href="category-list.html">Shop List</a></li>
                       <li><a href="category-2cols.html">Shop Grid 2 Columns</a></li>
-                      <li><a href="category.html">Shop Grid 3 Columns</a></li>
+                      <li><a href="{% url 'category' %}">Shop Grid 3 Columns</a></li>
                       <li><a href="category-4cols.html">Shop Grid 4 Columns</a></li>
                       <li><a href="category-boxed.html"><span>Shop Boxed No Sidebar<span class="tip tip-hot">Hot</span></span></a></li>
                       <li><a href="category-fullwidth.html">Shop Fullwidth No Sidebar</a></li>
@@ -446,7 +452,7 @@
                       <li><a href="elements-typography.html">Typography</a></li>
                       <li><a href="elements-titles.html">Titles</a></li>
                       <li><a href="elements-banners.html">Banners</a></li>
-                      <li><a href="elements-product-category.html">Product Category</a></li>
+                      <li><a href="elements-product-{% url 'category' %}">Product Category</a></li>
                       <li><a href="elements-video-banners.html">Video Banners</a></li>
                       <li><a href="elements-buttons.html">Buttons</a></li>
                       <li><a href="elements-accordions.html">Accordions</a></li>

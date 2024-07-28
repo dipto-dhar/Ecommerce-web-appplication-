@@ -20,7 +20,7 @@
                             <h1 class="intro-title">Summer<br><strong>sale</strong></h1><!-- End .intro-title -->
                             <h3 class="intro-subtitle">Up to 50% off</h3><!-- End .h3 intro-subtitle -->
 
-                            <a href="category.html" class="btn">
+                            <a href="{% url 'category' %}" class="btn">
                                 <span>SHOP NOW</span>
                                 <i class="icon-long-arrow-right"></i>
                             </a>
@@ -33,7 +33,7 @@
                             <h3 class="intro-subtitle">PREMIUM QUALITY</h3><!-- End .h3 intro-subtitle -->
                             <h1 class="intro-title">coats <span class="highlight">&</span><br>jackets</h1><!-- End .intro-title -->
 
-                            <a href="category.html" class="btn">
+                            <a href="{% url 'category' %}" class="btn">
                                 <span>SHOP NOW</span>
                                 <i class="icon-long-arrow-right"></i>
                             </a>
@@ -150,7 +150,7 @@
                         <span class="product-label label-out">Out Of Stock</span>
                         {% endif %}
                                     
-                                    <a href="product.html">
+                                    <a href="{% url 'product' product.slug %}">
                                         <img src="{{product.image.url}}" alt="Product image" class="product-image">
                                         <!-- <img src="/static/store/assets/images/demos/demo-8/products/product-1-2.jpg" alt="Product image" class="product-image-hover"> -->
                                     </a>
@@ -168,7 +168,7 @@
                                     <div class="product-cat">
                                         <a href="#">{{product.category}}</a>
                                     </div><!-- End .product-cat -->
-                                    <h3 class="product-title"><a href="product.html">{{product.name}}</a></h3><!-- End .product-title -->
+                                    <h3 class="product-title"><a href="{% url 'product' product.slug %}">{{product.name}}</a></h3><!-- End .product-title -->
                                     <div class="product-price">
                                         <span class="old-price">BDT {{product.regular_price}}</span> &nbsp; &nbsp;
                 						<span class="new-price">BDT {{product.sale_price}}</span>
@@ -413,7 +413,7 @@
                         <h3 class="banner-title text-white">New League</h3><!-- End .banner-title -->
                         <p class="d-none d-lg-block text-white">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.<br>Donec odio. Quisque volutpat mattis eros. </p> 
 
-                        <a href="category.html" class="btn btn-primary-white"><span>Shop Now</span><i class="icon-long-arrow-right"></i></a>
+                        <a href="{% url 'category' %}" class="btn btn-primary-white"><span>Shop Now</span><i class="icon-long-arrow-right"></i></a>
                     </div><!-- End .banner-content -->
                 </div><!-- End .banner -->
             </div>
@@ -963,7 +963,7 @@
                 </div><!-- End .tab-content -->
 
                 <div class="more-container text-center mt-3 mb-3">
-                    <a href="category.html" class="btn btn-outline-dark-3 btn-more"><span>View More</span><i class="icon-long-arrow-right"></i></a>
+                    <a href="{% url 'category' %}" class="btn btn-outline-dark-3 btn-more"><span>View More</span><i class="icon-long-arrow-right"></i></a>
                 </div><!-- End .more-container -->
             </div><!-- End .container -->
 

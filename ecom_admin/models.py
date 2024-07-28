@@ -63,6 +63,7 @@ class Category(models.Model):
     name=models.CharField(max_length=50)
     image=models.ImageField(default='blank-sm.png',null=True)
     description=models.CharField(max_length=50)
+    slug=AutoSlugField(populate_from=('name'),unique=True,null=True)
     def __str__(self):
         return self.name
 
@@ -88,7 +89,7 @@ class Product(models.Model):
     image=models.ImageField(upload_to='uploads/products', default='blank-sm.png', null=True)
     stock=models.BooleanField(default=True)
     date=models.DateField(default=datetime.datetime.now)
-    slug = AutoSlugField(populate_from=('name'),unique=True,null=True)
+    slug = AutoSlugField(populate_from=('name'),unique=True,null=True, )
     def __str__(self) -> str:
         return self.name
 
