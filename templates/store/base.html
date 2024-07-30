@@ -142,7 +142,7 @@
                         <div class="dropdown cart-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="icon-shopping-cart"></i>
-                                <span class="cart-count">2</span>
+                                <span class="cart-count" id="cart-count">{{cart|length}}</span>
                                 <span class="cart-txt">$ 164,00</span>
                             </a>
 
@@ -620,6 +620,44 @@
       </div>
   </div>
 </div>
+
+
+
+<script>
+    $(document).on('click','#add-cart',function(e){
+
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url:'{% url 'add_cart' %}',
+            data: {
+                product_id:$('#add-cart').val(),
+                item_qty:$('#item-qty').val(),
+                csrfmiddlewaretoken:'{{ csrf_token }}',
+                action: 'post',
+            },
+
+            success: function(json){
+                document.getElementById('cart-count').textContent=json.qty
+
+            },
+            error: function(xhr, errmsg, err){
+
+            }
+        });
+
+
+
+
+    })
+
+
+
+ </script>
+
+
+
+
 <!-- Plugins JS File -->
 <script src="{% static "store/assets/js/jquery.min.js" %}"></script>
 <script src="{% static "store/assets/js/bootstrap.bundle.min.js" %}"></script>

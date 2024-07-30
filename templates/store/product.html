@@ -112,7 +112,7 @@
                                     <div class="details-filter-row details-row-size">
                                         <label for="qty">Qty:</label>
                                         <div class="product-details-quantity">
-                                            <input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
+                                            <input type="number" id="item-qty" class="form-control" value="1"  min="1" max="10" step="1" data-decimals="0" required>
                                         </div><!-- End .product-details-quantity -->
                                     </div><!-- End .details-filter-row -->
 
@@ -537,33 +537,5 @@
                 </div><!-- End .container -->
             </div><!-- End .page-content -->
 
-             <script>
-                $(document).on('click','#add-cart',function(e){
-
-                    e.preventDefault();
-                    $.ajax({
-                        type: 'POST',
-                        url:'{% url 'add_cart' %}',
-                        data: {
-                            product_id:$('#add-cart').val(),
-                            csrfmiddlewaretoken:'{{ csrf_token }}',
-                            action: 'post',
-                        },
-
-                        success: function(json){
-                            console.log(json)
-                        },
-                        error: function(xhr, errmsg, err){
-
-                        }
-                    });
-
-
-
-
-                })
-
-
-
-             </script>
+             
             {% endblock %}

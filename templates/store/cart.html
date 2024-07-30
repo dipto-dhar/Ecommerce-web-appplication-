@@ -17,8 +17,10 @@
             </nav><!-- End .breadcrumb-nav -->
 
             <div class="page-content">
+				
+
             	<div class="cart">
-	                <div class="container">
+	                <div class="container">{% if products %}
 	                	<div class="row">
 	                		<div class="col-lg-9">
 	                			<table class="table table-cart table-mobile">
@@ -33,52 +35,38 @@
 									</thead>
 
 									<tbody>
+								{% for product in products %}
 										<tr>
 											<td class="product-col">
 												<div class="product">
 													<figure class="product-media">
 														<a href="#">
-															<img src="assets/images/products/table/product-1.jpg" alt="Product image">
+															<img src="{{ product.image.url }}" alt="Product image">
 														</a>
 													</figure>
 
 													<h3 class="product-title">
-														<a href="#">Beige knitted elastic runner shoes</a>
+														<a href="#">{{product.name}}</a>
 													</h3><!-- End .product-title -->
 												</div><!-- End .product -->
 											</td>
-											<td class="price-col">$84.00</td>
+											<td class="price-col"> {{product.regular_price}} BDT</td>
 											<td class="quantity-col">
                                                 <div class="cart-product-quantity">
-                                                    <input type="number" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
-                                                </div><!-- End .cart-product-quantity -->
-                                            </td>
-											<td class="total-col">$84.00</td>
-											<td class="remove-col"><button class="btn-remove"><i class="icon-close"></i></button></td>
-										</tr>
-										<tr>
-											<td class="product-col">
-												<div class="product">
-													<figure class="product-media">
-														<a href="#">
-															<img src="assets/images/products/table/product-2.jpg" alt="Product image">
-														</a>
-													</figure>
+													{% for key, value in qty.items %}
+													 {% if key == product.id|slugify %}
+													 <a href="" class="btn-decrease p-3 rounded btn-light bg-gray" data-index="{{ product.id }}">-</a>
+													 <span id="quantity-{{ product.id }}" class="p-3">{{ value }}</span>
+													 <a href="" class="btn-increase p-3 rounded btn-light bg-gray" data-index="{{ product.id }}">+</a>
 
-													<h3 class="product-title">
-														<a href="#">Blue utility pinafore denim dress</a>
-													</h3><!-- End .product-title -->
-												</div><!-- End .product -->
-											</td>
-											<td class="price-col">$76.00</td>
-											<td class="quantity-col">
-                                                <div class="cart-product-quantity">
-                                                    <input type="number" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
+													{% endif %}	{% endfor %}
                                                 </div><!-- End .cart-product-quantity -->                                 
                                             </td>
-											<td class="total-col">$76.00</td>
-											<td class="remove-col"><button class="btn-remove"><i class="icon-close"></i></button></td>
+											<td class="total-col"> </td>
+											<td class="remove-col" ><button class="btn-remove"id="remove-item" value="{{product.id}}"><i class="icon-close"></i></button></td>
 										</tr>
+
+										{% endfor %}
 									</tbody>
 								</table><!-- End .table table-wishlist -->
 
@@ -94,7 +82,7 @@
 			            				</form>
 			            			</div><!-- End .cart-discount -->
 
-			            			<a href="#" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i class="icon-refresh"></i></a>
+			            			<!-- <a href="#" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i class="icon-refresh"></i></a> -->
 		            			</div><!-- End .cart-bottom -->
 	                		</div><!-- End .col-lg-9 -->
 	                		<aside class="col-lg-3">
@@ -159,8 +147,105 @@
 
 		            			<a href="category.html" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i class="icon-refresh"></i></a>
 	                		</aside><!-- End .col-lg-3 -->
-	                	</div><!-- End .row -->
+	                	
+						
+							{%else%}
+
+							<div class="alert alert-secondary rounded text-center" role="alert">
+								<br><br><br><br>
+								<h4>There is no products on your cart.  <a class=" text-black" href="{% url 'shop' %}"><b>Shop Now</b></a></h4>
+								<br><br><br><br>
+							  </div>
+				
+							{% endif %}
+							
+						
+						
+						
+						</div><!-- End .row -->
 	                </div><!-- End .container -->
                 </div><!-- End .cart -->
-            </div><!-- End .page-content -->
+            
+			
+			</div><!-- End .page-content -->
+
+
+			<script>
+				
+			</script>
+
+			<script>
+
+$(document).ready(function() {
+    // Add event listener for the "+" button
+    $('.btn-increase').on('click', function(e) {
+        e.preventDefault(); // Prevent the default action of the anchor tag
+        let productId = $(this).data('index'); // Get the product ID from data attribute
+        updateCartQuantity(productId, 'increase'); // Call the function to update cart
+    });
+
+    // Add event listener for the "-" button
+    $('.btn-decrease').on('click', function(e) {
+        e.preventDefault(); // Prevent the default action of the anchor tag
+        let productId = $(this).data('index'); // Get the product ID from data attribute
+		console.log(productId)
+        updateCartQuantity(productId, 'decrease'); // Call the function to update cart
+    });
+
+    function updateCartQuantity(productId, action) {
+        $.ajax({
+            url: '{% url "update-cart" %}',  // URL for the view handling the request
+            method: 'POST', // Use POST method to send data
+            data: {
+                'product_id': productId, // Product ID to identify the item
+                'action': action, // Action to perform (increase/decrease)
+                'csrfmiddlewaretoken': '{{ csrf_token }}',  // CSRF token for security
+            },
+            success: function(response) {
+                // Update the cart quantity and total price on success
+                $('#quantity-' + productId).text(response.new_quantity); // Update the quantity
+                $('#total-price').text(response.total_price); // Update the total price
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', status, error);
+                console.error('Response:', xhr.responseText);
+            }
+        });
+    }
+});
+
+$(document).on('click','#remove-item',function(e){
+
+                    e.preventDefault();
+                    $.ajax({
+                        type: 'POST',
+                        url:'{% url "remove-from-cart" %}',
+                        data: {
+                            product_id:$('#remove-item').val(),
+                            
+                            csrfmiddlewaretoken:'{{ csrf_token }}',
+                            action: 'post',
+                        },
+
+                        success: function(json){
+                           location.reload();
+
+                        },
+                        error: function(xhr, errmsg, err){
+
+                        }
+                    });
+
+
+
+
+                })
+
+
+
+             </script>
+
+
+
+
             {% endblock %} 
