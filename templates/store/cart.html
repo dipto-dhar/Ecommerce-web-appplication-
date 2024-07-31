@@ -36,9 +36,9 @@
 
 									<tbody>
 								{% for product in products %}
-										<tr>
+										<tr id="product-{{product.id}}">
 											<td class="product-col">
-												<div class="product">
+												<div class="product" >
 													<figure class="product-media">
 														<a href="#">
 															<img src="{{ product.image.url }}" alt="Product image">
@@ -50,7 +50,19 @@
 													</h3><!-- End .product-title -->
 												</div><!-- End .product -->
 											</td>
-											<td class="price-col"> {{product.regular_price}} BDT</td>
+
+
+											{% if product.on_sale %}
+											<!-- <td class="price-col old-price"> {{product.regular_price}} BDT</td> -->
+											<td class="price-col new-price"> {{product.sale_price}} BDT</td>
+
+											{% else %}
+											<td class="price-col "> {{product.regular_price}} BDT</td>
+											{% endif %}
+
+
+
+
 											<td class="quantity-col">
                                                 <div class="cart-product-quantity">
 													{% for key, value in qty.items %}
@@ -63,7 +75,7 @@
                                                 </div><!-- End .cart-product-quantity -->                                 
                                             </td>
 											<td class="total-col"> </td>
-											<td class="remove-col" ><button class="btn-remove"id="remove-item" value="{{product.id}}"><i class="icon-close"></i></button></td>
+											<td class="remove-col" ><button class="btn-remove" id="remove-item" data-index="{{product.id}}"><i class="icon-close"></i></button></td>
 										</tr>
 
 										{% endfor %}
@@ -93,7 +105,7 @@
 	                					<tbody>
 	                						<tr class="summary-subtotal">
 	                							<td>Subtotal:</td>
-	                							<td>$160.00</td>
+	                							<td >BDT <span id="cart_total">{{ total_price }} </span></td>
 	                						</tr><!-- End .summary-subtotal -->
 	                						<tr class="summary-shipping">
 	                							<td>Shipping:</td>
@@ -175,72 +187,6 @@
 			</script>
 
 			<script>
-
-$(document).ready(function() {
-    // Add event listener for the "+" button
-    $('.btn-increase').on('click', function(e) {
-        e.preventDefault(); // Prevent the default action of the anchor tag
-        let productId = $(this).data('index'); // Get the product ID from data attribute
-        updateCartQuantity(productId, 'increase'); // Call the function to update cart
-    });
-
-    // Add event listener for the "-" button
-    $('.btn-decrease').on('click', function(e) {
-        e.preventDefault(); // Prevent the default action of the anchor tag
-        let productId = $(this).data('index'); // Get the product ID from data attribute
-		console.log(productId)
-        updateCartQuantity(productId, 'decrease'); // Call the function to update cart
-    });
-
-    function updateCartQuantity(productId, action) {
-        $.ajax({
-            url: '{% url "update-cart" %}',  // URL for the view handling the request
-            method: 'POST', // Use POST method to send data
-            data: {
-                'product_id': productId, // Product ID to identify the item
-                'action': action, // Action to perform (increase/decrease)
-                'csrfmiddlewaretoken': '{{ csrf_token }}',  // CSRF token for security
-            },
-            success: function(response) {
-                // Update the cart quantity and total price on success
-                $('#quantity-' + productId).text(response.new_quantity); // Update the quantity
-                $('#total-price').text(response.total_price); // Update the total price
-            },
-            error: function(xhr, status, error) {
-                console.error('Error:', status, error);
-                console.error('Response:', xhr.responseText);
-            }
-        });
-    }
-});
-
-$(document).on('click','#remove-item',function(e){
-
-                    e.preventDefault();
-                    $.ajax({
-                        type: 'POST',
-                        url:'{% url "remove-from-cart" %}',
-                        data: {
-                            product_id:$('#remove-item').val(),
-                            
-                            csrfmiddlewaretoken:'{{ csrf_token }}',
-                            action: 'post',
-                        },
-
-                        success: function(json){
-                           location.reload();
-
-                        },
-                        error: function(xhr, errmsg, err){
-
-                        }
-                    });
-
-
-
-
-                })
-
 
 
              </script>

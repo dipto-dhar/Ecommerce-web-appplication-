@@ -125,8 +125,8 @@
                                         </div><!-- End .details-action-wrapper -->
                                     </div><!-- End .product-details-action -->
                                     <div class="product-details-action">
-                                        {% csrf_token %}
-                                        <button class="btn-product btn-cart" id="add-cart" value="{{product.id}}"><span>add to cart</span></button> &nbsp;&nbsp;
+                                        
+                                        <button class="btn-product btn-cart" id="add-cart" data-index="{{product.id}}"><span>add to cart</span></button> &nbsp;&nbsp;
                                         <!-- <a href="#" class="btn-product btn-cart"><span>add to cart</span></a> &nbsp;&nbsp;
                                         <a href="#" class="btn-product btn-cart"><span>buy now</span></a> -->
 

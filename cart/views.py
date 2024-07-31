@@ -6,23 +6,34 @@ from django.contrib import messages
 
 def cart_summary(request):
     cart = Cart(request)
-    cart_items = cart.get_products
-    qty = cart.item_qty
-    return render(request, 'store/cart.html', {'products': cart_items, 'qty': qty})
+    cart_items = cart.get_products()
+    qty = cart.item_qty()
+    total_price=cart.cart_total()
+    print(total_price)
+    return render(request, 'store/cart.html', {'products': cart_items, 'qty': qty,'total_price':total_price})
 
 def add_to_cart(request):
     if request.method == 'POST':
         cart = Cart(request)
         product_id = request.POST.get('product_id')
         product_qty = int(request.POST.get('item_qty'))
+        print(f"Incoming product_id: {product_id}")
         if product_id in request.session.get('cart', {}):
-            messages(request,'This Item is already in your cart')
+            messages.success(request,'This Item is already in your cart')
+            # print("This Item is already in your cart")
+            pass
         else:
             product = get_object_or_404(Product, id=product_id)
             cart.add(product=product, qty=product_qty)
-            
             cart_quantity = cart.__len__()
-            response = JsonResponse({'qty': cart_quantity})
+            total_price=cart.cart_total()
+            price=0
+            if product.on_sale:
+                price=product.sale_price
+            else:
+                price=product.regular_price
+            response = JsonResponse({'qty': cart_quantity,'product_id':product.id,'product_name':product.name,'product_price':price,'product_img':product.image.url,'total_price':total_price })
+            print(total_price)
             return response
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
@@ -57,12 +68,10 @@ def update_cart(request):
                 request.session.modified = True
 
                 # Calculate the new total price
-                # total_price = sum(
-                #     Product.objects.get(id=prod_id).price * qty
-                #     for prod_id, qty in cart.items()
-                # )
+                total_price=Cart(request).cart_total()
+                cart_quantity = cart.__len__()
 
-                return JsonResponse({'new_quantity': cart[product_id], })
+                return JsonResponse({'new_quantity': cart[product_id], 'total_price': total_price, 'qty':cart_quantity })
             else:
                 return JsonResponse({'error': 'Product not found in cart'}, status=400)
 
@@ -84,4 +93,8 @@ def delete_cart(request):
         cart = Cart(request)
         product_id = int(request.POST.get('product_id'))
         cart.delete(product=product_id)
-    return render(request,'store/cart.html')
+        total_price=cart.cart_total()
+        cart_quantity = cart.__len__()
+    return JsonResponse({'total_price': total_price, 'qty':cart_quantity })
+
+ 

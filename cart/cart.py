@@ -30,6 +30,33 @@ class Cart():
     def item_qty(self):
         qty=self.cart
         return qty
+    def cart_total(self):
+        qty = self.cart  # Dictionary of product_id and quantity
+        product_ids = self.cart.keys()  # Get all product IDs
+        print(product_ids)
+        products = Product.objects.filter(id__in=product_ids)  # Retrieve products from the database
+        cartTotal = 0
+       
+
+        for product_id, quantity in qty.items():
+            product_id = int(product_id)  # Convert product_id to integer
+            quantity = int(quantity)  # Ensure quantity is an integer
+            print(f"Product ID: {product_id}, Quantity: {quantity}")
+
+            # Find the product in the retrieved list of products
+            product = next((p for p in products if p.id == product_id), None)
+            if product:
+                if product.on_sale:
+                    item_price = product.sale_price
+                else:
+                    item_price = product.regular_price
+
+                # Calculate totals
+                cartTotal += item_price * quantity
+             
+                print(f"Item Price: {item_price}, Total for this item: {item_price * quantity}")
+
+        return cartTotal
     
     def delete(self,product):
         product_id=str(product)

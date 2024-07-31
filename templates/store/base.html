@@ -43,6 +43,72 @@
             font-weight: 600;
             font-size: 17px;
         }
+
+        /* Basic styling for the modal */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    justify-content: center; /* Center horizontally */
+    align-items: center!important;
+}
+
+@media(max-width:768px){
+    .modal-content {
+ 
+    padding: 20px!important;
+    width: 90%!important;
+   
+}
+.modal-content {
+    margin-top: 200px!important;
+}
+
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    width: 450px;
+    text-align: center;
+}
+
+.close {
+    color: #aaa;
+    float: right !important;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: end;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-buttons {
+    margin-top: 20px;
+}
+
+.modal-buttons .btn {
+    padding: 10px 20px;
+    margin: 5px;
+    color: white;
+    text-decoration: none;
+    
+}
+
+
+
     </style>
     <div class="page-wrapper">
         <header class="header">
@@ -139,60 +205,55 @@
                             <span class="wishlist-count">3</span>
                         </a>
 
-                        <div class="dropdown cart-dropdown">
+                        <div class="dropdown cart-dropdown" id="cart-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="icon-shopping-cart"></i>
                                 <span class="cart-count" id="cart-count">{{cart|length}}</span>
-                                <span class="cart-txt">$ 164,00</span>
+                                <span class="cart-txt"><span id="total-price">{{total_price}} </span> BDT</span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">
-                                <div class="dropdown-cart-products">
-                                    <div class="product">
+                                <div class="dropdown-cart-products" id="dropdown-cart-products">
+                                    {% for product in cart_items %}
+                                    <div class="product " id="product-{{ product.id }}">
                                         <div class="product-cart-details">
                                             <h4 class="product-title">
-                                                <a href="product.html">Beige knitted elastic runner shoes</a>
+                                                <a href="{% url 'product' product.slug %}">{{product.name}}</a>
                                             </h4>
 
                                             <span class="cart-product-info">
-                                                <span class="cart-product-qty">1</span>
-                                                x $84.00
+
+                                                {% for key, value in qty.items %}
+													 {% if key == product.id|slugify %}
+								
+													 <span class="cart-product-qty" class="p-3">{{ value }} X</span>
+
+											{% endif %}	{% endfor %}
+
+                                            {% if product.on_sale %}		
+											{{product.sale_price}} BDT
+											{% else %}
+											{{product.regular_price}} BDT
+											{% endif %}
                                             </span>
                                         </div><!-- End .product-cart-details -->
 
                                         <figure class="product-image-container">
-                                            <a href="product.html" class="product-image">
-                                                <img src="{% static "store/assets/images/products/cart/product-1.jpg" %}" alt="product">
+                                            <a href="{% url 'product' product.slug %}" class="product-image">
+                                                <img src="{{ product.image.url }}" %}" alt="product">
                                             </a>
                                         </figure>
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                        <button class="btn-remove" id="remove-item" data-index="{{product.id}}" value="{{product.id}}"><i class="icon-close"></i></button>
+
+
                                     </div><!-- End .product -->
-
-                                    <div class="product">
-                                        <div class="product-cart-details">
-                                            <h4 class="product-title">
-                                                <a href="product.html">Blue utility pinafore denim dress</a>
-                                            </h4>
-
-                                            <span class="cart-product-info">
-                                                <span class="cart-product-qty">1</span>
-                                                x $76.00
-                                            </span>
-                                        </div><!-- End .product-cart-details -->
-
-                                        <figure class="product-image-container">
-                                            <a href="product.html" class="product-image">
-                                                <img src="{% static "store/assets/images/products/cart/product-2.jpg" %}" alt="product">
-                                            </a>
-                                        </figure>
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                    </div><!-- End .product -->
+                                    {% endfor %}
                                 </div><!-- End .cart-product -->
 
                                 <div class="dropdown-cart-total">
-                                    <span>Total</span>
+                                    <span>Total &nbsp;</span>
 
-                                    <span class="cart-total-price">$160.00</span>
+                                    BDT&nbsp;<span id="dropdown-total">{{total_price}}</span>
                                 </div><!-- End .dropdown-cart-total -->
 
                                 <div class="dropdown-cart-action">
@@ -200,6 +261,12 @@
                                     <a href="{% url 'checkout' %}" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
                                 </div><!-- End .dropdown-cart-total -->
                             </div><!-- End .dropdown-menu -->
+
+
+
+
+
+
                         </div><!-- End .cart-dropdown -->
                     </div><!-- End .header-right -->
                 </div><!-- End .container -->
@@ -622,6 +689,21 @@
 </div>
 
 
+<!-- Success Modal -->
+<div id="cart-success" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-cart-susccess">&times;</span>
+        <h3>Product Added to Cart</h3>
+        <p>Your product has been added to the cart successfully.</p>
+        <div class="modal-buttons">
+            <a href="{% url 'cart' %}" class="btn btn-primary">View Cart</a>
+            <a href="{% url 'checkout' %}" class="btn btn-secondary">Checkout</a>
+        </div>
+    </div>
+</div>
+
+
+
 
 <script>
     $(document).on('click','#add-cart',function(e){
@@ -631,25 +713,153 @@
             type: 'POST',
             url:'{% url 'add_cart' %}',
             data: {
-                product_id:$('#add-cart').val(),
+                product_id:$(this).data('index'),
                 item_qty:$('#item-qty').val(),
                 csrfmiddlewaretoken:'{{ csrf_token }}',
                 action: 'post',
             },
 
             success: function(json){
-                document.getElementById('cart-count').textContent=json.qty
+                document.getElementById('cart-count').textContent=json.qty;
+                document.getElementById('total-price').textContent=json.total_price;
+                $('#dropdown-total').text(json.total_price); 
+                
+                let newProductHtml = `
+                    <div class="product" id="product-${json.product_id}">
+                        <div class="product-cart-details">
+                            <h4 class="product-title">
+                                <a href="#">${json.product_name}</a>
+                            </h4>
+                            <span class="cart-product-info">
+                                <span class="cart-product-qty">${json.qty} x </span>
+                                <span class="cart-product-price">${json.product_price}</span>
+                            </span>
+                        </div>
+                        <figure class="product-image-container">
+                            <a href="#" class="product-image">
+                                <img src="${json.product_img}" alt="product">
+                            </a>
+                        </figure>
+                        <button class="btn-remove" id="remove-item" data-index="${json.product_id}" value="${json.product_id}"><i class="icon-close"></i></button>
+                        
+                    </div>`;
+                
+                $('#dropdown-cart-products').append(newProductHtml);
+                $('#cart-success').css("display", "flex");
 
             },
             error: function(xhr, errmsg, err){
 
             }
+
+
+
+
         });
 
 
+    // Get the modal
+    var modal = document.getElementById("cart-success");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementById("close-cart-susccess");
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 
 
-    })
+    });
+
+
+
+    
+$(document).ready(function() {
+    // Add event listener for the "+" button
+    $('.btn-increase').on('click', function(e) {
+        e.preventDefault(); // Prevent the default action of the anchor tag
+        let productId = $(this).data('index'); // Get the product ID from data attribute
+        updateCartQuantity(productId, 'increase'); // Call the function to update cart
+    });
+
+    // Add event listener for the "-" button
+    $('.btn-decrease').on('click', function(e) {
+        e.preventDefault(); // Prevent the default action of the anchor tag
+        let productId = $(this).data('index'); // Get the product ID from data attribute
+		console.log(productId)
+        updateCartQuantity(productId, 'decrease'); // Call the function to update cart
+    });
+
+    function updateCartQuantity(productId, action) {
+        $.ajax({
+            url: '{% url "update-cart" %}',  // URL for the view handling the request
+            method: 'POST', // Use POST method to send data
+            data: {
+                'product_id': productId, // Product ID to identify the item
+                'action': action, // Action to perform (increase/decrease)
+                'csrfmiddlewaretoken': '{{ csrf_token }}',  // CSRF token for security
+            },
+            success: function(response) {
+                // Update the cart quantity and total price on success
+                $('#quantity-' + productId).text(response.new_quantity); // Update the quantity
+                
+                $('#total-price').text(response.total_price); // Update the total price
+                $('#cart_total').text(response.total_price); // Update the total price
+                // Update the total price
+                $('#dropdown-total').text(response.total_price); 
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', status, error);
+                console.error('Response:', xhr.responseText);
+            }
+        });
+    }
+});
+
+
+
+$(document).on('click','#remove-item',function(e){
+                    
+                    e.preventDefault();
+                    product_id = $(this).data('index');
+                    $.ajax({
+                        type: 'POST',
+                        url:'{% url "remove-from-cart" %}',
+                        data: {
+                            product_id:product_id,
+                            
+                            csrfmiddlewaretoken:'{{ csrf_token }}',
+                            action: 'post',
+                        },
+
+                        success: function(json){
+                            $('#product-' + product_id).remove();
+                            $('#product-' + product_id).remove();
+                            $('#cart-count').text(json.qty)
+                            $('#total-price').text(json.total_price); 
+                            $('#cart_total').text(json.total_price); 
+                            $('#dropdown-total').text(json.total_price); 
+
+                    
+
+                        },
+                        error: function(xhr, errmsg, err){
+
+                        }
+                    });
+
+
+
+
+                })
 
 
 

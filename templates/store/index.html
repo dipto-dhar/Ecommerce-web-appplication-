@@ -160,8 +160,8 @@
                                     </div><!-- End .product-action -->
 
                                     <div class="product-action ">
-                                        <input type="number" id="item-qty" class="form-control" value="1"  min="1" max="10" step="1" data-decimals="0" hidden>
-                                        <a href="#" class="btn-product btn-cart"  id="add-cart" value="{{product.id}}"><span>add to cart</span></a>
+                                        <input type="number" id="item-qty"  value="1"  hidden >
+                                        <a href="" class="btn-product btn-cart"  id="add-cart" data-index="{{product.id}}" value="{{product.id}}"><span>add to cart</span></a>
                                     </div><!-- End .product-action -->
                                 </figure><!-- End .product-media -->
 
@@ -171,8 +171,13 @@
                                     </div><!-- End .product-cat -->
                                     <h3 class="product-title"><a href="{% url 'product' product.slug %}">{{product.name}}</a></h3><!-- End .product-title -->
                                     <div class="product-price">
+                                        {% if product.on_sale %}
                                         <span class="old-price">BDT {{product.regular_price}}</span> &nbsp; &nbsp;
                 						<span class="new-price">BDT {{product.sale_price}}</span>
+                                        {% else %}
+                						<span class="new-price">BDT {{product.regular_price}}</span>
+                                        {% endif %}
+                                        
                 						
                 					</div>
                                     <div class="ratings-container ratings-container justify-content-center">
