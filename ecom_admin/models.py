@@ -31,7 +31,8 @@ class CustomUserManager(UserManager):
     
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(blank=True, default='', unique=True)
-    name = models.CharField(max_length=255, blank=True, default='')
+    first_name = models.CharField(max_length=255, blank=True, default='')
+    last_name = models.CharField(max_length=255, blank=True, default='')
     description = models.CharField(max_length=255, blank=True, default='')
     image = models.ImageField(blank=True, default='profile.png',null=True)
     phone = models.IntegerField(null=True)
@@ -55,10 +56,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = 'Users'
     
     def get_full_name(self):
-        return self.name
+        return self.first_name + self.last_name
     
     def get_short_name(self):
-        return self.name or self.email.split('@')[0]
+        return self.first_name or self.email.split('@')[0]
 class Category(models.Model):
     name=models.CharField(max_length=50)
     image=models.ImageField(default='blank-sm.png',null=True)
@@ -79,7 +80,7 @@ class Customer(models.Model):
         return self.first_name + self.last_name
     
 class Product(models.Model):
-    name=models.CharField(max_length=500)
+    name=models.CharField(max_length=500,default='')
     sku=models.CharField(max_length=100,)
     category=models.ForeignKey(Category, on_delete=models.CASCADE,default=1)
     description=HTMLField(default='',blank=True)

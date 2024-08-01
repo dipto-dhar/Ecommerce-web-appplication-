@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from ecom_admin.models import User 
-from .forms import register_user
+from .forms import register_user,update_user,update_password
 from ecom_admin.models import *
 
 
@@ -14,11 +14,7 @@ def home(request):
     categories=Category.objects.all()
     
     return render(request,'store/index.html',{'products':products,'categories':categories})
-def base(request):
 
-    categories=Category.objects.all()
-    
-    return render(request,'store/base.html',{'categories':categories})
 
 def user_login(request):
     if request.user.is_authenticated:
@@ -30,13 +26,13 @@ def user_login(request):
         user= authenticate(email=email,password=password)
         if user is not None:
             login(request,user)
-            return redirect('home')
+            return redirect('my-account')
 
     return render(request,'store/login.html')
 
 def user_logout(request):
     logout(request)
-    return redirect('home')
+    return redirect('login')
 
 def user_register(request):
     if request.user.is_authenticated:
@@ -55,6 +51,39 @@ def user_register(request):
             messages.success(request,'You have been registered successfully')
             return redirect('home')
     return render(request,'store/register.html',{'form':form})
+
+def user_update(request):
+    if request.user.is_authenticated:
+        user=request.user
+        form=update_user(request.POST or None, instance=user)
+        if request.method=='POST':
+            if form.is_valid():
+                    form.save()
+                    messages.success(request,'Your account details has been updated successfully')
+                
+
+        return render(request,'store/update-user.html',{'update_form':form})
+    else:
+        return redirect("login")
+    
+def password_update(request):
+    if request.user.is_authenticated:
+        user=request.user
+        form=update_password(user)
+        
+        if request.method == "POST":
+            form=update_password(user,request.POST)
+            if form.is_valid():
+                form.save()
+                messages.success(request,'Your Password has been updated successfully')
+                return render(request,'store/update-password.html',{'password_form':form})
+        else:
+            return render(request,'store/update-password.html',{'password_form':form})
+    else:
+        return redirect("login")
+    
+
+    
 
 def shop(request):
         products=Product.objects.order_by('-date')
