@@ -3,6 +3,8 @@ from .cart import Cart
 from ecom_admin.models import Product
 from django.http import JsonResponse
 from django.contrib import messages
+from store.models import Cart as cart_db
+from store.models import User
 
 def cart_summary(request):
     cart = Cart(request)
@@ -17,7 +19,7 @@ def add_to_cart(request):
         cart = Cart(request)
         product_id = request.POST.get('product_id')
         product_qty = int(request.POST.get('item_qty'))
-        print(f"Incoming product_id: {product_id}")
+        # print(f"Incoming product_id: {product_id}")
         if product_id in request.session.get('cart', {}):
             messages.success(request,'This Item is already in your cart')
             # print("This Item is already in your cart")
@@ -25,6 +27,14 @@ def add_to_cart(request):
         else:
             product = get_object_or_404(Product, id=product_id)
             cart.add(product=product, qty=product_qty)
+            if request.user.is_authenticated:
+                new_cart = request.session.get('cart', {})
+                user= cart_db.objects.filter(user__id=request.user.id)
+                user_cart= str(new_cart)
+                user_cart= user_cart.replace("\'","\"")
+                user.update(user_cart=user_cart)
+            else:
+                pass
             cart_quantity = cart.__len__()
             total_price=cart.cart_total()
             price=0
@@ -66,6 +76,14 @@ def update_cart(request):
                 # Save the updated cart in the session
                 request.session['cart'] = cart
                 request.session.modified = True
+                if request.user.is_authenticated:
+                    current_cart = request.session.get('cart', {})
+                    user= cart_db.objects.filter(user__id=request.user.id)
+                    user_cart= str(current_cart)
+                    user_cart= user_cart.replace("\'","\"")
+                    user.update(user_cart=user_cart)
+                else:
+                    pass
 
                 # Calculate the new total price
                 total_price=Cart(request).cart_total()
@@ -93,6 +111,14 @@ def delete_cart(request):
         cart = Cart(request)
         product_id = int(request.POST.get('product_id'))
         cart.delete(product=product_id)
+        if request.user.is_authenticated:
+            new_cart = request.session.get('cart', {})
+            user= cart_db.objects.filter(user__id=request.user.id)
+            user_cart= str(new_cart)
+            user_cart= user_cart.replace("\'","\"")
+            user.update(user_cart=user_cart)
+        else:
+            pass       
         total_price=cart.cart_total()
         cart_quantity = cart.__len__()
     return JsonResponse({'total_price': total_price, 'qty':cart_quantity })

@@ -191,14 +191,22 @@
                                 </div><!-- End .header-search-wrapper -->
                             </form>
                         </div><!-- End .header-search -->
-                        {% if user.is_authenticated %}
-                        <a href="{% url 'my-account' %}" class="wishlist-link">
-                            <i class="icon-user"></i></a>
-                        {% else %}
-                        <a href="{% url 'login' %}" class="wishlist-link">
-                            <i class="icon-user"></i></a>
-                        {% endif %}
+                        <div class="dropdown user-dropdown">
+                            <a href="#" class="wishlist-link dropdown-toggle" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="icon-user"></i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                {% if user.is_authenticated %}
+                                    <a class="dropdown-item btn-outline-primary-2" href="{% url 'my-account' %}">My Account</a>
+                                  
+                                    <a class="dropdown-item btn-primary" href="{% url 'logout' %}">Logout</a>
+                                {% else %}
+                                    <a class="dropdown-item btn-primary" href="{% url 'login' %}">Login</a>
 
+                                    <a class="dropdown-item btn-primary" href="{% url 'register' %}">Register</a>
+                                {% endif %}
+                            </div>
+                        </div>
                         
                         <a href="wishlist.html" class="wishlist-link">
                             <i class="icon-heart-o"></i>

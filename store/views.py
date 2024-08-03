@@ -4,7 +4,8 @@ from django.contrib import messages
 from ecom_admin.models import User 
 from .forms import register_user,update_user,update_password
 from ecom_admin.models import *
-
+from .models import Cart
+import json
 
 # Create your views here.
 
@@ -26,7 +27,23 @@ def user_login(request):
         user= authenticate(email=email,password=password)
         if user is not None:
             login(request,user)
+            cart = request.session.get('cart', {})
+            print(request.user.id)
+            old_cart = Cart.objects.get(user_id=request.user.id)
+            new_cart =old_cart.user_cart
+            if new_cart:
+                new_cart = json.loads(new_cart)
+                request.session['cart'] = new_cart
+                request.session.modified = True
+            print(new_cart)
+
             return redirect('my-account')
+            
+            # user.update(cart=user_cart)
+        else:
+            pass
+            return redirect('my-account')
+        
 
     return render(request,'store/login.html')
 
@@ -51,6 +68,10 @@ def user_register(request):
             messages.success(request,'You have been registered successfully')
             return redirect('home')
     return render(request,'store/register.html',{'form':form})
+
+def my_account(request):
+    return render(request, 'store/my-account.html')
+
 
 def user_update(request):
     if request.user.is_authenticated:
@@ -109,6 +130,3 @@ def about(request):
     return render(request, 'store/about.html')
 def contact(request):
     return render(request, 'store/contact.html')
-def my_account(request):
-    return render(request, 'store/my-account.html')
-
