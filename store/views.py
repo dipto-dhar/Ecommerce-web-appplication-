@@ -2,9 +2,9 @@ from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from ecom_admin.models import User 
-from .forms import register_user,update_user,update_password
+from .forms import register_user,update_user,update_password,shipping_info
 from ecom_admin.models import *
-from .models import Cart
+from .models import Cart, ShippingInfo
 import json
 
 # Create your views here.
@@ -84,6 +84,25 @@ def user_update(request):
                 
 
         return render(request,'store/update-user.html',{'update_form':form})
+    else:
+        return redirect("login")
+    
+def shippinginfo_update(request):
+    if request.user.is_authenticated:
+        try:
+            user_shipping_info = ShippingInfo.objects.get(user__id=request.user.id)
+        except ShippingInfo.DoesNotExist:
+            user_shipping_info = None
+
+        form = shipping_info(request.POST or None, instance=user_shipping_info)
+
+        if request.method == 'POST':
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Your Shipping details have been updated successfully')
+                return redirect('some-view-name')  # Replace with your desired redirect view
+
+        return render(request, 'store/update-shipping.html', {'update_form': form})
     else:
         return redirect("login")
     

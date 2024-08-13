@@ -9,16 +9,21 @@ admin.site.register(Product)
 admin.site.register(Customer)
 admin.site.register(Order)
 admin.site.register(Cart)
-
+admin.site.register(ShippingInfo)
 
 
 class CartInline(admin.StackedInline):
     model=Cart
 
+class ShippingInfoInline(admin.StackedInline):
+    model=ShippingInfo
+
+
 
 class UserAdmin(admin.ModelAdmin):
     model=User
     field=('first_name','last_name','email','phone')
-    inlines=[CartInline]
+    inlines=[CartInline,ShippingInfoInline]
+
 admin.site.unregister(User)
 admin.site.register(User,UserAdmin)
