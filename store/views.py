@@ -105,7 +105,6 @@ def shippinginfo_update(request):
     else:
         return redirect("login")
     
-
 def process_order(request):
 
     def generate_unique_key():
@@ -207,8 +206,6 @@ def process_order(request):
     else:
         return redirect('404')          
 
-
-
 def thank_you(request):
     if request.session.get('order'):
         order_id=request.session.get('order')['id']
@@ -229,11 +226,16 @@ def thank_you(request):
            # Additional logic (e.g., clearing the cart) can go here
     else:
         return redirect('404')
-        
 
+def show_orders(request):
+    if request.user.is_authenticated:
         
+        orders= Order.objects.filter(user=request.user.id)
+        order_items= OrderItem.objects.filter(user=request.user.id)
 
-    
+        return render(request, 'store/orders.html',{'orders':orders,'order_items':order_items})
+
+
 def password_update(request):
     if request.user.is_authenticated:
         user=request.user
@@ -250,9 +252,6 @@ def password_update(request):
     else:
         return redirect("login")
     
-
-    
-
 def shop(request):
         products=Product.objects.order_by('-date')
         return render(request, 'store/shop.html',{'products':products})
@@ -268,8 +267,13 @@ def shop_by(request,slug):
 def product(request,slug):
     product=Product.objects.get(slug=slug)
     return render(request, 'store/product.html',{'product':product})
+
 def category(request):
     return render(request, 'store/category.html')
+
+def account_dashboard(request):
+    return render(request, 'store/account_dashboard.html')
+
 def checkout(request):
     if request.session.get('cart'):
         if request.user.is_authenticated:
@@ -281,6 +285,7 @@ def checkout(request):
         return render(request, 'store/checkout.html', {'shipping_form':form})
     else:
         return redirect('404')
+
 def cart(request):
     return render(request, 'store/cart.html')
 def wishlist(request):

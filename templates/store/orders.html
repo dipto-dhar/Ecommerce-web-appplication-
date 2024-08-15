@@ -1,4 +1,84 @@
-<div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
-    <p>No order has been made yet.</p>
-    <a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
-</div><!-- .End .tab-pane -->
+{% extends 'store/my-account.html' %}
+{% block account_body_block %}
+
+
+    <style>
+        table {
+            width: 100%;
+            margin: 50px auto;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        body > div.page-wrapper > main > div.page-content > div > div > div > div{
+            margin-top: -60px!important;
+        }
+    </style>
+</head>
+
+<table>
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Order Amount</th>
+            <th>Order Item</th>
+            <th>Order Date</th>
+       
+        </tr>
+    </thead>
+    <tbody> 
+        {% for order in orders %}
+        <tr>
+           
+            <td>{{order.order_id}}</td>
+            <td>BDT {{order.order_amount}}</td>
+            
+            <td>{% for item in order_items %}
+                {% if order.id == item.order.id  %}
+                <b>-></b>  {{item.product}} X {{item.quantity}}<br>
+
+                
+                
+                {% endif %}
+                {% endfor %}
+
+
+
+            </td>
+            <td>{{order.date}}</td>
+           
+        
+        </tr>
+        {% endfor %}
+        
+    </tbody>
+</table>
+
+
+{% endblock %}
