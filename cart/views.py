@@ -55,8 +55,8 @@ def update_cart(request):
             
             # Retrieve the cart from the session
             cart = request.session.get('cart', {})
-            print(f"Cart contents before update: {cart}")
-            print(f"Incoming product_id: {product_id}")
+            # print(f"Cart contents before update: {cart}")
+            # print(f"Incoming product_id: {product_id}")
 
             if not isinstance(cart, dict):
                 raise TypeError("Cart should be a dictionary")

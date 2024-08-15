@@ -19,8 +19,11 @@ urlpatterns = [
     path('product/<slug>', views.product,name='product'),
     path('wishlist/', views.wishlist,name='wishlist'),
     path('checkout/', views.checkout,name='checkout'),
+    path('process-order/', views.process_order,name='process-order'),
+    path('thank-you/', views.thank_you,name='thank-you'),
     path('about/', views.about,name='about'),
     path('contact/', views.contact,name='contact'),
+    path('404/', views.page_not_found,name='404'),
    
     
     # path('/', views.,name=''),

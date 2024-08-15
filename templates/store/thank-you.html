@@ -1,0 +1,84 @@
+{% extends 'store/base.html' %}
+{% block body_block %}
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .thank-you-page {
+            text-align: center;
+            padding: 50px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            margin: 50px auto;
+        }
+        .thank-you-page h1 {
+            font-size: 2.5rem;
+            color: #000000;
+        }
+        .thank-you-page p {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            color: #555;
+        }
+        .order-summary {
+            margin-top: 30px;
+        }
+        .order-summary h3 {
+            font-size: 1.5rem;
+            color: #333;
+        }
+        .total-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-top: 20px;
+        }
+        .btn-custom {
+            background-color: #4CAF50;
+            color: white;
+            margin-top: 30px;
+        }
+        .footer-links {
+            margin-top: 50px;
+        }
+    </style>
+
+
+    <div class="thank-you-page">
+        <h1>Thank You for Your Order, {{customer_name}} !</h1>
+        <p>Your order has been placed successfully. We're excited to get your order ready!</p>
+
+        <div class="order-summary">
+            <h3>Order Summary</h3>
+
+            <h3>Order Token: {{order_token}}</h3>
+            <ul class="list-group">
+                {% for item in items %}
+                <li class="list-group-item">{{item.product}} - Quantity: {{item.quantity}} - Price: BDT {{item.price}}</li>
+
+                {% endfor %}
+
+                <!-- Add more products as needed -->
+            </ul>
+            <div class="total-price">
+                Total: BDT {{order_total}}
+            </div>
+        </div>
+
+        <p>A confirmation email has been sent to <b>{{customer_email}}</b>.</p>
+
+        <p class="thank-you-note">We appreciate your trust in us. Your support means the world to us, and we can't wait for you to enjoy your purchase!</p>
+        <br>
+
+        <a href="{%url 'shop' %} " class="btn btn-primary">Continue Shopping</a>
+
+        <div class="footer-links">
+            <p>Need any help with the order <b><a href="{%url 'contact' %} ">Contact Us</a></b></p> 
+            
+        </div>
+    </div>
+
+    {% endblock %} 

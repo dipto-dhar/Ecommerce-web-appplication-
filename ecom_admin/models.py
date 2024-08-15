@@ -94,13 +94,3 @@ class Product(models.Model):
     def __str__(self) -> str:
         return self.name
 
-class Order(models.Model):
-    product=models.ForeignKey(Product, on_delete=models.CASCADE)
-    customer=models.ForeignKey(Customer, on_delete=models.CASCADE)
-    quantity=models.IntegerField()
-    address=models.CharField(max_length=200,default='')
-    phone= models.CharField(max_length=15)
-    date=models.DateField(default=datetime.datetime.now)
-    status=models.BooleanField(default=False)
-    def __str__(self) -> str:
-        return self.customer
