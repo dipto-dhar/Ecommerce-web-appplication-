@@ -1,0 +1,168 @@
+{% extends 'admin_p/base.html' %}
+{% block body_block %}
+
+        <div class="container-fluid">
+            <div class="header">
+                <div class="page-title-box">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <h4 class="page-title mb-0">Orders</h4>
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="#">Orders</a></li>
+                                <li class="breadcrumb-item active"><a href="#">All Orders</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <a href="{% url 'add-product' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Add Product</a>
+            </div>
+ {% if orders %}
+    <div class="filter-container mb-3">
+        <div class="form-inline mb-3">
+            <select class="form-control mr-2">
+                <option>Status</option>
+            </select>
+            <select class="form-control mr-2">
+                <option>Category</option>
+            </select>
+            <select class="form-control mr-2">
+                <option>Stock</option>
+            </select>
+            <input class="form-control" type="search" placeholder="Search Product" aria-label="Search">
+        </div>
+    </div>
+
+    <div class="table-container">
+       
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col"><input type="checkbox"></th>
+                    <th scope="col">Order</th>
+                    <th scope="col">Order Id</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Date</th>
+
+                    <th scope="col">Order Amount</th>
+                    <!-- <th scope="col">Qty</th> -->
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                
+
+              
+                {% for order in orders %}
+
+
+
+
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                          
+                         
+                                <div><b><a href="{% url 'order' order.order_id %}">{{order.name}}</a></b></div>
+                     
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                          
+                         
+                                <div><b><span class="badge badge-info">{{ order.order_id }}</span></b></div>
+                     
+                    </td>
+                    <td>{% if order.status.status_name == 'Processing' %}
+                        <span class="badge badge-primary">{{order.status}}</span>
+                        {% elif order.status.status_name == 'Returned' %}
+                        <span class="badge badge-danger">{{order.status}}</span>
+                        {% elif order.status.status_name == 'Completed'%}
+                        <span class="badge badge-success">{{order.status}}</span>
+                        {% elif order.status.status_name == 'Pending payment'%}
+                        <span class="badge badge-warning">{{order.status}}</span>
+                        {% elif order.status.status_name == 'Shipped'%}
+                        <span class="badge badge-info">{{order.status}}</span>
+                        {% elif order.status.status_name == 'Canceled'%}
+                        <span class="badge badge-scheduled">{{order.status}}</span>
+                        {% else%}
+                        {% endif %}
+
+                        
+                    </td>
+                    <td>{{order.date}}</td>
+                  
+             
+                    <td><b>BDT </b>{{order.order_amount}}</td>
+                    <!-- <td>942</td> -->
+   
+                    <td class="actions"><a href="{% url 'edit-product' order.id %}" class="btn btn-sm"><i class="fas fa-edit"></i></a>
+                        
+                        <a href="{% url 'delete-order' order.order_id %}" onclick="confirm('Are you sure to delete this Product')" class="btn btn-sm"><i class="fas fa-trash-alt"></i></a>
+                        
+                        
+                    </td>
+                </tr>
+
+{% endfor %}
+
+
+               
+                <!-- Add more product rows as needed -->
+            </tbody>
+        </table>
+
+    </div>
+
+        {% else %}
+
+
+        <div class="alert alert-primary" role="alert">
+             There is no products to show! <strong><a href="{% url 'add-product' %}"> Add Product</a></strong>
+        </div>
+{% endif %}
+<div class="pagination-container text-right">
+    <nav>
+        <ul class="pagination justify-content-end">
+            {% if products.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{products.previous_page_number}}">Previous</a></li>
+            {% endif %}
+            {%for n in total_pages%}
+
+
+            {% if products.number == n %}
+           
+                <li class="page-item active"><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+          
+        {% else %}
+        <li class="page-item "><a class="page-link" href="?page={{n}}">{{n}}</a></li>
+        {% endif %}
+
+
+            
+          
+
+
+
+
+
+
+
+            {% endfor %}
+            {% if products.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{products.next_page_number}}">Next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+{% endblock %}

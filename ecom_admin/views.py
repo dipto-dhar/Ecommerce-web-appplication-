@@ -6,6 +6,7 @@ from .forms import *
 # from django.contrib.auth.models import User
 from .models import User
 from .models import *
+from store.models import *
 from django.core.paginator import Paginator
 
 
@@ -108,3 +109,20 @@ def delete_product(request,pk):
     object.delete()
     messages.success(request,'Product Deleted Successfully')
     return redirect('products')
+
+def orders(request):
+    orders= Order.objects.all()
+    return render(request,'admin_p/orders.html',{'orders':orders})
+
+def single_order(request, order_id):
+    order= Order.objects.get(order_id=order_id)
+    order_item= OrderItem.objects.filter(order=order)
+
+    return render(request,'admin_p/single-order.html',{'order':order, 'order_items':order_item})
+
+def delete_order(request, order_id):
+    order= Order.objects.get(order_id=order_id)
+    
+    order.delete()
+    return redirect('orders')
+

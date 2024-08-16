@@ -1,0 +1,235 @@
+{% extends 'admin_p/base.html' %}
+{% block body_block %}
+
+<style>
+    .btn-section{
+        padding-top: 40px!important;
+    }
+    .card-header {
+        background-color: #ffffff;
+        border-bottom: 1px solid #e9ecef;
+        font-size: large;
+        font-weight: 600;
+    }
+    .card {
+        margin-bottom: 20px;
+        border-radius: 20px;
+    }
+    .form-group{
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #f0f1f39f;
+    }
+    .form-group label {
+        font-weight: bold;
+    }
+    .form-group p {
+        font-weight: 600;
+    }
+    .text-right {
+        text-align: right;
+    }
+    .btn-secondary {
+        margin-left: 10px;
+    }
+
+    .product-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #f0f1f39f;
+    }
+    .product-item:last-child {
+        border-bottom: none;
+    }
+    .product-info {
+        display: flex;
+        align-items: center;
+    }
+    .product-info img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        margin-right: 15px;
+        border-radius: 5px;
+    }
+    .product-details {
+        flex-grow: 1;
+    }
+    .product-name {
+        font-weight: bold;
+        color: #333;
+    }
+    .summary-card, .cart-totals-card, .order-summary-card {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .summary-card h5, .cart-totals-card h5, .order-summary-card h5 {
+        font-weight: bold;
+        color: #007bff;
+        margin-bottom: 15px;
+    }
+    .cart-totals {
+        margin-top: 20px;
+    }
+    .cart-totals .form-group {
+        display: flex;
+        justify-content: space-between;
+    }
+    .total-price {
+        color: #007bff;
+        font-weight: bold;
+    }
+
+</style>
+
+<div class="container-fluid">
+    <div class="header">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <h4 class="page-title mb-0">Order Details</h4>
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="#">Orders</a></li>
+                        <li class="breadcrumb-item active"><a href="#">Order Details</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="text-right">
+            <a href="{% url 'orders' %}" class="btn btn-danger"><i class="fas fa-arrow-left"></i> Back to Orders</a>
+            <button type="submit" class="btn btn-primary">Update Order</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Order Summary -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    Order Summary
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="orderNumber">Order Number:</label>
+                        <p><span class="badge badge-primary">{{ order.order_id }}</span></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="orderDate">Order Date:</label>
+                        <p>{{ order.date }}</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerName">Customer Name:</label>
+                        <p>{{ order.name }}</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerEmail">Customer Email:</label>
+                        <p>{{ order.email }}</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerEmail">Customer Phone:</label>
+                        <p>{{ order.phone }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Items -->
+            <div class="card">
+                <div class="card-header">All Items</div>
+                <div class="card-body">
+                    {% for item in order_items %}
+                    <div class="product-item">
+                        <div class="product-info">
+                            <img src="{{ item.product.image.url }}" alt="Product Image">
+                            <div class="product-details">
+                                <p class="product-name">{{ item.product.name }}</p>
+                                <p>Quantity: {{ item.quantity }}</p>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <p>BDT {{ item.price }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+           
+        </div>
+
+        <!-- Shipping Details -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Cart Totals
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="shippingAddress">Subtotal:</label>
+                        <p>BDT {{ order.order_amount }}</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="shippingMethod">Shipping:</label>
+                        <p>BDT 100</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="trackingNumber">Total Price</label>
+                        <p>BDT {{ order.order_amount }}</p>
+                    </div>
+               
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    Shipping Details
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="shippingAddress">Shipping Address:</label> <br>
+                        <p>{{ order.shipping_address }}</p>
+                    </div>
+                  
+                    <div class="form-group">
+                        <label for="deliveryStatus">Delivery Status:</label>
+                        <p>{% if order.status.status_name == 'Processing' %}
+                            <span class="badge badge-primary">{{order.status}}</span>
+                            {% elif order.status.status_name == 'Returned' %}
+                            <span class="badge badge-danger">{{order.status}}</span>
+                            {% elif order.status.status_name == 'Completed'%}
+                            <span class="badge badge-success">{{order.status}}</span>
+                            {% elif order.status.status_name == 'Pending payment'%}
+                            <span class="badge badge-warning">{{order.status}}</span>
+                            {% elif order.status.status_name == 'Shipped'%}
+                            <span class="badge badge-info">{{order.status}}</span>
+                            {% elif order.status.status_name == 'Canceled'%}
+                            <span class="badge badge-scheduled">{{order.status}}</span>
+                            {% else%}
+                            {% endif %}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Notes -->
+            <div class="card">
+                <div class="card-header">
+                    Order Notes
+                </div>
+                <div class="card-body">
+                    
+                        <label for="orderNotes">Add Notes:</label><br>
+                        <textarea class="form-control" id="orderNotes" rows="3">{{ order.notes }}</textarea>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock %}
