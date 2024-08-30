@@ -1,0 +1,111 @@
+{% extends 'admin_p/base.html' %}
+{% block body_block %}
+
+<style>
+    .btn-section {
+        padding-top: 40px !important;
+    }
+    .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+    }
+    .card {
+        margin-bottom: 20px;
+    }
+    .form-group label {
+        font-weight: bold;
+    }
+    .text-right {
+        text-align: right;
+    }
+    .btn-secondary {
+        margin-left: 10px;
+    }
+</style>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="container-fluid">
+        <div class="header">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <h4 class="page-title mb-0">Add Shipping Zone</h4>
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="#">Shipping Zones</a></li>
+                            <li class="breadcrumb-item active"><a href="#">Add Shipping Zone</a></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <a href="{% url '' %}" class="btn btn-danger" onclick="confirm('Are you sure to leave this page?')"><i class="fas fa-times"></i> Discard</a>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-upload" aria-hidden="true"></i> &nbsp; Save</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        Shipping Zone Information
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="zoneName">Zone Name</label>
+                            <input type="text" class="form-control" id="zoneName" name="zone_name" placeholder="Enter zone name">
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <select class="form-control" id="country" name="country">
+                                <option disabled value="">Select Country</option>
+                                {% for country in countries %}
+                                    <option value="{{ country.iso2 }}">{{ country.name }}</option>
+                                {% endfor %}
+                            </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="state">State</label>
+                            <select class="form-control" id="state" name="state">
+                                <option disabled value="">Select State</option>
+                            </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="city">City</label>
+                            <select class="form-control" id="city" name="state">
+                                <option disabled value="">Select State</option>
+                            </select>
+                            </div>
+                        
+                  
+                    </div>
+                </div>
+</div>
+<div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        Shipping Method
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="flatRate">Flat Rate</label>
+                            <input type="number" class="form-control" id="flatRate" name="flat_rate" placeholder="Enter flat rate">
+                        </div>
+                        <div class="form-group">
+                            <label for="freeShipping">Free Shipping</label>
+                            <input type="checkbox" id="freeShipping" name="free_shipping">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock %}

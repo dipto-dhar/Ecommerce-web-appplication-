@@ -559,6 +559,11 @@ background-color: transparent;
                       
                                 </ul>
                             </li>
+                            <li>
+                                <a href="{% url 'shipping' %}" class="waves-effect">
+                                    <i class="dripicons-meter"></i><span class="badge badge-danger badge-pill float-right">2</span> <span> Orders </span>
+                                </a>
+                            </li>
 
 
 
@@ -694,7 +699,72 @@ toggleCardBody('trust-body', 'trust-header', 'trust-switch')
 
         </script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).on('change', '#country', function(e) {
+    e.preventDefault();
+    
+    var country_id = $(this).val();  // Get the selected country ID
+    
+    $.ajax({
+        type: 'POST',
+        url: '{% url "shipping" %}',  // URL of the view
+        data: {
+            country_id: country_id,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'get_states',  // Specify the action for states
+        },
+        success: function(response) {
+            // Clear the existing state options
+            $('#state').empty();
+            $('#state').append('<option value="">Select State</option>');
+            
+            // Populate the state dropdown with the new options
+            $.each(response.states, function(index, state) {
+                $('#state').append('<option value="'+state.iso2+'">'+state.name+'</option>');
+            });
 
+            // Clear the city dropdown as well since state has changed
+            $('#city').empty();
+            $('#city').append('<option value="">Select City</option>');
+        },
+        error: function(xhr, errmsg, err) {
+            console.log('Error:', errmsg);
+        }
+    });
+});
+
+$(document).on('change', '#state', function(e) {
+    e.preventDefault();
+    
+    var state_code = $(this).val();
+    var country_id = $('#country').val();  // Get the selected state ID
+    
+    $.ajax({
+        type: 'POST',
+        url: '{% url "shipping" %}',  // URL of the view
+        data: {
+            state_code: state_code,
+            country_id: country_id,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'get_cities',  // Specify the action for cities
+        },
+        success: function(response) {
+            // Clear the existing city options
+            $('#city').empty();
+            $('#city').append('<option value="">Select City</option>');
+            
+            // Populate the city dropdown with the new options
+            $.each(response.cities, function(index, city) {
+                $('#city').append('<option value="'+city.id+'">'+city.name+'</option>');
+            });
+        },
+        error: function(xhr, errmsg, err) {
+            console.log('Error:', errmsg);
+        }
+    });
+});
+</script>
         <!-- jQuery  -->
         <script src="{% static "admin_p/assets/js/jquery.min.js" %}"></script>
         <script src="{% static "admin_p/assets/js/modernizr.min.js" %}"></script>
