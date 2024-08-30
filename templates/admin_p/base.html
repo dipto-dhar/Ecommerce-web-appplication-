@@ -29,11 +29,12 @@
     <body class="fixed-left">
 <style>
 
-.container-fluid{
+
+        .container-fluid{
             margin-top: 80px !important;
             background: #fff;
             border-radius: 10px;
-            padding: 0px 20px;
+            padding: 0px 40px 35px 40px !important;
         }
         .header {
             display: flex;
@@ -42,12 +43,41 @@
             padding-bottom: 15px;
             margin-top: 50px;
     
+
+        }
+ 
+
+.card {
+    
+    background-color: #fff;
+    border: none!important;
+    border-radius: 0.95rem!important;
+    box-shadow: 0px 0px 10px 1px #00000012!important;
+}
+    .card-header {
+    padding: .55rem 1rem!important;
+    margin-bottom: 0;
+    background-color:#fff!important;
+    border-bottom: 1px solid rgba(0, 0, 0, .125);
+    font-weight: 700;
+    display: flex;
+    font-size: 16px;
+    justify-content: space-between;
+    }
+.form-group label {
+    font-weight: 600!important;
+    font-size: 15px;
+}
+        .breadcrumb {
+
+            background-color: #ffffff!important;
+
         }
        
         .header .btn-primary {
             background-color: #7367f0;
             border-color: #7367f0;
-            padding: 10px 20px;
+            padding: 6px 15px;
         }
         .table-container {
             margin-top: 20px;
@@ -494,12 +524,12 @@ background-color: transparent;
                             </li>
                             <li>
                                 <a href="{% url 'orders' %}" class="waves-effect">
-                                    <i class="dripicons-meter"></i><span class="badge badge-info badge-pill float-right">2</span> <span> Orders </span>
+                                    <i class="dripicons-meter"></i><span class="badge badge-danger badge-pill float-right">2</span> <span> Orders </span>
                                 </a>
                             </li>
                        
 
-                            <li class="menu-title">Products</li>
+        
 
                             <li>
                                 <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Products <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </a>
@@ -516,85 +546,25 @@ background-color: transparent;
                                     <li><a href="{% url 'add-user' %}">Add New</a></li>
                                 </ul>
                             </li>
-                           
+   
+
                             <li>
-                                <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-to-do"></i><span> Forms <span class="badge badge-pill badge-success float-right">8</span> </span></a>
+                                <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-graph-bar"></i><span> Pages <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                                 <ul class="submenu">
-                                    <li><a href="form-elements.html">Form Elements</a></li>
-                                    <li><a href="form-validation.html">Form Validation</a></li>
-                                    <li><a href="form-advanced.html">Form Advanced</a></li>
-                                    <li><a href="form-editors.html">Form Editors</a></li>
-                                    <li><a href="form-uploads.html">Form File Upload</a></li>
-                                    <li><a href="form-mask.html">Form Mask</a></li>
-                                    <li><a href="form-summernote.html">Summernote</a></li>
-                                    <li><a href="form-xeditable.html">Form Xeditable</a></li>
+                                    <li><a href="{% url 'update-home' %}">Homepage</a></li>
+                                    <li><a href="{% url 'update-about' %}">About page</a></li>
+                                    <li><a href="{% url 'update-contact' %}">Contact page</a></li>
+                                    <li><a href="{% url 'update-terms' %}">Terms & Conditon page</a></li>
+                                    <li><a href="{% url 'update-privacy' %}">Privacy Policy page</a></li>
+                      
                                 </ul>
                             </li>
 
-                            <li>
-                                <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-graph-bar"></i><span> Charts <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                                <ul class="submenu">
-                                    <li><a href="charts-morris.html">Morris Chart</a></li>
-                                    <li><a href="charts-chartist.html">Chartist Chart</a></li>
-                                    <li><a href="charts-chartjs.html">Chartjs Chart</a></li>
-                                    <li><a href="charts-flot.html">Flot Chart</a></li>
-                                    <li><a href="charts-c3.html">C3 Chart</a></li>
-                                    <li><a href="charts-other.html">Jquery Knob Chart</a></li>
-                                </ul>
-                            </li>
 
-                            <li>
-                                <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-view-thumb"></i><span> Tables <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                                <ul class="submenu">
-                                    <li><a href="tables-basic.html">Basic Tables</a></li>
-                                    <li><a href="tables-datatable.html">Data Table</a></li>
-                                    <li><a href="tables-responsive.html">Responsive Table</a></li>
-                                    <li><a href="tables-editable.html">Editable Table</a></li>
-                                </ul>
-                            </li>
 
-                            <li>
-                                <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-map"></i><span> Maps <span class="badge badge-pill badge-danger float-right">2</span> </span></a>
-                                <ul class="submenu">
-                                    <li><a href="maps-google.html"> Google Map</a></li>
-                                    <li><a href="maps-vector.html"> Vector Map</a></li>
-                                </ul>
-                            </li>
+           
 
-                            <li class="menu-title">Extras</li>
-                            <li>
-                                <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-archive"></i><span> Advanced UI <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                                <ul class="submenu">
-                                    <li><a href="advanced-animation.html">Animation</a></li>
-                                    <li><a href="advanced-highlight.html">Highlight</a></li>
-                                    <li><a href="advanced-rating.html">Rating</a></li>
-                                    <li><a href="advanced-nestable.html">Nestable</a></li>
-                                    <li><a href="advanced-alertify.html">Alertify</a></li>
-                                    <li><a href="advanced-rangeslider.html">Range Slider</a></li>
-                                    <li><a href="advanced-sessiontimeout.html">Session Timeout</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-box"></i><span> Authentication <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                                <ul class="submenu">
-                                    <li><a href="pages-login.html">Login</a></li>
-                                    <li><a href="pages-register.html">Register</a></li>
-                                    <li><a href="pages-recoverpw.html">Recover Password</a></li>
-                                    <li><a href="pages-lock-screen.html">Lock Screen</a></li>
-                                </ul>
-                            </li>
-
-                            <li>
-                                <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-duplicate"></i><span> Extra Pages <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                                <ul class="submenu">
-                                    <li><a href="pages-timeline.html">Timeline</a></li>
-                                    <li><a href="pages-invoice.html">Invoice</a></li>
-                                    <li><a href="pages-directory.html">Directory</a></li>
-                                    <li><a href="pages-blank.html">Blank Page</a></li>
-                                    <li><a href="pages-404.html">Error 404</a></li>
-                                    <li><a href="pages-500.html">Error 500</a></li>
-                                </ul>
-                            </li>
+                  
 
                         </ul>
 
@@ -663,39 +633,68 @@ background-color: transparent;
 
 
         <script>
-            function readURL(input) {
-          if (input.files && input.files[0]) {
-        
-            var reader = new FileReader();
-        
-            reader.onload = function(e) {
-              $('.image-upload-wrap').hide();
-        
-              $('.file-upload-image').attr('src', e.target.result);
-              $('.file-upload-content').show();
-        
-              $('.image-title').html(input.files[0].name);
-            };
-        
-            reader.readAsDataURL(input.files[0]);
-        
-          } else {
-            removeUpload();
-          }
-        }
-        
-        function removeUpload() {
-          $('.file-upload-input').replaceWith($('.file-upload-input').clone());
-          $('.file-upload-content').hide();
-          $('.image-upload-wrap').show();
-        }
-        $('.image-upload-wrap').bind('dragover', function () {
-            $('.image-upload-wrap').addClass('image-dropping');
-          });
-          $('.image-upload-wrap').bind('dragleave', function () {
-            $('.image-upload-wrap').removeClass('image-dropping');
-        });
+           function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            var $card = $(input).closest('.card'); // Find the closest card
+            $card.find('.image-upload-wrap').hide(); // Hide only within the specific card
+
+            $card.find('.file-upload-image').attr('src', e.target.result); // Update the image only within the specific card
+            $card.find('.file-upload-content').show(); // Show the content only within the specific card
+
+            $card.find('.image-title').html(input.files[0].name); // Update the title only within the specific card
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        removeUpload(input);
+    }
+}
+
+function removeUpload(button) {
+    var $card = $(button).closest('.card'); // Find the closest card
+    $card.find('.file-upload-input').replaceWith($card.find('.file-upload-input').clone()); // Clone only within the specific card
+    $card.find('.file-upload-content').hide(); // Hide the content only within the specific card
+    $card.find('.image-upload-wrap').show(); // Show the upload wrap only within the specific card
+}
+
+$('.image-upload-wrap').bind('dragover', function () {
+    $(this).addClass('image-dropping');
+});
+
+$('.image-upload-wrap').bind('dragleave', function () {
+    $(this).removeClass('image-dropping');
+});
+
+
+function toggleCardBody(bodyId, headerId, checkbox) {
+    var sliderBody = document.getElementById(bodyId);
+    var sliderHeader = document.getElementById(headerId);
+    var slswitch = document.getElementsByClassName(checkbox)[0];
+
+    if (slswitch.checked) {
+        sliderBody.style.display = "block";
+        sliderBody.style.transition = ".5s";
+    } else {
+        sliderBody.style.display = "none";
+        sliderHeader.style.border = "none";
+    }
+}
+toggleCardBody('slider-body', 'slider-header','slider-switch' );
+toggleCardBody('banner-body', 'banner-header', 'special-switch');
+toggleCardBody('tranding-body', 'tranding-header', 'tranding-switch');
+toggleCardBody('new_arrival-body', 'new_arrival-header', 'arrival-switch');
+toggleCardBody('trust-body', 'trust-header', 'trust-switch')
+
+
+
+
+
         </script>
+
+
         <!-- jQuery  -->
         <script src="{% static "admin_p/assets/js/jquery.min.js" %}"></script>
         <script src="{% static "admin_p/assets/js/modernizr.min.js" %}"></script>

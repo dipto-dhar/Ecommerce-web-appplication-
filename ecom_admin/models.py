@@ -62,7 +62,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.first_name or self.email.split('@')[0]
 class Category(models.Model):
     name=models.CharField(max_length=50)
-    image=models.ImageField(default='blank-sm.png',null=True)
+    image=models.ImageField(default='blank-landscape.jpg',null=True)
     description=models.CharField(max_length=50)
     slug=AutoSlugField(populate_from=('name'),unique=True,null=True)
     def __str__(self):
@@ -85,7 +85,7 @@ class Product(models.Model):
     category=models.ForeignKey(Category, on_delete=models.CASCADE,default=1)
     description=HTMLField(default='',blank=True)
     regular_price= models.DecimalField(max_digits=7,default=0,decimal_places=2)
-    sale_price= models.DecimalField(max_digits=7,default=0,decimal_places=2)
+    sale_price= models.DecimalField(max_digits=7,default=0, blank=True, null=True, decimal_places=2)
     on_sale=models.BooleanField(default=False)
     image=models.ImageField(upload_to='uploads/products', default='blank-sm.png', null=True)
     stock=models.BooleanField(default=True)
@@ -94,3 +94,106 @@ class Product(models.Model):
     def __str__(self) -> str:
         return self.name
 
+
+
+# Pages Model
+
+
+class Homepage(models.Model):
+    # Main Slider
+    slider=models.BooleanField(default=True)
+    # Slide 1
+    slide1_image= models.ImageField(blank=True, default='blank-landscape.jpg',)
+    slide1_heading= models.CharField(max_length=500, blank=True, default='' )
+    slide1_secondary_heading= models.CharField(max_length=500, blank=True, default='' )
+    slide1_button_text= models.CharField(max_length=500, blank=True, default='' )
+    slide1_button_link= models.CharField(max_length=1000, blank=True, default='')
+    # Slide 1
+    slide2_image= models.ImageField(blank=True, default='blank-landscape.jpg',)
+    slide2_heading= models.CharField(max_length=500, blank=True, default='' )
+    slide2_secondary_heading= models.CharField(max_length=500, blank=True, default='' )
+    slide2_button_text= models.CharField(max_length=500, blank=True, default='' )
+    slide2_button_link= models.CharField(max_length=1000, blank=True, default='')
+    # Special Offer Section
+    special_offer_banner=models.BooleanField(default=True)
+    # Banner 1
+    special_offer_banner1_image= models.ImageField(blank=True, default='blank-landscape.jpg',)
+    special_offer_banner1_heading= models.CharField(max_length=500, blank=True, default='' )
+    special_offer_banner1_secondary_heading= models.CharField(max_length=500, blank=True, default='' )
+    special_offer_banner1_button_text= models.CharField(max_length=500, blank=True, default='' )
+   
+    special_offer_button_link1= models.CharField(max_length=1000, blank=True, default='' )
+    # Banner 2
+    special_offer_banner2_image= models.ImageField(blank=True, default='blank-landscape.jpg',)
+    special_offer_banner2_heading= models.CharField(max_length=500, blank=True, default='' )
+    special_offer_banner2_secondary_heading= models.CharField(max_length=500, blank=True, default='' )
+    special_offer_banner2_button_text= models.CharField(max_length=500, blank=True, default='' )
+    special_offer_button_link2= models.CharField(max_length=1000, blank=True, default='' )
+    # Banner 3
+    special_offer_banner3_image= models.ImageField(blank=True, default='blank-landscape.jpg',)
+    special_offer_banner3_heading= models.CharField(max_length=500, blank=True, default='' )
+    special_offer_banner3_secondary_heading= models.CharField(max_length=500, blank=True, default='' )
+    special_offer_banner3_button_text= models.CharField(max_length=500, blank=True, default='' )
+    special_offer_button_link3= models.CharField(max_length=1000, blank=True, default='' )
+    # Trending Section
+    tranding_section=models.BooleanField(default=True)
+    tranding_banner=models.ImageField(blank=True, default='blank-landscape.jpg',)
+    tranding_heading= models.CharField(max_length=500, blank=True, default='' )
+    tranding_secondary_heading= models.CharField(max_length=500, blank=True, default='' )
+    tranding_button_text= models.CharField(max_length=500, blank=True, default='' )
+    tranding_button_link= models.CharField(max_length=1000, blank=True, default='' )
+    
+    # New Arrival Section
+    new_arrival=models.BooleanField(default=True)
+    # Banner 1
+    new_arrival1_image= models.ImageField(blank=True, default='blank-landscape.jpg',)
+    new_arrival1_heading= models.CharField(max_length=500, blank=True, default='' )
+    new_arrival1_secondary_heading= models.CharField(max_length=500, blank=True, default='' )
+    new_arrival1_button_text= models.CharField(max_length=500, blank=True, default='' )
+    new_arrival1_button_link= models.CharField(max_length=1000, blank=True, default='')
+    # Banner 1
+    new_arrival2_image= models.ImageField(blank=True, default='blank-landscape.jpg',)
+    new_arrival2_heading= models.CharField(max_length=500, blank=True, default='' )
+    new_arrival2_secondary_heading= models.CharField(max_length=500, blank=True, default='', )
+    new_arrival2_button_text= models.CharField(max_length=500, blank=True, default='', )
+    new_arrival2_button_link= models.CharField(max_length=1000, blank=True, default='')
+
+    # Trust & Support Section
+    trust_box=models.BooleanField(default=True)
+    # Box 1
+    trust_box1_icon=models.ImageField(blank=True, default='blank-landscape.jpg',)
+    trust_box1_heading= models.CharField(max_length=500, blank=True, default='' )
+    trust_box1_secondary_text= models.CharField(max_length=600, blank=True, default='' )
+    # Box 2
+    trust_box2_icon=models.ImageField(blank=True, default='blank-landscape.jpg',)
+    trust_box2_heading= models.CharField(max_length=500, blank=True, default='' )
+    trust_box2_secondary_text= models.CharField(max_length=600, blank=True, default='' )
+    # Box 3
+    trust_box3_icon=models.ImageField(blank=True, default='blank-landscape.jpg',)
+    trust_box3_heading= models.CharField(max_length=500, blank=True, default='' )
+    trust_box3_secondary_text= models.CharField(max_length=600, blank=True, default='' )
+
+ 
+class AboutPage(models.Model):
+    page_title= models.CharField(max_length=500,blank=True, default='' )
+    secendary_title= models.CharField(max_length=500,blank=True, default='' )
+    page_banner=models.ImageField(blank=True, default='', null=True)
+    page_content=HTMLField(default='',blank=True, )
+
+class ContactPage(models.Model):
+    page_title= models.CharField(max_length=500,blank=True, default='' )
+    secendary_title= models.CharField(max_length=500,blank=True, default='' )
+    page_banner=models.ImageField(blank=True, default='', null=True)
+    page_content=HTMLField(default='',blank=True, )
+
+class TermsPage(models.Model):
+    page_title= models.CharField(max_length=500,blank=True, default='' )
+    secendary_title= models.CharField(max_length=500,blank=True, default='' )
+    page_banner=models.ImageField(blank=True, default='', null=True)
+    page_content=HTMLField(default='',blank=True, )
+    
+class PrivacyPolicyPage(models.Model):
+    page_title= models.CharField(max_length=500,blank=True, default='' )
+    secendary_title= models.CharField(max_length=500,blank=True, default='' )
+    page_banner=models.ImageField(blank=True, default='', null=True)
+    page_content=HTMLField(default='',blank=True, )

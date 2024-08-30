@@ -25,6 +25,8 @@ urlpatterns = [
     path('thank-you/', views.thank_you,name='thank-you'),
     path('about/', views.about,name='about'),
     path('contact/', views.contact,name='contact'),
+    path('terms-and-condition/', views.terms,name='terms'),
+    path('privacy-policy/', views.privacypolicy,name='privacy-policy'),
     path('404/', views.page_not_found,name='404'),
    
     

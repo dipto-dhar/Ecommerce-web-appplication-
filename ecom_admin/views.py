@@ -8,6 +8,9 @@ from .models import User
 from .models import *
 from store.models import *
 from django.core.paginator import Paginator
+from .restriction import authenticated_user
+import requests
+from django.http import JsonResponse
 
 
 def dashboard(request):
@@ -26,11 +29,16 @@ def dashboard(request):
             else:
                 messages.error(request,'Invalid Credential')
         return render(request,'admin_p/index.html')
-        
+
+
+@authenticated_user(allowed_roles=['Admin','Super Admin'])
 def users(request):
     users= User.objects.all()
     return render(request,'admin_p/users.html',{'users':users})
 
+
+
+@authenticated_user(allowed_roles=['Admin','Super Admin'])
 def add_user(request):
     form=create_user()
     if request.method=='POST':
@@ -41,10 +49,12 @@ def add_user(request):
             return redirect('users')
     return render(request,'admin_p/add-user.html',{'form':form})
 
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def categories(request):
     categories=Category.objects.all()
     return render(request,'admin_p/categories.html',{'categories':categories})
 
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def add_category(request):
     form=create_category()
     if request.method=='POST' :
@@ -55,6 +65,8 @@ def add_category(request):
             return redirect('categories')
     return render(request,'admin_p/add-category.html',{'form':form})
 
+
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def edit_category(request,pk):
     object=Category.objects.get(id=pk)
     form=create_category(instance=object)
@@ -65,13 +77,16 @@ def edit_category(request,pk):
             messages.success(request,'Category Updated Successfully')
             
     return render(request,'admin_p/edit-category.html',{'form':form})
+    
 
+@authenticated_user(allowed_roles=['Admin','Super Admin'])
 def delete_category(request,pk):
     object=Category.objects.get(id=pk)
     object.delete()
     messages.success(request,'Category Deleted Successfully')
     return redirect('categories')
 
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def add_product(request):
     form=create_product()
     if request.method=='POST' :
@@ -82,6 +97,7 @@ def add_product(request):
             return redirect('products')
     return render(request,'admin_p/add-product.html',{'form':form})
 
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def products(request):
     products=Product.objects.order_by('-date')
     p=Paginator(products,20)
@@ -92,6 +108,7 @@ def products(request):
 
     return render(request,'admin_p/products.html',{'products':pages,'total_pages':[n+1 for n in range(total_pages) ] })
 
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def edit_product(request,slug):
     object=Product.objects.get(slug=slug)
     form=create_product(instance=object)
@@ -104,25 +121,117 @@ def edit_product(request,slug):
             
     return render(request,'admin_p/edit-product.html',{'form':form})
 
+@authenticated_user(allowed_roles=['Admin','Super Admin'])
 def delete_product(request,pk):
     object=Product.objects.get(id=pk)
     object.delete()
     messages.success(request,'Product Deleted Successfully')
     return redirect('products')
 
+
+def bulk_delete(request):
+    if request.method == 'POST':
+        # Get the list of IDs from the submitted form
+        selected_item = request.POST.getlist('selected_ids')
+        # Delete the selected objects
+        Product.objects.filter(id__in=selected_item).delete()
+        return redirect('products')  # Replace with your actual redirect URL
+
+
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def orders(request):
     orders= Order.objects.all()
     return render(request,'admin_p/orders.html',{'orders':orders})
 
+
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def single_order(request, order_id):
     order= Order.objects.get(order_id=order_id)
     order_item= OrderItem.objects.filter(order=order)
-
     return render(request,'admin_p/single-order.html',{'order':order, 'order_items':order_item})
 
+@authenticated_user(allowed_roles=['Admin','Super Admin'])
 def delete_order(request, order_id):
     order= Order.objects.get(order_id=order_id)
-    
     order.delete()
     return redirect('orders')
+
+def update_homepage(request):
+    instance=Homepage.objects.get(id=1)
+    form=HomepageForm(instance=instance)
+
+    if request.method=='POST':
+        form=HomepageForm(request.POST,request.FILES, instance=instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'Homepage Updated Successfully')
+        else:
+            messages.success(request,'Error Updating tha Page')
+
+    return render(request,'admin_p/pages/home.html',{'form':form})
+
+def update_aboutpage(request):
+    instance=AboutPage.objects.get(id=1)
+    form=AboutPageForm(instance=instance)
+
+    if request.method=='POST':
+        form=AboutPageForm(request.POST,request.FILES, instance=instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'About page Updated Successfully')
+        else:
+            messages.success(request,'Error Updating tha Page')
+
+    return render(request,'admin_p/pages/about.html',{'form':form})
+
+def update_contactpage(request):
+    instance=ContactPage.objects.get(id=1)
+    form=ContactPageForm(instance=instance)
+
+    if request.method=='POST':
+        form=ContactPageForm(request.POST,request.FILES, instance=instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'Contact page Updated Successfully')
+        else:
+            messages.success(request,'Error Updating tha Page')
+
+    return render(request,'admin_p/pages/contact.html',{'form':form})
+
+
+
+    
+def update_termspage(request):
+    instance=TermsPage.objects.get(id=1)
+    form=TermsPageForm(instance=instance)
+
+    if request.method=='POST':
+        form=TermsPageForm(request.POST,request.FILES, instance=instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'Terms & Condition page Updated Successfully')
+        else:
+            messages.success(request,'Error Updating tha Page')
+
+    return render(request,'admin_p/pages/terms.html',{'form':form})
+
+def update_privacypage(request):
+    instance=PrivacyPolicyPage.objects.get(id=1)
+    form=PrivacyPolicyPageForm(instance=instance)
+
+    if request.method=='POST':
+        form=PrivacyPolicyPageForm(request.POST,request.FILES, instance=instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'Privacy Policy page Updated Successfully')
+        else:
+            messages.success(request,'Error Updating tha Page')
+
+    
+    
+    
+    
+
+    return render(request,'admin_p/pages/privacy-policy.html',{'form':form})
+
 

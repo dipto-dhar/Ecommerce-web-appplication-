@@ -54,3 +54,15 @@ class shipping_info(forms.ModelForm):
         fields=('name','phone','email','state','city','zip_code','address')
         
 
+
+class contact_form(forms.ModelForm):
+
+    
+    name=forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Name'}))
+    email=forms.EmailField(required=True, widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Email'}))
+    phone=forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Phone'}))
+    subject=forms.CharField(required=True, widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Subject'}))
+    massage=forms.CharField(required=True, widget=forms.Textarea(attrs={'class':'form-control','placeholder':'Massage'}))
+    class Meta:
+        model=Contacts
+        fields=('__all__')

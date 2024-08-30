@@ -1,0 +1,708 @@
+{% extends 'admin_p/base.html' %}
+
+{% block body_block %}
+    <style>
+
+ 
+.file-upload-content{
+                display: block;
+            }
+            .image-upload-wrap{
+            display: none;
+            }
+            .file-upload-image {
+            padding: 0;
+            width: 100%;
+         
+
+        }
+        .image-title-wrap{
+           height: 30px;
+            z-index: 1;
+            margin: 0px -40px -15px 0px;
+            text-align: end!important;
+        }
+        .image-title-wrap .remove-image{
+            background-color: #6d5ae3;
+            color: #fff;
+            border-radius: 50px;
+            padding: 0px 7px;
+            margin: 0px -10px 0px 0px;
+            
+           }
+           .file-upload {
+            background-color: #ffffff;
+            width: 100%;
+            height: auto;
+            padding: 0;
+            }
+
+    </style>
+
+    <div class="container-fluid">
+        <form method="POST" enctype="multipart/form-data">
+        <div class="header">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <h4 class="page-title mb-0">Edit Homepage</h4>
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                            <li class="breadcrumb-item active"><a href="#">Homepage</a></li>
+                            
+                        </ol>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            <div>
+            <a  href="{% url 'dashboard' %}" class="btn btn-danger" onclick="confirm('Are you sure to you want to leave this page')"><i class="fas fa-times"></i>  Discard</a>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-refresh" aria-hidden="true"></i>  &nbsp;Update</button>
+            </div>
+        </div>
+
+       
+            {% csrf_token %}
+
+
+
+            <div class="row">
+
+
+                <!-- Main Slider Section -->
+                <div class="col-md-12 card">
+                    <div class="card-header" id="slider-header">
+                        <span>Front Slider</span>
+                        <div class="checkbox-wrapper-14">
+                            <label for="s1-14"></label>&nbsp;&nbsp;
+                            {{ form.slider }}
+                        </div>
+                    </div>
+                
+                    <div class="card-body" style="display:" id="slider-body">
+                        <div class="row g-3"> 
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">First Slide</div>
+                                    <div class="card-body">
+                                        <!-- Slide 1 Fields -->
+                                        <div class="form-group">
+                                            <label>Image</label>     
+                                            <div class="file-upload">
+                                                <div class="image-upload-wrap">
+                                                    {{ form.slide1_image }}
+                                                    <div class="drag-text">
+                                                        <h3>Drag and drop a file or click to add Image</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="file-upload-content">
+                                                    <div class="row">
+                                                        <div class="image-title-wrap col-12">
+                                                            <button type="button" onclick="removeUpload(this)" class="remove-image"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            {% if form.instance.slide1_image %}
+                                                                <img class="file-upload-image" src="{{ form.instance.slide1_image.url }}" style="display:block;" />
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                      
+                
+                                        <div class="row">
+                                            <div class="form-group col-md-6 ">
+                                                <label for="id_slide1_heading">Heading</label>
+                                                {{ form.slide1_heading }}
+                                            </div>
+                                            <div class="col-md-6 form-group text-right">
+                                                <label for="id_slide1_secondary_heading">Secondary Heading</label>
+                                                {{ form.slide1_secondary_heading }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label for="id_slide1_button_text">Button Text</label>
+                                                {{ form.slide1_button_text }}
+                                            </div>
+                                            <div class="form-group text-right col-md-6">
+                                                <label for="id_slide1_button_link">Button Link</label>
+                                                {{ form.slide1_button_link }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">Second Slide</div>
+                                    <div class="card-body">
+                                        <!-- Slide 2 Fields -->
+                                        <div class="form-group">
+                                            <label>Image</label>     
+                                            <div class="file-upload">
+                                                <div class="image-upload-wrap">
+                                                    {{ form.slide2_image }}
+                                                    <div class="drag-text">
+                                                        <h3>Drag and drop a file or click to add Image</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="file-upload-content">
+                                                    <div class="row">
+                                                        <div class="image-title-wrap col-12">
+                                                            <button type="button" onclick="removeUpload(this)" class="remove-image"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            {% if form.instance.slide2_image %}
+                                                                <img class="file-upload-image" src="{{ form.instance.slide2_image.url }}" style="display:block;" />
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                      
+                
+                                        <div class="row">
+                                            <div class="form-group col-md-6 ">
+                                                <label for="id_slide2_heading">Heading</label>
+                                                {{ form.slide2_heading }}
+                                            </div>
+                                            <div class="col-md-6 form-group text-right">
+                                                <label for="id_slide2_secondary_heading">Secondary Heading</label>
+                                                {{ form.slide2_secondary_heading }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label for="id_slide2_button_text">Button Text</label>
+                                                {{ form.slide2_button_text }}
+                                            </div>
+                                            <div class="form-group text-right col-md-6">
+                                                <label for="id_slide2_button_link">Button Link</label>
+                                                {{ form.slide2_button_link }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            
+
+                <!-- Special Offer Section -->
+
+                <div class="col-md-12 card">
+                    <div class="card-header" id="banner-header">
+                        <span>Special Offer</span>
+                        <div class="checkbox-wrapper-14">
+                            <label for="s1-14"></label>&nbsp;&nbsp;
+                            {{ form.special_offer_banner }}
+                        </div>
+                    </div>
+                
+                    <div class="card-body" style="display:" id="banner-body">
+                        <div class="row g-3"> 
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">Banner 1</div>
+                                    <div class="card-body">
+                                        <!-- Banner 1 Fields -->
+                                        <div class="form-group">
+                                            <label>Image</label>     
+                                            <div class="file-upload">
+                                                <div class="image-upload-wrap">
+                                                    {{ form.special_offer_banner1_image }}
+                                                    <div class="drag-text">
+                                                        <h3>Drag and drop a file or click to add Image</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="file-upload-content">
+                                                    <div class="row">
+                                                        <div class="image-title-wrap col-12">
+                                                            <button type="button" onclick="removeUpload(this)" class="remove-image"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            {% if form.instance.special_offer_banner1_image %}
+                                                                <img class="file-upload-image" src="{{ form.instance.special_offer_banner1_image.url }}" style="display:block;" />
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                      
+                
+                                        <div class="row">
+                                            <div class="form-group col-md-6 ">
+                                                <label for="id_special_offer_banner1_heading">Heading</label>
+                                                {{ form.special_offer_banner1_heading }}
+                                            </div>
+                                            <div class="col-md-6 form-group text-right">
+                                                <label for="id_special_offer_banner1_secondary_heading">Secondary Heading</label>
+                                                {{ form.special_offer_banner1_secondary_heading }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label for="id_special_offer_banner1_button_text">Button Text</label>
+                                                {{ form.special_offer_banner1_button_text }}
+                                            </div>
+                                            <div class="form-group text-right col-md-6">
+                                                <label for="id_special_offer_banner1_button_link">Button Link</label>
+                                                {{ form.special_offer_button_link1 }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">Banner 2</div>
+                                    <div class="card-body">
+                                        <!-- Banner 2 Fields -->
+                                        <div class="form-group">
+                                            <label>Image</label>     
+                                            <div class="file-upload">
+                                                <div class="image-upload-wrap">
+                                                    {{ form.special_offer_banner2_image }}
+                                                    <div class="drag-text">
+                                                        <h3>Drag and drop a file or click to add Image</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="file-upload-content">
+                                                    <div class="row">
+                                                        <div class="image-title-wrap col-12">
+                                                            <button type="button" onclick="removeUpload(this)" class="remove-image"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            {% if form.instance.special_offer_banner2_image %}
+                                                                <img class="file-upload-image" src="{{ form.instance.special_offer_banner2_image.url }}" style="display:block;" />
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                      
+                
+                                        <div class="row">
+                                            <div class="form-group col-md-6 ">
+                                                <label for="id_special_offer_banner2_heading">Heading</label>
+                                                {{ form.special_offer_banner2_heading }}
+                                            </div>
+                                            <div class="col-md-6 form-group text-right">
+                                                <label for="id_special_offer_banner2_secondary_heading">Secondary Heading</label>
+                                                {{ form.special_offer_banner2_secondary_heading }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label for="id_special_offer_banner2_button_text">Button Text</label>
+                                                {{ form.special_offer_banner2_button_text }}
+                                            </div>
+                                            <div class="form-group text-right col-md-6">
+                                                <label for="id_special_offer_banner2_button_link">Button Link</label>
+                                                {{ form.special_offer_button_link2 }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">Banner 3</div>
+                                    <div class="card-body">
+                                        <!-- Banner 3 Fields -->
+                                        <div class="form-group">
+                                            <label>Image</label>     
+                                            <div class="file-upload">
+                                                <div class="image-upload-wrap">
+                                                    {{ form.special_offer_banner3_image }}
+                                                    <div class="drag-text">
+                                                        <h3>Drag and drop a file or click to add Image</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="file-upload-content">
+                                                    <div class="row">
+                                                        <div class="image-title-wrap col-12">
+                                                            <button type="button" onclick="removeUpload(this)" class="remove-image"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            {% if form.instance.special_offer_banner3_image %}
+                                                                <img class="file-upload-image" src="{{ form.instance.special_offer_banner3_image.url }}" style="display:block;" />
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                      
+                
+                                        <div class="row">
+                                            <div class="form-group col-md-6 ">
+                                                <label for="id_special_offer_banner3_heading">Heading</label>
+                                                {{ form.special_offer_banner3_heading }}
+                                            </div>
+                                            <div class="col-md-6 form-group text-right">
+                                                <label for="id_special_offer_banner3_secondary_heading">Secondary Heading</label>
+                                                {{ form.special_offer_banner3_secondary_heading }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label for="id_special_offer_banner3_button_text">Button Text</label>
+                                                {{ form.special_offer_banner3_button_text }}
+                                            </div>
+                                            <div class="form-group text-right col-md-6">
+                                                <label for="id_special_offer_banner3_button_link">Button Link</label>
+                                                {{ form.special_offer_button_link3 }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            
+ <!-- Trending Banner Section -->
+<div class="col-md-12 card">
+    <div class="card-header" id="tranding-header">
+        <span>Tranding Banner</span>
+        <div class="checkbox-wrapper-14">
+            <label for="s1-14"></label>&nbsp;&nbsp;
+            {{ form.tranding_section }}
+        </div>
+    </div>
+
+    <div class="card-body" style="display:" id="tranding-body">
+        <div class="row g-3"> 
+            <div class="col-md-7">
+                <!-- Slide 1 Fields -->
+                <div class="form-group">
+                    <label>Image</label>     
+                    <div class="file-upload">
+                        <div class="image-upload-wrap">
+                            {{ form.tranding_banner }}
+                            <div class="drag-text">
+                                <h3>Drag and drop a file or click to add Image</h3>
+                            </div>
+                        </div>
+                        <div class="file-upload-content">
+                            <div class="row">
+                                <div class="image-title-wrap col-12">
+                                    <button type="button" onclick="removeUpload(this)" class="remove-image"><i class="fa-solid fa-xmark"></i></button>
+                                </div>
+                                <div class="col-12">
+                                    {% if form.instance.tranding_banner %}
+                                        <img class="file-upload-image" src="{{ form.instance.tranding_banner.url }}" style="display:block;" />
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="tranding_heading">Heading</label>
+                        {{ form.tranding_heading }}
+                    </div>
+                    <div class="col-md-6 form-group text-right">
+                        <label for="tranding_secondary_heading">Secondary Text</label>
+                        {{ form.tranding_secondary_heading }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="tranding_button_text">Button Text</label>
+                        {{ form.tranding_button_text }}
+                    </div>
+                    <div class="form-group text-right col-md-6">
+                        <label for="tranding_button_link">Button Link</label>
+                        {{ form.tranding_button_link }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Arrival Section -->
+<div class="col-md-12 card">
+    <div class="card-header" id="new_arrival-header">
+        <span>New Arrival</span>
+        <div class="checkbox-wrapper-14">
+            <label for="s1-14"></label>&nbsp;&nbsp;
+            {{ form.new_arrival }}
+        </div>
+    </div>
+
+    <div class="card-body" style="display:" id="new_arrival-body">
+        <div class="row g-3"> 
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">First Column</div>
+                    <div class="card-body">
+                        <!-- Slide 1 Fields -->
+                        <div class="form-group">
+                            <label>Image</label>     
+                            <div class="file-upload">
+                                <div class="image-upload-wrap">
+                                    {{ form.new_arrival1_image }}
+                                    <div class="drag-text">
+                                        <h3>Drag and drop a file or click to add Image</h3>
+                                    </div>
+                                </div>
+                                <div class="file-upload-content">
+                                    <div class="row">
+                                        <div class="image-title-wrap col-12">
+                                            <button type="button" onclick="removeUpload(this)" class="remove-image"><i class="fa-solid fa-xmark"></i></button>
+                                        </div>
+                                        <div class="col-12">
+                                            {% if form.instance.new_arrival1_image %}
+                                                <img class="file-upload-image" src="{{ form.instance.new_arrival1_image.url }}" style="display:block;" />
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="new_arrival1_heading">Top Heading</label>
+                                {{ form.new_arrival1_heading }}
+                            </div>
+                            <div class="col-md-6 form-group text-right">
+                                <label for="new_arrival1_secondary_heading">Primary Heading</label>
+                                {{ form.new_arrival1_secondary_heading }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="new_arrival1_button_text">Button Text</label>
+                                {{ form.new_arrival1_button_text }}
+                            </div>
+                            <div class="form-group text-right col-md-6">
+                                <label for="new_arrival1_button_link">Button Link</label>
+                                {{ form.new_arrival1_button_link }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Second Column</div>
+                    <div class="card-body">
+                        <!-- Slide 2 Fields -->
+                        <div class="form-group">
+                            <label>Image</label>     
+                            <div class="file-upload">
+                                <div class="image-upload-wrap">
+                                    {{ form.new_arrival2_image }}
+                                    <div class="drag-text">
+                                        <h3>Drag and drop a file or click to add Image</h3>
+                                    </div>
+                                </div>
+                                <div class="file-upload-content">
+                                    <div class="row">
+                                        <div class="image-title-wrap col-12">
+                                            <button type="button" onclick="removeUpload(this)" class="remove-image"><i class="fa-solid fa-xmark"></i></button>
+                                        </div>
+                                        <div class="col-12">
+                                            {% if form.instance.new_arrival2_image %}
+                                                <img class="file-upload-image" src="{{ form.instance.new_arrival2_image.url }}" style="display:block;" />
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="new_arrival2_heading">Top Heading</label>
+                                {{ form.new_arrival2_heading }}
+                            </div>
+                            <div class="col-md-6 form-group text-right">
+                                <label for="new_arrival2_secondary_heading">Primary Heading</label>
+                                {{ form.new_arrival2_secondary_heading }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="new_arrival2_button_text">Button Text</label>
+                                {{ form.new_arrival2_button_text }}
+                            </div>
+                            <div class="form-group text-right col-md-6">
+                                <label for="new_arrival2_button_link">Button Link</label>
+                                {{ form.new_arrival2_button_link }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Trust And Support Section -->
+<div class="col-md-12 card">
+    <div class="card-header" id="trust-header">
+        <span>Trust & Support</span>
+        <div class="checkbox-wrapper-14">
+            <label for="s1-14"></label>&nbsp;&nbsp;
+            {{ form.trust_box }}
+        </div>
+    </div>
+
+    <div class="card-body" style="display:" id="trust-body">
+        <div class="row g-3"> 
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">Box 1</div>
+                    <div class="card-body">
+                        <!-- Box 1 Fields -->
+                        <div class="form-group">
+                            <label>Icon</label>     
+                            <div class="file-upload">
+                                <div class="image-upload-wrap">
+                                    {{ form.trust_box1_icon }}
+                                    <div class="drag-text">
+                                        <h3>Drag and drop a file or click to add Icon</h3>
+                                    </div>
+                                </div>
+                                <div class="file-upload-content">
+                                    <div class="row">
+                                        <div class="image-title-wrap col-12">
+                                            <button type="button" onclick="removeUpload(this)" class="remove-image"><i class="fa-solid fa-xmark"></i></button>
+                                        </div>
+                                        <div class="col-12">
+                                            {% if form.instance.trust_box1_icon %}
+                                                <img class="file-upload-image" src="{{ form.instance.trust_box1_icon.url }}" style="display:block;" />
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="trust_box1_heading">Primary Text</label>
+                                {{ form.trust_box1_heading }}
+                            </div>
+                            <div class="col-md-6 form-group text-right">
+                                <label for="trust_box1_secondary_heading">Secondary Text</label>
+                                {{ form.trust_box1_secondary_text }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">Box 2</div>
+                    <div class="card-body">
+                        <!-- Box 2 Fields -->
+                        <div class="form-group">
+                            <label>Icon</label>     
+                            <div class="file-upload">
+                                <div class="image-upload-wrap">
+                                    {{ form.trust_box2_icon }}
+                                    <div class="drag-text">
+                                        <h3>Drag and drop a file or click to add Icon</h3>
+                                    </div>
+                                </div>
+                                <div class="file-upload-content">
+                                    <div class="row">
+                                        <div class="image-title-wrap col-12">
+                                            <button type="button" onclick="removeUpload(this)" class="remove-image"><i class="fa-solid fa-xmark"></i></button>
+                                        </div>
+                                        <div class="col-12">
+                                            {% if form.instance.trust_box2_icon %}
+                                                <img class="file-upload-image" src="{{ form.instance.trust_box2_icon.url }}" style="display:block;" />
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6"> 
+                                <label for="trust_box2_heading">Primary Text</label>
+                                {{ form.trust_box2_heading }}
+                            </div>
+                            <div class="col-md-6 form-group text-right">
+                                <label for="trust_box2_secondary_heading">Secondary Text</label>
+                                {{ form.trust_box2_secondary_text }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">Box 3</div>
+                    <div class="card-body">
+                        <!-- Box 3 Fields -->
+                        <div class="form-group">
+                            <label>Icon</label>     
+                            <div class="file-upload">
+                                <div class="image-upload-wrap">
+                                    {{ form.trust_box3_icon }}
+                                    <div class="drag-text">
+                                        <h3>Drag and drop a file or click to add Icon</h3>
+                                    </div>
+                                </div>
+                                <div class="file-upload-content">
+                                    <div class="row">
+                                        <div class="image-title-wrap col-12">
+                                            <button type="button" onclick="removeUpload(this)" class="remove-image"><i class="fa-solid fa-xmark"></i></button>
+                                        </div>
+                                        <div class="col-12">
+                                            {% if form.instance.trust_box3_icon %}
+                                                <img class="file-upload-image" src="{{ form.instance.trust_box3_icon.url }}" style="display:block;" />
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="trust_box3_heading">Primary Text</label>
+                                {{ form.trust_box3_heading }}
+                            </div>
+                            <div class="col-md-6 form-group text-right">
+                                <label for="trust_box3_secondary_heading">Secondary Text</label>
+                                {{ form.trust_box3_secondary_text }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+            </div>
+
+
+        
+              
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap and jQuery -->
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

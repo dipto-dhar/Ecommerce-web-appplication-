@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from ecom_admin.models import User,Product
-from .forms import register_user,update_user,update_password,shipping_info
+from .forms import register_user,update_user,update_password,shipping_info,contact_form
 from ecom_admin.models import *
 from .models import Cart, ShippingInfo, Order, OrderItem
 from cart.context_processors import cart_summary
@@ -16,8 +16,8 @@ import string
 def home(request):
     products=Product.objects.order_by('-date')
     categories=Category.objects.all()
-    
-    return render(request,'store/index.html',{'products':products,'categories':categories})
+    page_data=Homepage.objects.get(id=1)
+    return render(request,'store/index.html',{'products':products,'categories':categories,'page':page_data})
 
 
 def user_login(request):
@@ -290,7 +290,28 @@ def cart(request):
     return render(request, 'store/cart.html')
 def wishlist(request):
     return render(request, 'store/wishlist.html')
-def about(request):
-    return render(request, 'store/about.html')
+
+
 def contact(request):
-    return render(request, 'store/contact.html')
+    page_data=ContactPage.objects.get(id=1)
+    form=contact_form()
+    if request.method=='POST':
+        form=contact_form(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request,"Submited Successfully")
+            return redirect("contact")
+    return render(request,'store/contact.html',{'form':form,'page':page_data})
+
+def about(request):
+    page_data=AboutPage.objects.get(id=1)
+   
+    return render(request,'store/about.html',{'page':page_data})
+def terms(request):
+    page_data=TermsPage.objects.get(id=1)
+   
+    return render(request,'store/terms&condition.html',{'page':page_data})
+def privacypolicy(request):
+    page_data=PrivacyPolicyPage.objects.get(id=1)
+   
+    return render(request,'store/privacy.html',{'page':page_data})

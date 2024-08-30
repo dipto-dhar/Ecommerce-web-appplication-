@@ -12,6 +12,13 @@ admin.site.register(OrderItem)
 admin.site.register(OrderStatus)
 admin.site.register(Cart)
 admin.site.register(ShippingInfo)
+admin.site.register(Homepage)
+admin.site.register(AboutPage)
+admin.site.register(ContactPage)
+admin.site.register(TermsPage)
+admin.site.register(PrivacyPolicyPage)
+admin.site.register(Contacts)
+
 
 
 class CartInline(admin.StackedInline):
@@ -35,6 +42,9 @@ class OrderItemInline(admin.StackedInline):
 class OrderAdmin(admin.ModelAdmin):
     model = Order
     inlines = [OrderItemInline]
+
+
+
 
 admin.site.unregister(User)
 admin.site.register(User,UserAdmin)

@@ -46,8 +46,8 @@
                     
                 </div>
                 <div>
-                <a  href="{% url 'products' %}" class="btn btn-danger" onclick="confirm('Are you sure to delete this Product')><i class="fas fa-plus"></i> Discard</a>
-                <button type="submit" class="btn btn-primary">Update product</button>
+                <a  href="{% url 'products' %}" class="btn btn-danger" onclick="confirm('Are you sure to delete this Product')"><i class="fas fa-times"></i>  Discard</a>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-refresh" aria-hidden="true"></i>  &nbsp;Update product</button>
                 </div>
             </div>
 
@@ -115,66 +115,8 @@
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                Variants
-            </div>
-            <div class="card-body">
-                <div class="form-group">
-                    <label>Options</label>
-                    <div class="input-group mb-3">
-                        <select class="form-control">
-                            <option>Size</option>
-                            <option>Color</option>
-                        </select>
-                        <input type="text" class="form-control" placeholder="Enter size">
-                        <div class="input-group-append">
-                            <button class="btn btn-secondary" type="button">Add another option</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    
 
-        <div class="card">
-            <div class="card-header">
-                Inventory
-            </div>
-            <div class="card-body">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#restock">Restock</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#shipping">Shipping</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#globalDelivery">Global Delivery</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#attributes">Attributes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#advanced">Advanced</a>
-                    </li>
-                </ul>
-
-                <div class="tab-content">
-                    <div id="restock" class="container tab-pane active"><br>
-                        <div class="form-group">
-                            <label>Add to stock</label>
-                            <input type="number" class="form-control" placeholder="Quantity">
-                            <button class="btn btn-primary mt-2">Confirm</button>
-                        </div>
-                        <p>Product in stock now: 54</p>
-                        <p>Product in transit: 390</p>
-                        <p>Last time restocked: 24th June, 2023</p>
-                        <p>Total stock over lifetime: 2430</p>
-                    </div>
-                    <!-- Other tabs content can be added here -->
-                </div>
-            </div>
-        </div>
     </div>
 
     <div class="col-md-4">
@@ -218,35 +160,30 @@
           
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                Organize
+    </div>
+    <div class="card">
+        <div class="card-header">
+            Organize
+        </div>
+        <div class="card-body">
+            <!-- <div class="form-group">
+                <label for="vendor">Vendor</label>
+                <select class="form-control" id="vendor">
+                    <option>Select Vendor</option>
+                </select>
+            </div> -->
+            <div class="form-group">
+                <label for="category">Category</label>
+                {{form.category}}
             </div>
-            <div class="card-body">
-                <!-- <div class="form-group">
-                    <label for="vendor">Vendor</label>
-                    <select class="form-control" id="vendor">
-                        <option>Select Vendor</option>
-                    </select>
-                </div> -->
-                <div class="form-group">
-                    <label for="category">Category</label>
-                    {{form.category}}
-                </div>
-                <div class="form-group">
-                    <label for="collection">Collection</label>
-                    <select class="form-control" id="collection">
-                        <option>Collection</option>
-                    </select>
-                </div>
-         
-                <div class="form-group">
-                    <label for="tags">Tags</label>
-                    <input type="text" class="form-control" id="tags" placeholder="Tags">
-                </div>
-                
 
+     
+            <div class="form-group">
+                <label for="tags">Tags</label>
+                <input type="text" class="form-control" id="tags" placeholder="Tags">
             </div>
+            
+
         </div>
     </div>
 
