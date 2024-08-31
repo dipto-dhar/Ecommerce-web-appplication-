@@ -2,7 +2,7 @@
 {% block body_block %}
 
 
-
+{% if page.slider %}
             <div class="intro-slider-container">
                 <div class="intro-slider owl-carousel owl-theme owl-nav-inside owl-light mb-0" data-toggle="owl" data-owl-options='{
                         "dots": true,
@@ -14,88 +14,121 @@
                             }
                         }
                     }'>
-                    <div class="intro-slide" style="background-image: url(/static/store/assets/images/demos/demo-8/slider/slide-1.jpg);">
-                        <div class="container intro-content text-left">
-                            <h3 class="intro-subtitle">Limited time only *</h3><!-- End .h3 intro-subtitle -->
-                            <h1 class="intro-title">Summer<br><strong>sale</strong></h1><!-- End .intro-title -->
-                            <h3 class="intro-subtitle">Up to 50% off</h3><!-- End .h3 intro-subtitle -->
 
-                            <a href="{% url 'category' %}" class="btn">
-                                <span>SHOP NOW</span>
+                   
+                
+                    <div class="intro-slide" style="background-image: url({{page.slide1_image.url}});">
+                        <div class="container intro-content text-right">
+                            
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6"><h1 class="intro-title">{{page.slide2_heading}}</h1><!-- End .intro-title --></div>
+                            </div>
+                            <h3 class="intro-subtitle">{{page.slide1_secondary_heading}}</h3><!-- End .h3 intro-subtitle -->
+                            {% if page.slide1_button_text == "" %}
+                            {% else %}
+                            <a href="{{page.slide1_button_link}}" class="btn">
+                                <span>{{page.slide1_button_text}}</span>
                                 <i class="icon-long-arrow-right"></i>
                             </a>
+
+                            {% endif %}
                         </div><!-- End .intro-content -->
-                        <img class="position-right" src="/static/store/assets/images/demos/demo-8/slider/img-1.png">
+                       
                     </div><!-- End .intro-slide -->
 
-                    <div class="intro-slide" style="background-image: url(/static/store/assets/images/demos/demo-8/slider/slide-2.jpg);">
+                    <div class="intro-slide" style="background-image: url({{page.slide2_image.url}});">
                         <div class="container intro-content text-right">
-                            <h3 class="intro-subtitle">PREMIUM QUALITY</h3><!-- End .h3 intro-subtitle -->
-                            <h1 class="intro-title">coats <span class="highlight">&</span><br>jackets</h1><!-- End .intro-title -->
-
-                            <a href="{% url 'category' %}" class="btn">
-                                <span>SHOP NOW</span>
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6"><h1 class="intro-title">{{page.slide2_heading}}</h1><!-- End .intro-title --></div>
+                            </div>
+                            
+                            <h3 class="intro-subtitle">{{page.slide2_secondary_heading}}</h3><!-- End .h3 intro-subtitle -->
+                            {% if page.slide2_button_text == "" %}
+                            {% else %}
+                            <a href="{{page.slide2_button_link}}" class="btn">
+                                <span>{{page.slide2_button_text}}</span>
                                 <i class="icon-long-arrow-right"></i>
                             </a>
+
+                            {% endif %}
                         </div><!-- End .intro-content -->
-                        <img class="position-left" src="/static/store/assets/images/demos/demo-8/slider/img-2.png">
+                       
                     </div><!-- End .intro-slide -->
                 </div><!-- End .intro-slider owl-carousel owl-simple -->
 
                 <span class="slider-loader"></span><!-- End .slider-loader -->
             </div><!-- End .intro-slider-container -->
 
+{% endif %}
+
+
+
+{% if page.special_offer_banner %}
             <div class="pt-2 pb-2">
                 <div class="container brands">
                     <div class="banner-group">
                         <div class="row">
                             <div class="col-sm-6 col-lg-4">
                                 <div class="banner banner-overlay">
-                                    <a href="#">
-                                        <img src="/static/store/assets/images/demos/demo-8/banners/banner-1.jpg" alt="Banner">
+                                    <a href="{{page.special_offer_button_link1}}">
+                                        <img src="{{page.special_offer_banner1_image.url}}" alt="{{page.special_offer_banner1_heading}}">
                                     </a>
 
                                     <div class="banner-content">
-                                        <h4 class="banner-subtitle"><a href="#">Final reduction</a></h4><!-- End .banner-subtitle -->
-                                        <h3 class="banner-title"><a href="#"><strong>Sandals & <br>Flip Flops</strong> <br>up to 60% off</a></h3><!-- End .banner-title -->
-                                        <a href="#" class="btn btn-outline-white banner-link">Shop Now <i class="icon-long-arrow-right"></i></a>
+                                      
+                                        <h3 class="banner-title"><a href="#"><strong>{{page.special_offer_banner1_heading}}</strong> <br>{{page.special_offer_banner1_secondary_heading}}</a></h3><!-- End .banner-title -->
+                            {% if page.slide2_button_text == "" %}
+                            {% else %}
+                            <a href="{{page.special_offer_button_link1}}" class="btn btn-outline-white banner-link">{{page.special_offer_banner1_button_text}}<i class="icon-long-arrow-right"></i></a>
+                            {% endif %}
                                     </div><!-- End .banner-content -->
                                 </div><!-- End .banner -->
                             </div><!-- End .col-lg-4 -->
-
+                            
                             <div class="col-sm-6 col-lg-4">
                                 <div class="banner banner-overlay">
-                                    <a href="#">
-                                        <img src="/static/store/assets/images/demos/demo-8/banners/banner-2.jpg" alt="Banner">
+                                    <a href="{{page.special_offer_button_link2}}">
+                                        <img src="{{page.special_offer_banner2_image.url}}" alt="{{page.special_offer_banner2_heading}}">
                                     </a>
 
                                     <div class="banner-content">
-                                        <h4 class="banner-subtitle"><a href="#">Limited time only.</a></h4><!-- End .banner-subtitle -->
-                                        <h3 class="banner-title"><a href="#"><strong>Trainers & <br>Sportwear</strong> <br>40 -70% off</a></h3><!-- End .banner-title -->
-                                        <a href="#" class="btn btn-outline-white banner-link">Shop Now <i class="icon-long-arrow-right"></i></a>
+                                      
+                                        <h3 class="banner-title"><a href="#"><strong>{{page.special_offer_banner2_heading}}</strong> <br>{{page.special_offer_banner2_secondary_heading}}</a></h3><!-- End .banner-title -->
+                            {% if page.slide2_button_text == "" %}
+                            {% else %}
+                            <a href="{{page.special_offer_button_link2}}" class="btn btn-outline-white banner-link">{{page.special_offer_banner2_button_text}}<i class="icon-long-arrow-right"></i></a>
+                            {% endif %}
                                     </div><!-- End .banner-content -->
                                 </div><!-- End .banner -->
                             </div><!-- End .col-lg-4 -->
-
-                            <div class="col-sm-6 col-lg-4 d-none d-lg-block">
+                            <div class="col-sm-6 col-lg-4">
                                 <div class="banner banner-overlay">
-                                    <a href="#">
-                                        <img src="/static/store/assets/images/demos/demo-8/banners/banner-3.jpg" alt="Banner">
+                                    <a href="{{page.special_offer_button_link3}}">
+                                        <img src="{{page.special_offer_banner3_image.url}}" alt="{{page.special_offer_banner3_heading}}">
                                     </a>
 
                                     <div class="banner-content">
-                                        <h4 class="banner-subtitle"><a href="#">This week we love...</a></h4><!-- End .banner-subtitle -->
-                                        <h3 class="banner-title"><a href="#"><strong>Women's <br>Accessories </strong> <br>from $6.99</a></h3><!-- End .banner-title -->
-                                        <a href="#" class="btn btn-outline-white banner-link">Shop Now <i class="icon-long-arrow-right"></i></a>
+                                      
+                                        <h3 class="banner-title"><a href="#"><strong>{{page.special_offer_banner3_heading}}</strong> <br>{{page.special_offer_banner3_secondary_heading}}</a></h3><!-- End .banner-title -->
+                            {% if page.slide3_button_text == "" %}
+                            {% else %}
+                            <a href="{{page.special_offer_button_link3}}" class="btn btn-outline-white banner-link">{{page.special_offer_banner3_button_text}}<i class="icon-long-arrow-right"></i></a>
+                            {% endif %}
                                     </div><!-- End .banner-content -->
                                 </div><!-- End .banner -->
                             </div><!-- End .col-lg-4 -->
+
+                         
+
+                          
                         </div><!-- End .row -->
                     </div><!-- End .banner-group -->
 
                 </div><!-- End .container -->
             </div><!-- End .bg-lighter -->
-
+            {% endif %}
             <div class="mb-3"></div><!-- End .mb-6 -->
 
             <div class="container">
@@ -409,52 +442,62 @@
 
             <div class="mb-3 mb-xl-2"></div><!-- End .mb-3 -->
 
+    {% if page.tranding_section %}
+
             <div class="trending">
-                <a href="#">
-                    <img src="/static/store/assets/images/demos/demo-8/banners/banner-4.jpg" alt="Banner">
+                <a href="{{page.tranding_button_link}}">
+                    <img src="{{page.tranding_banner.url}}" alt="{{page.tranding_heading}}">
                 </a>
                 <div class="banner banner-big d-md-block">
                     <div class="banner-content text-center">
-                        <h4 class="banner-subtitle text-white">Trending</h4><!-- End .banner-subtitle -->
-                        <h3 class="banner-title text-white">New League</h3><!-- End .banner-title -->
-                        <p class="d-none d-lg-block text-white">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.<br>Donec odio. Quisque volutpat mattis eros. </p> 
-
-                        <a href="{% url 'category' %}" class="btn btn-primary-white"><span>Shop Now</span><i class="icon-long-arrow-right"></i></a>
+                      
+                        <h3 class="banner-title text-white">{{page.tranding_heading}}</h3><!-- End .banner-title -->
+                        <p class="d-none d-lg-block text-white">{{page.tranding_secondary_heading}}</p> 
+                        {% if page.slide2_button_text == "" %}
+                            {% else %}
+                        <a href="{{page.tranding_button_link}}" class="btn btn-primary-white"><span>{{page.tranding_button_text}}</span><i class="icon-long-arrow-right"></i></a>
+                        {% endif %}
                     </div><!-- End .banner-content -->
                 </div><!-- End .banner -->
             </div>
+
+    {% endif %}
+
+    {% if page.new_arrival %}
+
             <div class="container new-arrivals">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="banner banner-overlay">
                             <a href="#">
-                                <img src="/static/store/assets/images/demos/demo-8/banners/banner-5.jpg" alt="Banner">
+                                <img src="{{page.new_arrival1_image.url}}" alt="{{page.new_arrival1_heading}}">
                             </a>
 
                             <div class="banner-content">
-                                <h4 class="banner-subtitle d-none d-lg-block"><a href="#">New Arrivals</a></h4><!-- End .banner-subtitle -->
-                                <h3 class="banner-title"><a href="#">Women’s</a></h3><!-- End .banner-title -->
-                                <a href="#" class="btn btn-outline-white banner-link">Shop Now <i class="icon-long-arrow-right"></i></a>
+                                <h4 class="banner-subtitle d-none d-lg-block"><a href="#">{{page.new_arrival1_secondary_heading}}</a></h4><!-- End .banner-subtitle -->
+                                <h3 class="banner-title"><a href="#">{{page.new_arrival1_heading}}</a></h3><!-- End .banner-title -->
+                                <a href="{{page.new_arrival1_button_link}}" class="btn btn-outline-white banner-link">{{page.new_arrival2_button_text}}<i class="icon-long-arrow-right"></i></a>
                             </div><!-- End .banner-content -->
                         </div><!-- End .banner -->
                     </div><!-- End .col-md-6 -->
-
                     <div class="col-md-6">
                         <div class="banner banner-overlay">
                             <a href="#">
-                                <img src="/static/store/assets/images/demos/demo-8/banners/banner-6.jpg" alt="Banner">
+                                <img src="{{page.new_arrival2_image.url}}" alt="{{page.new_arrival2_heading}}">
                             </a>
 
                             <div class="banner-content">
-                                <h4 class="banner-subtitle d-none d-lg-block"><a href="#">New Arrivals</a></h4><!-- End .banner-subtitle -->
-                                <h3 class="banner-title "><a href="#">Men’s</a></h3><!-- End .banner-title -->
-                                <a href="#" class="btn btn-outline-white banner-link">Shop Now <i class="icon-long-arrow-right"></i></a>
+                                <h4 class="banner-subtitle d-none d-lg-block"><a href="#">{{page.new_arrival2_secondary_heading}}</a></h4><!-- End .banner-subtitle -->
+                                <h3 class="banner-title"><a href="#">{{page.new_arrival2_heading}}</a></h3><!-- End .banner-title -->
+                                <a href="{{page.new_arrival2_button_link}}" class="btn btn-outline-white banner-link">{{page.new_arrival2_button_text}}<i class="icon-long-arrow-right"></i></a>
                             </div><!-- End .banner-content -->
                         </div><!-- End .banner -->
                     </div><!-- End .col-md-6 -->
+
+                   
                 </div><!-- End .row -->
             </div><!-- End .container -->
-
+            {% endif %}
             <div class="mb-5"></div><!-- End .mb-5 -->
 
             <div class="container recent-arrivals">
@@ -974,17 +1017,17 @@
             </div><!-- End .container -->
 
             <div class="mb-7"></div><!-- End .mb-5 -->
-            
+            {% if page.new_arrival %}
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-4 col-sm-6">
                         <div class="icon-box icon-box-card text-center">
                             <span class="icon-box-icon">
-                                <i class="icon-rocket"></i>
+                                <img src="{{page.trust_box1_icon.url}}" alt="{{page.trust_box1_heading}}">
                             </span>
                             <div class="icon-box-content">
-                                <h3 class="icon-box-title">Payment & Delivery</h3><!-- End .icon-box-title -->
-                                <p>Free shipping for orders over $50</p>
+                                <h3 class="icon-box-title">{{page.trust_box1_heading}}</h3><!-- End .icon-box-title -->
+                                <p>{{page.trust_box1_secondary_text}}</p>
                             </div><!-- End .icon-box-content -->
                         </div><!-- End .icon-box -->
                     </div><!-- End .col-lg-4 col-sm-6 -->
@@ -992,11 +1035,11 @@
                     <div class="col-lg-4 col-sm-6">
                         <div class="icon-box icon-box-card text-center">
                             <span class="icon-box-icon">
-                                <i class="icon-rotate-left"></i>
+                                <img src="{{page.trust_box2_icon.url}}" alt="{{page.trust_box2_heading}}">
                             </span>
                             <div class="icon-box-content">
-                                <h3 class="icon-box-title">Return & Refund</h3><!-- End .icon-box-title -->
-                                <p>Free 100% money back guarantee</p>
+                                <h3 class="icon-box-title">{{page.trust_box2_heading}}</h3><!-- End .icon-box-title -->
+                                <p>{{page.trust_box2_secondary_text}}</p>
                             </div><!-- End .icon-box-content -->
                         </div><!-- End .icon-box -->
                     </div><!-- End .col-lg-4 col-sm-6 -->
@@ -1004,104 +1047,26 @@
                     <div class="col-lg-4 col-sm-6">
                         <div class="icon-box icon-box-card text-center">
                             <span class="icon-box-icon">
-                                <i class="icon-life-ring"></i>
+                                <img src="{{page.trust_box3_icon.url}}" alt="{{page.trust_box3_heading}}">
                             </span>
                             <div class="icon-box-content">
-                                <h3 class="icon-box-title">Quality Support</h3><!-- End .icon-box-title -->
-                                <p>Alway online feedback 24/7</p>
+                                <h3 class="icon-box-title">{{page.trust_box3_heading}}</h3><!-- End .icon-box-title -->
+                                <p>{{page.trust_box3_secondary_text}}</p>
                             </div><!-- End .icon-box-content -->
                         </div><!-- End .icon-box -->
                     </div><!-- End .col-lg-4 col-sm-6 -->
                 </div><!-- End .row -->
             </div><!-- End .container -->
+            {% endif %}
                 
             <div class="container instagram">
                 <div class="heading text-center">
                     <h2 class="title title-lg">Follow Us On Instagram</h2><!-- End .title -->
                     <p class="title-desc">Wanna share your style with us?</p><!-- End .title-desc -->
+                    <br>
+                    <a href="{% url 'category' %}" class="btn btn-outline-dark-3 btn-more m-auto"><span>View More</span><i class="icon-long-arrow-right"></i></a>
                 </div><!-- End .heading -->
+              
             </div><!-- End .container -->
 
-            <div class="owl-carousel owl-simple" data-toggle="owl" 
-                data-owl-options='{
-                    "nav": false, 
-                    "dots": false,
-                    "items": 6,
-                    "margin": 0,
-                    "loop": false,
-                    "responsive": {
-                        "0": {
-                            "items":1
-                        },
-                        "360": {
-                            "items":2
-                        },
-                        "600": {
-                            "items":3
-                        },
-                        "992": {
-                            "items":4
-                        },
-                        "1200": {
-                            "items":5
-                        },
-                        "1500": {
-                            "items":6
-                        }
-                    }
-                }'>
-                <div class="instagram-feed">
-                    <img src="/static/store/assets/images/demos/demo-8/instagram/1.jpg" alt="img">
-
-                    <div class="instagram-feed-content">
-                        <a href="#"><i class="icon-heart-o"></i>466</a>
-                        <a href="#"><i class="icon-comments"></i>65</a>
-                    </div><!-- End .instagram-feed-content -->
-                </div><!-- End .instagram-feed -->
-
-                <div class="instagram-feed">
-                    <img src="/static/store/assets/images/demos/demo-8/instagram/2.jpg" alt="img">
-
-                    <div class="instagram-feed-content">
-                        <a href="#"><i class="icon-heart-o"></i>39</a>
-                        <a href="#"><i class="icon-comments"></i>78</a>
-                    </div><!-- End .instagram-feed-content -->
-                </div><!-- End .instagram-feed -->
-
-                <div class="instagram-feed">
-                    <img src="/static/store/assets/images/demos/demo-8/instagram/3.jpg" alt="img">
-
-                    <div class="instagram-feed-content">
-                        <a href="#"><i class="icon-heart-o"></i>691</a>
-                        <a href="#"><i class="icon-comments"></i>87</a>
-                    </div><!-- End .instagram-feed-content -->
-                </div><!-- End .instagram-feed -->
-
-                <div class="instagram-feed">
-                    <img src="/static/store/assets/images/demos/demo-8/instagram/4.jpg" alt="img">
-
-                    <div class="instagram-feed-content">
-                        <a href="#"><i class="icon-heart-o"></i>508</a>
-                        <a href="#"><i class="icon-comments"></i>124</a>
-                    </div><!-- End .instagram-feed-content -->
-                </div><!-- End .instagram-feed -->
-
-                <div class="instagram-feed">
-                    <img src="/static/store/assets/images/demos/demo-8/instagram/5.jpg" alt="img">
-
-                    <div class="instagram-feed-content">
-                        <a href="#"><i class="icon-heart-o"></i>433</a>
-                        <a href="#"><i class="icon-comments"></i>27</a>
-                    </div><!-- End .instagram-feed-content -->
-                </div><!-- End .instagram-feed -->
-
-                <div class="instagram-feed">
-                    <img src="/static/store/assets/images/demos/demo-8/instagram/6.jpg" alt="img">
-
-                    <div class="instagram-feed-content">
-                        <a href="#"><i class="icon-heart-o"></i>122</a>
-                        <a href="#"><i class="icon-comments"></i>55</a>
-                    </div><!-- End .instagram-feed-content -->
-                </div><!-- End .instagram-feed -->
-            </div><!-- End .owl-carousel -->
             {% endblock %} 

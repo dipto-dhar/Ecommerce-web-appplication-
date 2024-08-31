@@ -46,8 +46,13 @@
                     
                 </div>
                 <div>
+<<<<<<< HEAD
                 <a  href="{% url 'products' %}" class="btn btn-danger" onclick="confirm('Are you sure to delete this Product')"><i class="fa fa-plus"></i> Discard</a>
                 <button type="submit" class="btn btn-primary">Publish product</button>
+=======
+                <a  href="{% url 'products' %}" class="btn btn-danger" onclick="confirm('Are you sure to leave this page')"><i class="fas fa-times"></i>  Discard</a>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-upload" aria-hidden="true"></i> &nbsp; Publish</button>
+>>>>>>> 7eb38576aba76a264a5e39a857c64aec54015c2f
                 </div>
             </div>
 
@@ -115,7 +120,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <!-- <div class="card">
             <div class="card-header">
                 Variants
             </div>
@@ -171,10 +176,10 @@
                         <p>Last time restocked: 24th June, 2023</p>
                         <p>Total stock over lifetime: 2430</p>
                     </div>
-                    <!-- Other tabs content can be added here -->
+             
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <div class="col-md-4">
@@ -218,35 +223,30 @@
           
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                Organize
+    </div>
+    <div class="card">
+        <div class="card-header">
+            Organize
+        </div>
+        <div class="card-body">
+            <!-- <div class="form-group">
+                <label for="vendor">Vendor</label>
+                <select class="form-control" id="vendor">
+                    <option>Select Vendor</option>
+                </select>
+            </div> -->
+            <div class="form-group">
+                <label for="category">Category</label>
+                {{form.category}}
             </div>
-            <div class="card-body">
-                <!-- <div class="form-group">
-                    <label for="vendor">Vendor</label>
-                    <select class="form-control" id="vendor">
-                        <option>Select Vendor</option>
-                    </select>
-                </div> -->
-                <div class="form-group">
-                    <label for="category">Category</label>
-                    {{form.category}}
-                </div>
-                <div class="form-group">
-                    <label for="collection">Collection</label>
-                    <select class="form-control" id="collection">
-                        <option>Collection</option>
-                    </select>
-                </div>
-         
-                <div class="form-group">
-                    <label for="tags">Tags</label>
-                    <input type="text" class="form-control" id="tags" placeholder="Tags">
-                </div>
-                
 
+     
+            <div class="form-group">
+                <label for="tags">Tags</label>
+                <input type="text" class="form-control" id="tags" placeholder="Tags">
             </div>
+            
+
         </div>
     </div>
 

@@ -15,6 +15,13 @@ class ShippingInfo(models.Model):
 
    def __str__(self):
       return self.user.first_name +' '+ self.user.last_name
+
+
+
+# class Shipping_cost(models.Model):
+#    country= models.CharField(max_length=50)
+#    state= models.CharField(max_length=50)
+#    rate= models.DecimalField(decimal_places=2, max_digits=10)
    
 def add_shippinginfo(sender, instance, created, **kwargs):
    if created:
@@ -74,3 +81,15 @@ class OrderItem(models.Model):
 
     def __str__(self):
        return  self.product.name + " X " + str(self.quantity)
+
+
+
+class Contacts(models.Model):
+   
+    name= models.CharField(max_length=50)
+    email= models.EmailField(max_length=200)
+    phone= models.CharField(max_length=20,null=True)
+    subject=models.CharField( max_length=500)
+    massage=models.CharField(max_length=1500)
+    def __str__(self):
+        return self.name
