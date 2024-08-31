@@ -11,9 +11,9 @@ from django.core.paginator import Paginator
 from .restriction import authenticated_user
 import requests
 from django.http import JsonResponse
-
-
 def dashboard(request):
+    
+
     if request.user.is_authenticated:
         return render(request,'admin_p/dashboard.html')
     else:
@@ -279,3 +279,45 @@ def update_privacypage(request):
 
 
 
+def shipping(request):
+    headers = {
+        'X-CSCAPI-KEY': 'd0FKT21PcEpLclVLakE4ZGRNczlFNnNTdVk1MUcxWTdIMFpGajZFcQ=='  # Your API Key
+    }
+    
+    country_url = "https://api.countrystatecity.in/v1/countries"
+    state_url = "https://api.countrystatecity.in/v1/states"
+    
+
+    # Fetch country data
+    country_response = requests.get(country_url, headers=headers)
+    countries = country_response.json()
+
+    if request.method == 'POST' :
+        action = request.POST.get('action')
+        
+        if action == 'get_states':
+            country_id = request.POST.get('country_id')
+            
+            if country_id:
+
+                state_response = requests.get(state_url, headers=headers)
+                state_data = state_response.json()
+            
+                states = [state for state in state_data if state['country_code'] == country_id]
+                
+                return JsonResponse({'states': states})
+
+        elif action == 'get_cities':
+
+            state_code = request.POST.get('state_code')
+            country_id = request.POST.get('country_id')
+            
+            if state_code:
+                city_url = f"https://api.countrystatecity.in/v1/countries/{country_id}/states/{state_code}/cities"
+                city_response = requests.get(city_url, headers=headers)
+                cities_data = city_response.json()
+                print(cities_data)
+                cities = [cities for cities in cities_data]
+
+                return JsonResponse({'cities': cities})
+    return render(request, 'admin_p/shipping.html', {'countries': countries})

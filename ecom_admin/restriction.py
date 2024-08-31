@@ -9,7 +9,7 @@ def authenticated_user(allowed_roles=[]):
             print(allowed_roles[0])
             print(request.user.groups)
             if request.user.is_authenticated:
-                if request.user.groups.name in allowed_roles:
+                if request.user.groups.name in allowed_roles or request.user.is_superuser:
                     return func(request,*args,**kwargs)
                 else:
                     return HttpResponse("you are not authorized")

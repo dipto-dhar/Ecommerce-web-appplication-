@@ -22,6 +22,7 @@ urlpatterns = [
     path('add-category/', views.add_category,name='add-category'),
     path('edit-category/<int:pk>', views.edit_category,name='edit-category'),
     path('delete-category/<int:pk>', views.delete_category,name='delete-category'),
+    path('shipping/', views.shipping,name='shipping'),
     path('pages/home', views.update_homepage,name='update-home'),
     path('pages/about', views.update_aboutpage,name='update-about'),
     path('pages/contact', views.update_contactpage,name='update-contact'),
