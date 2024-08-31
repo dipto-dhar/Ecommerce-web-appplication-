@@ -39,9 +39,15 @@
         body > div.page-wrapper > main > div.page-content > div > div > div > div{
             margin-top: -60px!important;
         }
+        .no-order{
+            width: 100%;
+            height: 200px!important;
+            text-align: center;
+            vertical-align: middle;
+        }
     </style>
-</head>
 
+ {% if orders %}
 <table>
     <thead>
         <tr>
@@ -54,6 +60,7 @@
         </tr>
     </thead>
     <tbody> 
+       
         {% for order in orders %}
         <tr>
            
@@ -78,9 +85,14 @@
         
         </tr>
         {% endfor %}
+
         
     </tbody>
 </table>
+{% else %}
 
+<div class="no-order">No orders to show</div>
+
+{% endif %}
 
 {% endblock %}
