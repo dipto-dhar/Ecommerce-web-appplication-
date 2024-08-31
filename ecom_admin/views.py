@@ -49,7 +49,7 @@ def add_user(request):
             return redirect('users')
     return render(request,'admin_p/add-user.html',{'form':form})
 
-<<<<<<< HEAD
+
 def edit_user(request,pk):
     user=User.objects.get(id=pk)
     form=edit_user_form(instance=user)
@@ -66,9 +66,8 @@ def delete_user(request,pk):
     user.delete()
     return redirect('users')
 
-=======
+
 @authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
->>>>>>> 7eb38576aba76a264a5e39a857c64aec54015c2f
 def categories(request):
     categories=Category.objects.all()
     return render(request,'admin_p/categories.html',{'categories':categories})
@@ -167,7 +166,7 @@ def orders(request):
 def single_order(request, order_id):
     order= Order.objects.get(order_id=order_id)
     order_item= OrderItem.objects.filter(order=order)
-<<<<<<< HEAD
+
     order_status=OrderStatus.objects.get(order=order)
     
     form= update_order_status_form(instance=order_status)
@@ -180,9 +179,8 @@ def single_order(request, order_id):
 
     return render(request,'admin_p/single-order.html',{'order':order, 'order_items':order_item, 'form':form})
 
-=======
-    return render(request,'admin_p/single-order.html',{'order':order, 'order_items':order_item})
->>>>>>> 7eb38576aba76a264a5e39a857c64aec54015c2f
+    
+
 
 @authenticated_user(allowed_roles=['Admin','Super Admin'])
 def delete_order(request, order_id):
@@ -190,7 +188,6 @@ def delete_order(request, order_id):
     order.delete()
     return redirect('orders')
 
-<<<<<<< HEAD
 def update_order_status(request):
     form= update_order_status_form()
     if request.method=='POST':
@@ -201,7 +198,7 @@ def update_order_status(request):
         form= update_order_status_form()
     
     return render(request, 'status.html',{'form':form})
-=======
+
 def update_homepage(request):
     instance=Homepage.objects.get(id=1)
     form=HomepageForm(instance=instance)
@@ -279,6 +276,6 @@ def update_privacypage(request):
     
 
     return render(request,'admin_p/pages/privacy-policy.html',{'form':form})
->>>>>>> 7eb38576aba76a264a5e39a857c64aec54015c2f
+
 
 

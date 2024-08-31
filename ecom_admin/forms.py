@@ -81,14 +81,12 @@ class create_product(forms.ModelForm):
         }
 
 
-<<<<<<< HEAD
 class update_order_status_form(forms.ModelForm):
     status = forms.ModelChoiceField(label='',queryset=OrderStatus.objects.all(),required=True, widget=forms.Select(attrs={'class':'form-control',}))
 
     class Meta:
         model= Order
         fields=('status',)
-=======
 from django import forms
 from .models import Homepage
 
@@ -223,4 +221,3 @@ class PrivacyPolicyPageForm(forms.ModelForm):
             'page_banner': forms.FileInput(attrs={'class':'file-upload-input','onchange':"readURL(this);"}),
             'page_content': TinyMCE(attrs={'class': 'form-control', 'placeholder': 'Enter Details'}),
         }
->>>>>>> 7eb38576aba76a264a5e39a857c64aec54015c2f
