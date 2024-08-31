@@ -19,6 +19,9 @@
         display: flex;
         justify-content: space-between;
         border-bottom: 1px solid #f0f1f39f;
+        align-items: center;
+        margin:0!important;
+        padding: 8px 0;
     }
     .form-group label {
         font-weight: bold;
@@ -209,6 +212,16 @@
                             {% else%}
                             {% endif %}</p>
                     </div>
+
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="deliveryStatus">Change Delivery Status:</label>
+                            {{form}}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary"> Update</button>
+                    </form>
                 </div>
             </div>
 

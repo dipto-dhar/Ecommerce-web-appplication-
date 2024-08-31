@@ -41,6 +41,22 @@ def add_user(request):
             return redirect('users')
     return render(request,'admin_p/add-user.html',{'form':form})
 
+def edit_user(request,pk):
+    user=User.objects.get(id=pk)
+    form=edit_user_form(instance=user)
+    if request.method=='POST':
+        form=edit_user_form(request.POST,request.FILES,instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'User has been successfully added')
+            return redirect('users')
+    return render(request,'admin_p/edit-user.html',{'form':form,'user':user})
+
+def delete_user(request,pk):
+    user=User.objects.get(id=pk)
+    user.delete()
+    return redirect('users')
+
 def categories(request):
     categories=Category.objects.all()
     return render(request,'admin_p/categories.html',{'categories':categories})
@@ -117,12 +133,34 @@ def orders(request):
 def single_order(request, order_id):
     order= Order.objects.get(order_id=order_id)
     order_item= OrderItem.objects.filter(order=order)
+    order_status=OrderStatus.objects.get(order=order)
+    
+    form= update_order_status_form(instance=order_status)
+    if request.method=='POST':
+        form=update_order_status_form(request.POST ,instance=order)
+        if form.is_valid:
+            form.save()
+    else:
+        form= update_order_status_form(instance=order_status)
 
-    return render(request,'admin_p/single-order.html',{'order':order, 'order_items':order_item})
+    return render(request,'admin_p/single-order.html',{'order':order, 'order_items':order_item, 'form':form})
+
 
 def delete_order(request, order_id):
     order= Order.objects.get(order_id=order_id)
     
     order.delete()
     return redirect('orders')
+
+def update_order_status(request):
+    form= update_order_status_form()
+    if request.method=='POST':
+        form=update_order_status_form(request.POST)
+        if form.is_valid:
+            form.save()
+    else:
+        form= update_order_status_form()
+    
+    return render(request, 'status.html',{'form':form})
+
 
