@@ -397,9 +397,9 @@ background-color: transparent;
 
                 <!-- LOGO -->
                 <div class="topbar-left">
-                    <a href="index.html" class="logo">
-                        <img src="{% static "admin_p/assets/images/logo.png" %}" alt="" height="20" class="logo-large">
-                        <img src="assets/images/logo-sm.png" alt="" height="22" class="logo-sm">
+                    <a href="{% url 'dashboard' %}" class="logo">
+                        <img src="{{ store.logo.url }}" alt="{{ store.site_name}} - {{ store.site_tagline }}" height="50" class="logo-large">
+                        <img src="{{ store.favicon.url }}" alt="{{ store.site_name}} - {{ store.site_tagline }}" height="22" class="logo-sm">
                     </a>
                 </div>
 
@@ -480,7 +480,7 @@ background-color: transparent;
                         <li class="list-inline-item dropdown notification-list">
                             <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button"
                             aria-haspopup="false" aria-expanded="false">
-                                <img src="{{user.image.url}}" %}" alt="{{user.name}}" class="rounded-circle">
+                                <img src="{{user.image.url}}" alt="{{user.name}}" class="rounded-circle">
                                 <span class="d-none d-md-inline-block ml-1">{{user.name}}<i class="mdi mdi-chevron-down"></i> </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated profile-dropdown">
@@ -519,12 +519,12 @@ background-color: transparent;
                             <li class="menu-title">Main</li>
                             <li>
                                 <a href="{% url 'dashboard' %}" class="waves-effect">
-                                    <i class="dripicons-meter"></i> <span> Dashboard </span>
+                                    <i class="fa-solid fa-house"></i> <span> Dashboard </span>
                                 </a>
                             </li>
                             <li>
                                 <a href="{% url 'orders' %}" class="waves-effect">
-                                    <i class="dripicons-meter"></i><span class="badge badge-danger badge-pill float-right">2</span> <span> Orders </span>
+                                    <i class="fa-solid fa-cart-plus"></i><span class="badge badge-success badge-pill float-right">{{new_order}}</span> <span> Orders </span>
                                 </a>
                             </li>
                        
@@ -532,7 +532,7 @@ background-color: transparent;
         
 
                             <li>
-                                <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Products <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </a>
+                                <a href="javascript:void(0);" class="waves-effect"><i class="fa-solid fa-box"></i> <span> Products <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </a>
                                 <ul class="submenu">
                                     <li><a href="{% url 'products' %}">All Products</a></li>
                                     <li><a href="{% url 'add-product' %}">Add New</a></li>
@@ -540,7 +540,7 @@ background-color: transparent;
                                 </ul>
                             </li>
                             <li>
-                                <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Users <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </a>
+                                <a href="javascript:void(0);" class="waves-effect"><i class="fa-solid fa-user"></i></i> <span> Users <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </a>
                                 <ul class="submenu">
                                     <li><a href="{% url 'users' %}">All Users</a></li>
                                     <li><a href="{% url 'add-user' %}">Add New</a></li>
@@ -549,7 +549,7 @@ background-color: transparent;
    
 
                             <li>
-                                <a href="javascript:void(0);" class="waves-effect"><i class="dripicons-graph-bar"></i><span> Pages <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                                <a href="javascript:void(0);" class="waves-effect"><i class="fa-solid fa-file"></i></i><span> Pages <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                                 <ul class="submenu">
                                     <li><a href="{% url 'update-home' %}">Homepage</a></li>
                                     <li><a href="{% url 'update-about' %}">About page</a></li>
@@ -560,8 +560,13 @@ background-color: transparent;
                                 </ul>
                             </li>
                             <li>
-                                <a href="{% url 'shipping' %}" class="waves-effect">
-                                    <i class="dripicons-meter"></i><span class="badge badge-danger badge-pill float-right">2</span> <span> Orders </span>
+                                <a href="{% url 'shipping-zones' %}" class="waves-effect">
+                                    <i class="fa-solid fa-truck-fast"></i> <span> Shipping </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'settings' %}" class="waves-effect">
+                                    <i class="fa-solid fa-gear"></i> <span> Settings </span>
                                 </a>
                             </li>
 
@@ -708,7 +713,7 @@ $(document).on('change', '#country', function(e) {
     
     $.ajax({
         type: 'POST',
-        url: '{% url "shipping" %}',  // URL of the view
+        url: '{% url "add_shipping_zone" %}',  // URL of the view
         data: {
             country_id: country_id,
             csrfmiddlewaretoken: '{{ csrf_token }}',
@@ -742,7 +747,7 @@ $(document).on('change', '#state', function(e) {
     
     $.ajax({
         type: 'POST',
-        url: '{% url "shipping" %}',  // URL of the view
+        url: '{% url "add_shipping_zone" %}',  // URL of the view
         data: {
             state_code: state_code,
             country_id: country_id,
@@ -756,7 +761,7 @@ $(document).on('change', '#state', function(e) {
             
             // Populate the city dropdown with the new options
             $.each(response.cities, function(index, city) {
-                $('#city').append('<option value="'+city.id+'">'+city.name+'</option>');
+                $('#city').append('<option value="'+city.name+'">'+city.name+'</option>');
             });
         },
         error: function(xhr, errmsg, err) {
@@ -766,23 +771,17 @@ $(document).on('change', '#state', function(e) {
 });
 </script>
         <!-- jQuery  -->
-        <script src="{% static "admin_p/assets/js/jquery.min.js" %}"></script>
+
         <script src="{% static "admin_p/assets/js/modernizr.min.js" %}"></script>
         <script src="{% static "admin_p/assets/js/metisMenu.min.js" %}"></script>
         <script src="{% static "admin_p/assets/js/jquery.slimscroll.js" %}"></script>
         <script src="{% static "admin_p/assets/js/waves.js" %}"></script>
-
-        <script src="../plugins/peity-chart/jquery.peity.min.js"></script>
-
-        <!--Morris Chart-->
-        <script src="../plugins/morris/morris.min.js"></script>
-        <script src="../plugins/raphael/raphael-min.js"></script>
-
-        <script src="{% static "admin_p/assets/pages/dashboard.js" %}"></script>
-        <script src="{% static "admin_p/assets/dropzone/dropzone.js" %}"></script>
-
+       
         <!-- App js -->
         <script src="{% static "admin_p/assets/js/app.js" %}"></script>
-
+<!-- Bootstrap and jQuery Scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </body>
 </html>

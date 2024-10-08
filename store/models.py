@@ -8,6 +8,7 @@ class ShippingInfo(models.Model):
    name=models.CharField(max_length=100,)
    phone=models.CharField(max_length=20)
    email=models.EmailField(max_length=100)
+   country=models.CharField(max_length=100, null=True, blank=True)
    state=models.CharField(max_length=100, null=True, blank=True)
    city=models.CharField(max_length=100, null=True, blank=True)
    zip_code=models.CharField(max_length=100, null=True)

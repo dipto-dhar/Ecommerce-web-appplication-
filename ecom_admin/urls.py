@@ -22,11 +22,16 @@ urlpatterns = [
     path('add-category/', views.add_category,name='add-category'),
     path('edit-category/<int:pk>', views.edit_category,name='edit-category'),
     path('delete-category/<int:pk>', views.delete_category,name='delete-category'),
-    path('shipping/', views.shipping,name='shipping'),
+    path('shipping-zones/', views.shipping_zones, name='shipping-zones'),
+    path('delete-shipping-zone/<int:zone_id>/', views.delete_shipping_zone, name='delete-shipping-zone'),
+    # path('edit-shipping-zone/<int:id>/', views.edit_shipping_zone, name='edit-shipping-zone'),
+    path('add_shipping_zone/', views.add_shipping_zone,name='add_shipping_zone'),
+    path('add-shipping-zone/', views.shipping_zone_submit,name='add-shipping-zone'),
     path('pages/home', views.update_homepage,name='update-home'),
     path('pages/about', views.update_aboutpage,name='update-about'),
     path('pages/contact', views.update_contactpage,name='update-contact'),
     path('pages/terms-&-condition', views.update_termspage,name='update-terms'),
     path('pages/privacy-policy', views.update_privacypage,name='update-privacy'),
+    path('settings/', views.settings,name='settings'),
 
 ]

@@ -8,13 +8,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Ecom Project</title>
-    <meta name="keywords" content="HTML5 Template">
-    <meta name="description" content=". - Bootstrap eCommerce Template">
-    <meta name="author" content="p-themes">
+    <title>{{ store.site_name}} - {{ store.site_tagline }}</title>
+    <meta name="keywords" content="{{ store.site_keywords }}">
+    <meta name="description" content="{{ meta_description }}">
+    <meta name="author" content="Dipto Dhar">
     <!-- Favicon -->
-    <!-- <link rel="apple-touch-icon" sizes="180x180" href="{% static "store/assets/images/icons/apple-touch-icon.png" %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static "store/assets/images/icons/favicon-32x32.png" %}">
+ <link rel="shortcut icon" href="{{ store.favicon.url }}" type="image/x-icon">
+     <!-- <link rel="icon" type="image/png" sizes="32x32" href="{% static "store/assets/images/icons/favicon-32x32.png" %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static "store/assets/images/icons/favicon-16x16.png" %}">
     <link rel="manifest" href="{% static "store/assets/images/icons/site.html">
     <link rel="mask-icon" href="{% static "store/assets/images/icons/safari-pinned-tab.svg" color="#666666">
@@ -107,7 +107,13 @@
     
 }
 
-
+.logo img {
+    display: block;
+    max-width: 100%;
+    min-height: 40px;
+    max-height: 70px;
+    padding: 10px 0;
+}
 
     </style>
     <div class="page-wrapper">
@@ -121,7 +127,7 @@
                         </button>
                         
                         <a href="{% url 'home' %}" class="logo">
-                            <img src="{% static "store/assets/images/demos/demo-8/logo.png" %}" alt=". Logo" width="82" height="20">
+                            <img src="{{ store.logo.url }}" alt="{{ store.site_name}}" >
                         </a>
                     </div>
                     <div class="header-center">
@@ -217,7 +223,7 @@
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="icon-shopping-cart"></i>
                                 <span class="cart-count" id="cart-count">{{cart|length}}</span>
-                                <span class="cart-txt"><span id="total-price">{{total_price}} </span> BDT</span>
+                                <span class="cart-txt"><span id="total-price">{{total_price}} </span> {{ store.store_currency}}</span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">
@@ -239,9 +245,9 @@
 											{% endif %}	{% endfor %}
 
                                             {% if product.on_sale %}		
-											{{product.sale_price}} BDT
+											{{product.sale_price}} {{ store.store_currency}}
 											{% else %}
-											{{product.regular_price}} BDT
+											{{product.regular_price}} {{ store.store_currency}}
 											{% endif %}
                                             </span>
                                         </div><!-- End .product-cart-details -->
@@ -261,7 +267,7 @@
                                 <div class="dropdown-cart-total">
                                     <span>Total &nbsp;</span>
 
-                                    BDT&nbsp;<span id="dropdown-total">{{total_price}}</span>
+                                   <span id="dropdown-total">{{total_price}} {{ store.store_currency}}</span>
                                 </div><!-- End .dropdown-cart-total -->
 
                                 <div class="dropdown-cart-action">
@@ -867,14 +873,142 @@ $(document).on('click','#remove-item',function(e){
 
 
 
-                })
+                });
+
+
+
+
 
 
 
  </script>
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).on('change', '#country', function(e) {
+    e.preventDefault();
+    
+    var country_id = $(this).val();  // Get the selected country ID
+    
+    $.ajax({
+        type: 'POST',
+        url: '{% url "shipping_calc" %}',  // URL of the view
+        data: {
+            country_id: country_id,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'get_states',  // Specify the action for states
+        },
+        success: function(response) {
+            // Clear the existing state options
+            $('#state').empty();
+            $('#state').append('<option value="">Select State</option>');
+            
+            // Populate the state dropdown with the new options
+            $.each(response.states, function(index, state) {
+                $('#state').append('<option value="'+state.iso2+'">'+state.name+'</option>');
+            });
 
+            // Clear the city dropdown as well since state has changed
+            $('#city').empty();
+            $('#city').append('<option value="">Select City</option>');
+        },
+        error: function(xhr, errmsg, err) {
+            console.log('Error:', errmsg);
+        }
+    });
+});
+
+$(document).on('change', '#state', function(e) {
+    e.preventDefault();
+    
+    var state_code = $(this).val();
+    var country_id = $('#country').val();  // Get the selected state ID
+    console.log(state_code)
+    console.log(country_id)
+    
+    $.ajax({
+        type: 'POST',
+        url: '{% url "shipping_calc" %}',  // URL of the view
+        data: {
+            state_code: state_code,
+            country_id: country_id,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'get_cities',  // Specify the action for cities
+        },
+        success: function(response) {
+            // Clear the existing city options
+            $('#city').empty();
+            $('#city').append('<option value="">Select City</option>');
+            
+            // Populate the city dropdown with the new options
+            $.each(response.cities, function(index, city) {
+                $('#city').append('<option value="'+city.name+'">'+city.name+'</option>');
+            });
+        },
+        error: function(xhr, errmsg, err) {
+            console.log('Error:', errmsg);
+        }
+    });
+});
+
+
+// Function to calculate shipping
+function calculateShipping() {
+    var country = $('#country').val();  // Get the selected country
+    var state = $('#state').val();      // Get the selected state
+    var city = $('#city').val();        // Get the selected city
+    var total_price = $('#total-price').text();  // Get the total price
+
+    // Debugging logs
+    console.log("Country:", country);
+    console.log("State:", state);
+    console.log("City:", city);
+    console.log("Total Price:", total_price);
+
+    $.ajax({
+        type: 'POST',
+        url: '{% url "calculate_shipping" %}',  // URL of the view to calculate shipping
+        data: {
+            country: country,
+            state: state,
+            city: city,
+            total_price: total_price,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+        },
+        success: function(response) {
+            // Debugging log for server response
+            console.log("Server Response:", response);
+
+            if (response.success) {
+                // Update the shipping cost and total price
+                $('#shipping_cost').text(response.shipping_cost + ' {{ store.store_currency}}');
+                $('#final-total').text(response.total_price + ' {{ store.store_currency}}');
+            } else {
+                console.log('Error:', response.error);
+            }
+        },
+        error: function(xhr, errmsg, err) {
+            console.log('AJAX Error:', errmsg);
+        }
+    });
+}
+
+// Trigger shipping calculation when state is changed
+$(document).on('change', '#state', function(e) {
+    e.preventDefault();
+    console.log("State changed, recalculating shipping...");
+    calculateShipping();  // Call the function to calculate shipping
+});
+
+// Trigger shipping calculation when city is changed
+$(document).on('change', '#city', function(e) {
+    e.preventDefault();
+    console.log("City changed, recalculating shipping...");
+    calculateShipping();  // Call the same function to calculate shipping
+});
+
+</script>
 
 <!-- Plugins JS File -->
 <script src="{% static "store/assets/js/jquery.min.js" %}"></script>

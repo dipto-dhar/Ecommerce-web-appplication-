@@ -158,7 +158,7 @@ def bulk_delete(request):
 
 @authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def orders(request):
-    orders= Order.objects.all()
+    orders= Order.objects.all().order_by('-date')
     return render(request,'admin_p/orders.html',{'orders':orders})
 
 
@@ -277,9 +277,49 @@ def update_privacypage(request):
 
     return render(request,'admin_p/pages/privacy-policy.html',{'form':form})
 
+from django.shortcuts import render, redirect
+from .models import ShippingZone
+from django.core.paginator import Paginator
+from django.http import JsonResponse
+
+def shipping_zones(request):
+    shipping_zones = ShippingZone.objects.all()
+    paginator = Paginator(shipping_zones, 10)  # Show 10 shipping zones per page
+    page_number = request.GET.get('page')
+    zones = paginator.get_page(page_number)
+    
+    total_pages = range(1, paginator.num_pages + 1)
+
+    return render(request, 'admin_p/shipping_zones.html', {
+        'shipping_zones': zones, 
+        'total_pages': total_pages
+    })
 
 
-def shipping(request):
+def delete_shipping_zone(request, zone_id):
+    # Get the shipping zone by id or return a 404 error if not found
+    zone = ShippingZone.objects.get(id=zone_id)
+
+
+        # Delete the shipping zone
+    zone.delete()
+    messages.success(request, "Shipping Zone deleted successfully.")
+    
+    return redirect('shipping-zones')  # Redirect to the list page after deletion
+    
+
+
+def add_shipping_zone(request):
+
+    if request.method == 'POST':
+        country_id = request.POST.get('country_id')
+        state_code = request.POST.get('state_code')
+        city = request.POST.get('city')
+        action = request.POST.get('action')
+
+        if action == 'get_shipping_price':
+            shipping_cost = ShippingZone.get_shipping_cost(country_id, state_code, city)
+            return JsonResponse({'shipping_cost': shipping_cost})
     headers = {
         'X-CSCAPI-KEY': 'd0FKT21PcEpLclVLakE4ZGRNczlFNnNTdVk1MUcxWTdIMFpGajZFcQ=='  # Your API Key
     }
@@ -320,4 +360,68 @@ def shipping(request):
                 cities = [cities for cities in cities_data]
 
                 return JsonResponse({'cities': cities})
+    
+    
     return render(request, 'admin_p/shipping.html', {'countries': countries})
+
+
+
+
+def shipping_zone_submit(request):
+
+    if request.method == 'POST' :
+        country=request.POST.get('country')
+        name=request.POST.get('zone_name')
+        state=request.POST.get('state')
+        city=request.POST.get('city')
+        method=request.POST.get('method')
+        cost=request.POST.get('cost')
+        free_limit=request.POST.get('free_limit')
+
+
+        form = ShippingZone(
+            name=name,
+            country=country,
+            state=state,
+            city=city,
+            method=method,
+            cost=cost,
+            free_limit=free_limit
+        )
+        form.save()
+
+        return redirect('shipping-zones')
+
+
+
+
+
+def settings(request):
+    settings = Settings.objects.first()
+    if not settings:
+        settings = Settings.objects.create(
+            site_name='My E-commerce Site',
+            site_tagline='Best products available',
+            site_description='Welcome to our e-commerce platform.',
+            store_address='1234 Market Street, City, Country',
+            contact_email='contact@example.com',
+            admin_email='admin@example.com',
+            phone_number='123-456-7890',
+            store_country='USA',
+            store_currency='USD',
+            meta_title='My E-commerce Site',
+            meta_description='Buy the best products at the best prices.',
+        )
+    
+    if request.method == 'POST':
+        form = SettingsForm(request.POST, request.FILES, instance=settings)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Settings updated successfully!')
+            return redirect('settings')  # Ensure 'settings' is the name of your URL pattern
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = SettingsForm(instance=settings)
+    
+    return render(request, 'admin_p/settings.html', {'settings': settings, 'form': form})

@@ -87,8 +87,9 @@ class update_order_status_form(forms.ModelForm):
     class Meta:
         model= Order
         fields=('status',)
-from django import forms
-from .models import Homepage
+
+
+
 
 class HomepageForm(forms.ModelForm):
     class Meta:
@@ -221,3 +222,57 @@ class PrivacyPolicyPageForm(forms.ModelForm):
             'page_banner': forms.FileInput(attrs={'class':'file-upload-input','onchange':"readURL(this);"}),
             'page_content': TinyMCE(attrs={'class': 'form-control', 'placeholder': 'Enter Details'}),
         }
+
+
+
+class SettingsForm(forms.ModelForm):
+    class Meta:
+        model = Settings
+        fields = [
+            'site_name',
+            'site_tagline',
+            'site_description',
+            'store_address',
+            'contact_email',
+            'admin_email',
+            'phone_number',
+            'store_country',
+            'store_currency',
+            'logo',
+            'favicon',
+            'meta_title',
+            'meta_description',
+        ]
+        widgets = {
+            'site_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'site_tagline': forms.TextInput(attrs={'class': 'form-control'}),
+            'site_description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'store_address': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
+            'contact_email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'admin_email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'store_country': forms.Select(attrs={'class': 'form-control'}),
+            'store_currency': forms.Select(attrs={'class': 'form-control'}),
+            'logo': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+            'favicon': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+            'meta_title': forms.TextInput(attrs={'class': 'form-control'}),
+            'meta_description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }
+
+    def clean_logo(self):
+        logo = self.cleaned_data.get('logo', False)
+        if logo:
+            if logo.size > 4*1024*1024:
+                raise forms.ValidationError("Logo file too large ( > 4MB )")
+            return logo
+        else:
+            return None
+
+    def clean_favicon(self):
+        favicon = self.cleaned_data.get('favicon', False)
+        if favicon:
+            if favicon.size > 2*1024*1024:
+                raise forms.ValidationError("Favicon file too large ( > 2MB )")
+            return favicon
+        else:
+            return None

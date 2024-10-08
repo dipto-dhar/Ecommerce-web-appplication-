@@ -9,9 +9,10 @@ from cart.context_processors import cart_summary
 import json
 import random
 import string
-
+import requests
+from django.http import JsonResponse
 # Create your views here.
-
+from decimal import Decimal, InvalidOperation
 
 def home(request):
     products=Product.objects.order_by('-date')
@@ -273,16 +274,26 @@ def category(request):
 
 def account_dashboard(request):
     return render(request, 'store/account_dashboard.html')
-
 def checkout(request):
+    headers = {
+        'X-CSCAPI-KEY': 'd0FKT21PcEpLclVLakE4ZGRNczlFNnNTdVk1MUcxWTdIMFpGajZFcQ=='  # Your API Key
+    }
+    
+    country_url = "https://api.countrystatecity.in/v1/countries"
+    country_response = requests.get(country_url, headers=headers)
+    countries = country_response.json()
+
     if request.session.get('cart'):
         if request.user.is_authenticated:
-            user_shipping_info = ShippingInfo.objects.get(user__id=request.user.id)
-            form = shipping_info( instance=user_shipping_info)
+            try:
+                user_shipping_info = ShippingInfo.objects.get(user=request.user)
+                form = shipping_info(instance=user_shipping_info)
+            except ShippingInfo.DoesNotExist:
+                form = shipping_info()  # Empty form if no info exists
         else:
             form = shipping_info()
 
-        return render(request, 'store/checkout.html', {'shipping_form':form})
+        return render(request, 'store/checkout.html', {'shipping_form': form, 'countries': countries})
     else:
         return redirect('404')
 
@@ -315,3 +326,125 @@ def privacypolicy(request):
     page_data=PrivacyPolicyPage.objects.get(id=1)
    
     return render(request,'store/privacy.html',{'page':page_data})
+
+
+
+def shipping_calc(request):
+    headers = {
+        'X-CSCAPI-KEY': 'd0FKT21PcEpLclVLakE4ZGRNczlFNnNTdVk1MUcxWTdIMFpGajZFcQ=='  # Your API Key
+    }
+    
+    country_url = "https://api.countrystatecity.in/v1/countries"
+    state_url = "https://api.countrystatecity.in/v1/states"
+    
+
+    # Fetch country data
+    country_response = requests.get(country_url, headers=headers)
+    countries = country_response.json()
+
+    if request.method == 'POST' :
+        action = request.POST.get('action')
+        
+        if action == 'get_states':
+            country_id = request.POST.get('country_id')
+            
+            if country_id:
+
+                state_response = requests.get(state_url, headers=headers)
+                state_data = state_response.json()
+            
+                states = [state for state in state_data if state['country_code'] == country_id]
+                
+                return JsonResponse({'states': states})
+
+        elif action == 'get_cities':
+
+            state_code = request.POST.get('state_code')
+            country_id = request.POST.get('country_id')
+            
+            if state_code:
+                city_url = f"https://api.countrystatecity.in/v1/countries/{country_id}/states/{state_code}/cities"
+                city_response = requests.get(city_url, headers=headers)
+                cities_data = city_response.json()
+               
+                cities = [cities for cities in cities_data]
+
+                return JsonResponse({'cities': cities})
+
+
+def calculate_shipping(request):
+    if request.method == 'POST':
+        country = request.POST.get('country')
+        state = request.POST.get('state')
+        city = request.POST.get('city')  # Optional if using city
+        total_price = Decimal(request.POST.get('total_price'))
+        
+        try:
+            # Fetch the shipping zone based on country, state, and city
+            shipping_zone = ShippingZone.objects.filter(
+                country=country, state=state, city=city
+            ).first()
+
+            if shipping_zone:
+                shipping_cost = shipping_zone.cost
+                free_limit = shipping_zone.free_limit
+
+                # Apply free shipping if cart total meets the free limit
+                if total_price >= free_limit:
+                    shipping_cost = 0
+
+                return JsonResponse({
+                    'success': True,
+                    'shipping_cost': shipping_cost,
+                    'total_price': total_price + shipping_cost
+                })
+            else:
+                return JsonResponse({
+                    'success': False,
+                    'error': 'No shipping zone found for the selected region.'
+                })
+        except Exception as e:
+            return JsonResponse({
+                'success': False,
+                'error': str(e)
+            })
+
+    if request.method == 'POST':
+        country = request.POST.get('country')
+        state = request.POST.get('state')
+        city = request.POST.get('city')
+        print(country)
+        print(state)
+        print(city)
+        
+        # Find a shipping zone based on the country, state, and city
+        try:
+            shipping_zone = ShippingZone.objects.filter(
+                country=country, state=state, city=city
+            ).first()
+
+            print(shipping_zone.cost)
+            
+            if shipping_zone:
+                shipping_cost = shipping_zone.cost
+                free_limit = shipping_zone.free_limit
+                # Apply free shipping if the cart total meets the free limit
+                total_price = Decimal(request.POST.get('total_price'))
+                if total_price >= free_limit:
+                    shipping_cost = 0
+
+                return JsonResponse({
+                    'success': True,
+                    'shipping_cost': shipping_cost,
+                    'total_price': total_price + shipping_cost
+                })
+            else:
+                return JsonResponse({
+                    'success': False,
+                    'error': 'No shipping zone found for the selected region.'
+                })
+        except Exception as e:
+            return JsonResponse({
+                'success': False,
+                'error': str(e)
+            })

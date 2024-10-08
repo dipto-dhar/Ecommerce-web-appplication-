@@ -72,10 +72,10 @@
 
                                     <div class="product-price">
                                         {% if product.on_sale == True %}
-                                        <span class="old-price">BDT {{product.regular_price}}</span> &nbsp; &nbsp;
-                						<span class="new-price">BDT {{product.sale_price}}</span>
+                                        <span class="old-price">{{ store.store_currency}}{{product.regular_price}}</span> &nbsp; &nbsp;
+                						<span class="new-price">{{ store.store_currency}}{{product.sale_price}}</span>
                                         {% else %}
-                                        <span class="new-price">BDT {{product.regular_price}}</span>
+                                        <span class="new-price">{{ store.store_currency}}{{product.regular_price}}</span>
                                         {% endif %}
                                     </div><!-- End .product-price -->
 

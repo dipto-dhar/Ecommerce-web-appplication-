@@ -43,8 +43,9 @@ class shipping_info(forms.ModelForm):
     name=forms.CharField(label='',widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter full name'}))
     phone=forms.CharField(label='',widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter phone number'}))
     email=forms.EmailField( label='',widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter a valid email'}))
-    state=forms.CharField( label='',widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter state'}))
-    city=forms.CharField( label='',widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter city'}))
+    country=forms.CharField( label='',widget=forms.Select(attrs={'class':'form-control','id':'country','placeholder':'Enter state'}))
+    state=forms.CharField( label='',widget=forms.Select(attrs={'class':'form-control','id':'state','placeholder':'Enter state'}))
+    city=forms.CharField( label='',widget=forms.Select(attrs={'class':'form-control','id':'city','placeholder':'Enter city'}))
     zip_code=forms.CharField( label='',widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter zip code'}))
     address=forms.CharField( label='',widget=forms.Textarea(attrs={'class':'form-control', 'rows':'3','placeholder':'Enter full address'}))
     

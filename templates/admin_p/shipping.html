@@ -23,7 +23,7 @@
     }
 </style>
 
-<form method="POST" enctype="multipart/form-data">
+<form method="POST" action="{% url 'add-shipping-zone' %}" enctype="multipart/form-data">
     {% csrf_token %}
 
     <div class="container-fluid">
@@ -73,8 +73,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="city">City</label>
-                            <select class="form-control" id="city" name="state">
-                                <option disabled value="">Select State</option>
+                            <select class="form-control" id="city" name="city">
+                                <option disabled value="">Select City</option>
                             </select>
                             </div>
                         
@@ -89,12 +89,19 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="flatRate">Flat Rate</label>
-                            <input type="number" class="form-control" id="flatRate" name="flat_rate" placeholder="Enter flat rate">
+                            <label for="method">Shipping Method</label>
+                        <select class="form-control" id="method" name="method">
+                            <option selected value="flat">Flat Rate</option>
+                            <option  value="flat">Free Shipping</option>
+                        </select>
                         </div>
                         <div class="form-group">
-                            <label for="freeShipping">Free Shipping</label>
-                            <input type="checkbox" id="freeShipping" name="free_shipping">
+                            <label for="flatRate">Shipping Cost</label>
+                            <input type="number" value="0.0" class="form-control" id="flatRate" name="cost" placeholder="Enter flat rate">
+                        </div>
+                        <div class="form-group">
+                            <label for="freeShipping">Free Shipping Limit</label>
+                            <input type="number" value="0.0" class="form-control" id="freeShipping" name="free_limit" placeholder="Enter minimum spending limit">
                         </div>
                     </div>
                 </div>
@@ -103,9 +110,5 @@
         </div>
     </div>
 </form>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 {% endblock %}

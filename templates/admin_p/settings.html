@@ -1,0 +1,218 @@
+{% extends 'admin_p/base.html' %}
+{% load static %}
+{% block body_block %}
+
+<div class="container-fluid">
+    <!-- Header Section -->
+    <div class="header d-flex justify-content-between align-items-center mb-4">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <h4 class="page-title mb-0">Settings</h4>
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                        <li class="breadcrumb-item active"><a href="#">Settings</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <form method="POST" action="{% url 'settings' %}" enctype="multipart/form-data">
+           <button type="submit" class="btn btn-primary">Save Settings</button>
+    </div>
+
+    <!-- Messages -->
+
+
+    <!-- Settings Form -->
+    <div class="settings-container">
+       
+            {% csrf_token %}
+            <div class="row">
+                <!-- General Settings -->
+                <div class="card col-6 mb-4">
+                    <div class="card-header">
+                        General Settings
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            {{ form.site_name.label_tag }}
+                            {{ form.site_name }}
+                            {% if form.site_name.errors %}
+                                <div class="text-danger">
+                                    {{ form.site_name.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.site_tagline.label_tag }}
+                            {{ form.site_tagline }}
+                            {% if form.site_tagline.errors %}
+                                <div class="text-danger">
+                                    {{ form.site_tagline.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.site_description.label_tag }}
+                            {{ form.site_description }}
+                            {% if form.site_description.errors %}
+                                <div class="text-danger">
+                                    {{ form.site_description.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.store_address.label_tag }}
+                            {{ form.store_address }}
+                            {% if form.store_address.errors %}
+                                <div class="text-danger">
+                                    {{ form.store_address.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Settings -->
+                <div class="col-6 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            Contact Settings
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                {{ form.contact_email.label_tag }}
+                                {{ form.contact_email }}
+                                {% if form.contact_email.errors %}
+                                    <div class="text-danger">
+                                        {{ form.contact_email.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.admin_email.label_tag }}
+                                {{ form.admin_email }}
+                                {% if form.admin_email.errors %}
+                                    <div class="text-danger">
+                                        {{ form.admin_email.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.phone_number.label_tag }}
+                                {{ form.phone_number }}
+                                {% if form.phone_number.errors %}
+                                    <div class="text-danger">
+                                        {{ form.phone_number.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            Localization Settings
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                {{ form.store_country.label_tag }}
+                                {{ form.store_country }}
+                                {% if form.store_country.errors %}
+                                    <div class="text-danger">
+                                        {{ form.store_country.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.store_currency.label_tag }}
+                                {{ form.store_currency }}
+                                {% if form.store_currency.errors %}
+                                    <div class="text-danger">
+                                        {{ form.store_currency.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Branding Settings -->
+                <div class="card col-6 mb-4">
+                    <div class="card-header">
+                        Branding Settings
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            {{ form.logo.label_tag }}
+                            {{ form.logo }}
+                            {% if form.logo.errors %}
+                                <div class="text-danger">
+                                    {{ form.logo.errors }}
+                                </div>
+                            {% endif %}
+                            {% if settings.logo %}
+                                <small class="form-text text-muted">Current Logo:</small>
+                                <img src="{{ settings.logo.url }}" alt="Logo" class="img-thumbnail" width="150">
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.favicon.label_tag }}
+                            {{ form.favicon }}
+                            {% if form.favicon.errors %}
+                                <div class="text-danger">
+                                    {{ form.favicon.errors }}
+                                </div>
+                            {% endif %}
+                            {% if settings.favicon %}
+                                <small class="form-text text-muted">Current Favicon:</small>
+                                <img src="{{ settings.favicon.url }}" alt="Favicon" class="img-thumbnail" width="50">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEO Settings -->
+                <div class="col-6 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            SEO Settings
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                {{ form.meta_title.label_tag }}
+                                {{ form.meta_title }}
+                                {% if form.meta_title.errors %}
+                                    <div class="text-danger">
+                                        {{ form.meta_title.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.meta_description.label_tag }}
+                                {{ form.meta_description }}
+                                {% if form.meta_description.errors %}
+                                    <div class="text-danger">
+                                        {{ form.meta_description.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-success">Save Settings</button>
+        </form>
+    </div>
+</div>
+
+
+<!-- Initialize Tooltips (Optional) -->
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+
+{% endblock %}

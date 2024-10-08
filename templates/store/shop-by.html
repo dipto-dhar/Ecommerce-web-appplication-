@@ -74,8 +74,8 @@
                                         </div><!-- End .product-cat -->
                                         <h3 class="product-title"><a href="{% url 'product' product.slug %}">{{product.name}}</a></h3><!-- End .product-title -->
                                         <div class="product-price">
-                                            <span class="old-price">BDT {{product.regular_price}}</span> &nbsp; &nbsp;
-                                            <span class="new-price">BDT {{product.sale_price}}</span>
+                                            <span class="old-price">{{ store.store_currency}}{{product.regular_price}}</span> &nbsp; &nbsp;
+                                            <span class="new-price">{{ store.store_currency}}{{product.sale_price}}</span>
                                             
                                         </div>
                                         <div class="ratings-container ratings-container justify-content-center">

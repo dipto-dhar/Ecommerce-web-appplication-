@@ -53,11 +53,11 @@
 
 
 											{% if product.on_sale %}
-											<!-- <td class="price-col old-price"> {{product.regular_price}} BDT</td> -->
-											<td class="price-col new-price"> {{product.sale_price}} BDT</td>
+											<!-- <td class="price-col old-price"> {{product.regular_price}} {{ store.store_currency}}</td> -->
+											<td class="price-col new-price"> {{product.sale_price}} {{ store.store_currency}}</td>
 
 											{% else %}
-											<td class="price-col "> {{product.regular_price}} BDT</td>
+											<td class="price-col "> {{product.regular_price}} {{ store.store_currency}}</td>
 											{% endif %}
 
 
@@ -105,7 +105,7 @@
 	                					<tbody>
 	                						<tr class="summary-subtotal">
 	                							<td>Subtotal:</td>
-	                							<td >BDT <span id="cart_total">{{ total_price }} </span></td>
+	                							<td >{{ store.store_currency}}<span id="cart_total">{{ total_price }} </span></td>
 	                						</tr><!-- End .summary-subtotal -->
 	                						<tr class="summary-shipping">
 	                							<td>Shipping:</td>

@@ -57,14 +57,14 @@
             <h3>Order Token: {{order_token}}</h3>
             <ul class="list-group">
                 {% for item in items %}
-                <li class="list-group-item">{{item.product}} - Quantity: {{item.quantity}} - Price: BDT {{item.price}}</li>
+                <li class="list-group-item">{{item.product}} - Quantity: {{item.quantity}} - Price: {{ store.store_currency}}{{item.price}}</li>
 
                 {% endfor %}
 
                 <!-- Add more products as needed -->
             </ul>
             <div class="total-price">
-                Total: BDT {{order_total}}
+                Total: {{ store.store_currency}}{{order_total}}
             </div>
         </div>
 

@@ -65,7 +65,7 @@
         <tr>
            
             <td>{{order.order_id}}</td>
-            <td>BDT {{order.order_amount}}</td>
+            <td>{{ store.store_currency}}{{order.order_amount}}</td>
             
             <td>{% for item in order_items %}
                 {% if order.id == item.order.id  %}

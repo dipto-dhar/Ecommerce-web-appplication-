@@ -90,14 +90,14 @@
                     <td>{{product.category}}</td>
                     <td>
                         {% if product.stock == True %}
-                        <span class="badge badge-success">In Stock</span>
+                         
                         {% else %}
                         <span class="badge badge-warning">Out of Stock</span>
                         {% endif %}
 
                     </td>
                     <td>{{product.sku}}</td>
-                    <td>{% if product.on_sale %}
+                    <td>{{store.store_currency}} {% if product.on_sale %}
                         {{product.sale_price}}
                        
                         {% else %}
