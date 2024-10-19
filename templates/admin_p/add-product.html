@@ -46,13 +46,12 @@
                     
                 </div>
                 <div>
-<<<<<<< HEAD
-                <a  href="{% url 'products' %}" class="btn btn-danger" onclick="confirm('Are you sure to delete this Product')"><i class="fa fa-plus"></i> Discard</a>
-                <button type="submit" class="btn btn-primary">Publish product</button>
-=======
+
+
+
                 <a  href="{% url 'products' %}" class="btn btn-danger" onclick="confirm('Are you sure to leave this page')"><i class="fas fa-times"></i>  Discard</a>
                 <button type="submit" class="btn btn-primary"><i class="fa fa-upload" aria-hidden="true"></i> &nbsp; Publish</button>
->>>>>>> 7eb38576aba76a264a5e39a857c64aec54015c2f
+
                 </div>
             </div>
 
@@ -216,6 +215,13 @@
                     <div class="checkbox-wrapper-14">
                     <label for="s1-14">In Stock ?</label>&nbsp;&nbsp;
                     {{form.stock}}
+                    
+                </div>
+                </div>
+                <div class="form-group ">
+                    <div class="checkbox-wrapper-14">
+                    <label for="s1-14">Featured</label>&nbsp;&nbsp;
+                    {{form.is_featured}}
                     
                 </div>
                 </div>

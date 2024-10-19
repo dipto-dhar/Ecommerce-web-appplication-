@@ -15,15 +15,15 @@ from django.http import JsonResponse
 from decimal import Decimal, InvalidOperation
 
 def home(request):
-    products=Product.objects.order_by('-date')
-    categories=Category.objects.all()
+    recent_products=Product.objects.order_by('-date')
+    featured_products=Product.objects.filter(is_featured=True)
     page_data=Homepage.objects.get(id=1)
-    return render(request,'store/index.html',{'products':products,'categories':categories,'page':page_data})
+    return render(request,'store/index.html',{'recent_products':recent_products,'featured_products':featured_products,'page':page_data})
 
 
 def user_login(request):
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('my-account')
     if request.method=='POST':
         email=request.POST['email']
         password=request.POST['password']
@@ -234,7 +234,10 @@ def show_orders(request):
         orders= Order.objects.filter(user=request.user.id)
         order_items= OrderItem.objects.filter(user=request.user.id)
 
+
         return render(request, 'store/orders.html',{'orders':orders,'order_items':order_items})
+    else:
+        return redirect("login")
 
 
 def password_update(request):
@@ -267,7 +270,8 @@ def shop_by(request,slug):
 
 def product(request,slug):
     product=Product.objects.get(slug=slug)
-    return render(request, 'store/product.html',{'product':product})
+    related_product=Product.objects.filter(category=product.category)
+    return render(request, 'store/product.html',{'product':product,'related_products':related_product})
 
 def category(request):
     return render(request, 'store/category.html')

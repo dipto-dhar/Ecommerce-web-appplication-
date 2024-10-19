@@ -66,6 +66,34 @@ def delete_user(request,pk):
     user.delete()
     return redirect('users')
 
+def contacts(request):
+    contacts_list = Contacts.objects.all()
+
+    # Handle search functionality
+    query = request.GET.get('q')
+    if query:
+        contacts_list = contacts_list.filter(name__icontains=query)
+
+    # Pagination: Show 7 contacts per page
+    paginator = Paginator(contacts_list, 7)  # 7 contacts per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'contacts': page_obj,  # Pass the paginated contacts
+    }
+    return render(request, 'admin_p/contacts.html', context)
+
+# View to handle deleting a contact
+def delete_contact(request, pk):
+    contact = Contacts.objects.get(id=pk)
+
+    if request.method == 'POST':
+        contact.delete()
+        messages.success(request, 'Contact deleted successfully.')
+        return redirect('contacts')  # Redirect back to the contact list page after deletion
+
+    return redirect('contacts')
 
 @authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def categories(request):

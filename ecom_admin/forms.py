@@ -52,7 +52,7 @@ class create_category(forms.ModelForm):
 
     name=forms.CharField( label='',widget=forms.TextInput(attrs={'class':'form-control','id':'categoryName'}))
     description=forms.CharField( label='',required=False,widget=forms.Textarea(attrs={'class':'form-control','id':'categoryDescription'}))
-    image=forms.ImageField( label='',required=False,widget=forms.FileInput(attrs={'class':'form-control file-upload-input','onchange':"readURL(this);"}))
+    image=forms.ImageField( label='',required=False,widget=forms.FileInput(attrs={'class':'form-control '}))
 
     class Meta:
         model=Category
@@ -71,12 +71,13 @@ class create_product(forms.ModelForm):
 
     class Meta:
         model=Product
-        fields=('name','regular_price','sale_price','on_sale','category','description','image','stock')
+        fields=('name','regular_price','sale_price','on_sale','category','description','image','stock','is_featured')
         widgets={
 
             'category': forms.Select(attrs={'class':'form-control','required':'False'}),
             'stock': forms.CheckboxInput(attrs={'id':'s1-14','class':'switch'}),
             'on_sale': forms.CheckboxInput(attrs={'id':'s1-14','class':'switch','onclick':'sale()'}),
+            'is_featured': forms.CheckboxInput(attrs={'id':'s1-14','class':'switch'}),
 
         }
 
@@ -87,8 +88,6 @@ class update_order_status_form(forms.ModelForm):
     class Meta:
         model= Order
         fields=('status',)
-
-
 
 
 class HomepageForm(forms.ModelForm):
@@ -176,8 +175,6 @@ class HomepageForm(forms.ModelForm):
 }
 
 
-
-
 class AboutPageForm(forms.ModelForm):
     class Meta:
         model = AboutPage
@@ -199,7 +196,6 @@ class ContactPageForm(forms.ModelForm):
             'page_banner': forms.FileInput(attrs={'class':'file-upload-input','onchange':"readURL(this);"}),
             'page_content': TinyMCE(attrs={'class': 'form-control', 'placeholder': 'Enter contact information'}),
         }
-
 
 
 class TermsPageForm(forms.ModelForm):
@@ -224,7 +220,6 @@ class PrivacyPolicyPageForm(forms.ModelForm):
         }
 
 
-
 class SettingsForm(forms.ModelForm):
     class Meta:
         model = Settings
@@ -233,6 +228,7 @@ class SettingsForm(forms.ModelForm):
             'site_tagline',
             'site_description',
             'store_address',
+            'copyright',
             'contact_email',
             'admin_email',
             'phone_number',
@@ -242,12 +238,18 @@ class SettingsForm(forms.ModelForm):
             'favicon',
             'meta_title',
             'meta_description',
+            'primary_color',
+            'button_color',
+            'button_bg_color',
+            'heading_color',
+            'additional_css',
         ]
         widgets = {
             'site_name': forms.TextInput(attrs={'class': 'form-control'}),
             'site_tagline': forms.TextInput(attrs={'class': 'form-control'}),
             'site_description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'store_address': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
+            'copyright': forms.TextInput(attrs={'class': 'form-control'}),
             'contact_email': forms.EmailInput(attrs={'class': 'form-control'}),
             'admin_email': forms.EmailInput(attrs={'class': 'form-control'}),
             'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
@@ -256,7 +258,12 @@ class SettingsForm(forms.ModelForm):
             'logo': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
             'favicon': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
             'meta_title': forms.TextInput(attrs={'class': 'form-control'}),
+            'primary_color': forms.TextInput(attrs={'class': 'form-control','placeholder':'#000000'}),
+            'button_color': forms.TextInput(attrs={'class': 'form-control','placeholder':'#000000'}),
+            'button_bg_color': forms.TextInput(attrs={'class': 'form-control','placeholder':'#000000'}),
+            'heading_color': forms.TextInput(attrs={'class': 'form-control','placeholder':'#000000'}),
             'meta_description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'additional_css': forms.Textarea(attrs={'class': 'form-control','placeholder':'h2{ . . . . . }', 'rows': 8}),
         }
 
     def clean_logo(self):

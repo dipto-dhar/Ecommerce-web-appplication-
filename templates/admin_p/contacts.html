@@ -1,0 +1,152 @@
+{% extends 'admin_p/base.html' %}
+{% block body_block %}
+
+<style>
+    body {
+        background-color: #f8f8f8;
+    }
+    .container-fluid {
+        margin-top: 20px;
+        background: #fff;
+        border-radius: 10px;
+        padding: 20px;
+    }
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eaeaea;
+    }
+    .header h2 {
+        font-size: 24px;
+        font-weight: 600;
+    }
+    .table-container {
+        margin-top: 20px;
+        border-radius: 20px;
+    }
+    .table thead  {
+        background-color: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0px 0px 10px 1px #00000013;
+        border: none;
+        padding: 20px 0;
+    }
+    .table thead th {
+        background-color: #ffffff;
+        box-shadow:none;
+        border: none;
+    }
+    .table tbody td {
+        vertical-align: middle;
+        border-top: none;
+        border-bottom: 1px solid #eaeaea;
+    }
+    .table img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+    .pagination-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-top:none;
+    }
+    .pagination .page-item.active .page-link {
+        background-color: #7367f0;
+        border-color: #7367f0;
+    }
+    .form-inline input {
+        width: 250px;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="header">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <h4 class="page-title mb-0">Contacts</h4>
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                        <li class="breadcrumb-item active"><a href="#">Contacts</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <div class="form-inline mb-3">
+            <input class="form-control" type="search" placeholder="Search Contacts" aria-label="Search" name="q" value="{{ request.GET.q }}">
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col"><input type="checkbox"></th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Message</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contact in contacts %}
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>{{ contact.name }}</td>
+                    <td>{{ contact.email }}</td>
+                    <td>{{ contact.phone }}</td>
+                    <td>{{ contact.subject }}</td>
+                    <td>{{ contact.massage|truncatewords:10 }}</td>
+                    <td class="actions">
+                        <a href="{% url 'delete-contact' contact.id %}" onclick="return confirm('Are you sure you want to delete this contact?')" class="btn btn-sm"><i class="fas fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center">No contacts found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination-container">
+        <div>Showing {{ contacts.start_index }} to {{ contacts.end_index }} of {{ contacts.paginator.count }} entries</div>
+        <nav>
+            <ul class="pagination">
+                {% if contacts.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ contacts.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% for page_num in contacts.paginator.page_range %}
+                <li class="page-item {% if contacts.number == page_num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ page_num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ page_num }}</a>
+                </li>
+                {% endfor %}
+
+                {% if contacts.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ contacts.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+
+{% endblock %}

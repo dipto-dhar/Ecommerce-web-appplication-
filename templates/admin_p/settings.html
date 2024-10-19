@@ -70,6 +70,13 @@
                                 </div>
                             {% endif %}
                         </div>
+                        
+                        <div class="form-group">
+                            <label for=""> Copyright Text</label>
+                            {{ form.copyright }}
+                        
+                        </div>
+                        
                     </div>
                 </div>
 
@@ -171,8 +178,41 @@
                     </div>
                 </div>
 
+
+                <div class="col-6 ">
+
+                <div class="col-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            Color Settings
+                        </div>
+                        <div class="card-body row">
+                            <div class="form-group col-6">
+                                <label for="">Primary Color</label>
+                                {{ form.primary_color }}
+                            
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="">Button Text Color</label>
+                                {{ form.button_color }}
+                            
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="">Button Background Color</label>
+                                {{ form.button_bg_color }}
+                            
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="">Heading Color</label>
+                                {{ form.heading_color }}
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- SEO Settings -->
-                <div class="col-6 mb-4">
+                <div class="col-12 mb-4">
                     <div class="card">
                         <div class="card-header">
                             SEO Settings
@@ -199,7 +239,20 @@
                         </div>
                     </div>
                 </div>
-
+               
+    </div>
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-header">
+                Additional CSS
+            </div>
+            <div class="card-body">
+             <div class="form-group">
+                {{form.additional_css}}
+             </div>
+            </div>
+        </div>
+    </div>
             </div>
             <!-- Submit Button -->
             <button type="submit" class="btn btn-success">Save Settings</button>

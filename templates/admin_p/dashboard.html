@@ -1,4 +1,100 @@
 {% extends 'admin_p/base.html' %}
 {% block body_block %}
+<style>
+    .card-text{
+        margin-top: 10px;
+    }
+    .order::after{
+    content: "{{new_order}}" !important;
+    padding: 6px 10px;
 
+
+    background: #7b5ade;
+ border-radius: 50px;
+    color: #fff;
+    font-size: 12px;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <!-- Dashboard -->
+        <div class="col-md-3">
+            <div class="card text-center">
+                <a href="{% url 'dashboard' %}">
+                    <div class="card-body">
+                        <br>
+                        <i class="fas fa-tachometer-alt fa-3x" style="color: #000000ad;"></i>
+                        <p class="card-text" style="color: #000000ad;">Overview</p>
+                        <br>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Users -->
+        <div class="col-md-3">
+            <div class="card text-center">
+                <a href="{% url 'users' %}">
+                    <div class="card-body"><br>
+                        <i class="fas fa-users fa-3x" style="color: #000000ad;"></i>
+
+                        <p class="card-text" style="color: #000000ad;">Manage Users</p><br>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Orders -->
+        <div class="col-md-3">
+            <div class="card text-center">
+                <a href="{% url 'orders' %}">
+                    <div class="card-body"><br>
+                        <i class="fas fa-shopping-cart order fa-3x" style="color: #000000ad;"></i>
+
+                        <p class="card-text" style="color: #000000ad;">Manage Orders</p><br>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Products -->
+        <div class="col-md-3">
+            <div class="card text-center">
+                <a href="{% url 'products' %}">
+                    <div class="card-body"><br>
+                        <i class="fas fa-box fa-3x" style="color: #000000ad;"></i>
+                
+                        <p class="card-text" style="color: #000000ad;">Manage Products</p><br>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="col-md-3">
+            <div class="card text-center">
+                <a href="{% url 'categories' %}">
+                    <div class="card-body"><br>
+                        <i class="fas fa-tags fa-3x" style="color: #000000ad;"></i>
+
+                        <p class="card-text" style="color: #000000ad;">Manage Categories</p><br>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Settings -->
+        <div class="col-md-3">
+            <div class="card text-center"><br>
+                <a href="{% url 'settings' %}">
+                    <div class="card-body">
+                        <i class="fas fa-cogs fa-3x" style="color: #000000ad;"></i>
+                        
+                        <p class="card-text" style="color: #000000ad;">Settings</p><br>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

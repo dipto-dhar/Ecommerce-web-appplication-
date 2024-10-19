@@ -23,8 +23,8 @@
             			</div><!-- End .checkout-discount -->
             			<form method="POST" action="{% url 'process-order' %}">
 							{% csrf_token %}
-		                	<div class="row">
-		                		<div class="col-lg-9">
+		                	<div class="row chckout-row">
+		                		<div class="col-lg-8 shiping_details">
 		                			<h2 class="checkout-title">Shipping Details</h2><!-- End .checkout-title -->
 		                				<div class="row">
 		                					<div class="col-sm-12">
@@ -90,7 +90,7 @@
 	                				
 
 		                		</div><!-- End .col-lg-9 -->
-		                		<aside class="col-lg-3">
+		                		<aside class="col-lg-3 shiping_summary" >
 		                			<div class="summary">
 		                				<h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
 
@@ -180,7 +180,7 @@
 										    
 										</div><!-- End .accordion -->
 
-		                				<button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+		                				<button type="submit" class="btn btn-outline btn-order btn-block">
 		                					<span class="">Place Order</span>
 		                				
 		                				</button>

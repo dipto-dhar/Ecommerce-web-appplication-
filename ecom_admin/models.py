@@ -91,6 +91,8 @@ class Product(models.Model):
     stock=models.BooleanField(default=True)
     date=models.DateField(default=datetime.datetime.now)
     slug = AutoSlugField(populate_from=('name'),unique=True,null=True, )
+    is_featured=models.BooleanField(default=False)
+
     def __str__(self) -> str:
         return self.name
 
@@ -698,6 +700,10 @@ class Settings(models.Model):
     site_tagline = models.CharField(max_length=255)
     site_description = models.TextField()
     store_address = models.TextField()
+    primary_color=models.CharField(max_length=10, default='')
+    button_color=models.CharField(max_length=10, default='')
+    button_bg_color=models.CharField(max_length=10, default='')
+    heading_color=models.CharField(max_length=10, default='')
 
     contact_email = models.EmailField()
     admin_email = models.EmailField()
@@ -709,8 +715,10 @@ class Settings(models.Model):
     logo = models.ImageField(upload_to='logos/', blank=True, null=True)
     favicon = models.ImageField(upload_to='favicons/', blank=True, null=True)
 
+    copyright = models.CharField(max_length=255, default='')
     meta_title = models.CharField(max_length=255)
     meta_description = models.TextField()
+    additional_css = models.TextField(max_length=5000,default='',null=True,blank=True)
 
     # Singleton enforcement
     class Meta:
