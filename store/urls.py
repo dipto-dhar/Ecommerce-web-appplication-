@@ -17,6 +17,7 @@ urlpatterns = [
     path('register/', views.user_register,name='register'),
     path('shop/', views.shop,name='shop'),
     path('shop/<slug>', views.shop_by,name='shop'),
+    path('search/', views.search_view, name='search'),
     path('category/', views.category,name='category'),
     path('product/<slug>', views.product,name='product'),
     path('wishlist/', views.wishlist,name='wishlist'),

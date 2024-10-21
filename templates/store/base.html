@@ -44,6 +44,47 @@
     --title-color: {{ store.heading_color }};
     --primary-color: {{ store.primary_color }};
 }
+/* Style for search popup */
+.search-popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Background overlay */
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    position: relative;
+}
+
+.search-content form{
+    width: 100%;
+}
+.search-content form .title{
+    margin-bottom: 20px;
+}
+
+/* Close button style */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+}
 
 .product-price .new-price{
     color: var(--primary-color)!important;
@@ -228,11 +269,7 @@ text-align: end;
 .product-col .product-media{
     border-radius: 10px;
 }
-table{
-    border-radius: 10px!important;
-    border: none!important;
-    box-shadow: 0px 0px 20px #0000001f;
-}
+
 .page-header.page-header-big {
 min-height:300px !important;
 }
@@ -313,17 +350,20 @@ min-height:300px !important;
 
                     <div class="header-right">
                         <div class="header-search">
-                          <form action="" method="get">
-
-                          </form>  <a href="#" class="search-toggle" type="submit" role="button"><i class="icon-search"></i></a>
-                                    
-                            
-                                <div class="header-search-wrapper">
-                                    <label for="q" class="sr-only">Search</label>
-                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
-                                </div><!-- End .header-search-wrapper -->
+                            <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
+                        </div>
+                        
+                        <div class="search-popup" id="searchPopup">
+                            <div class="search-content"> <span class="close">&times;</span>
+                               
+                            <form action="{% url 'search' %}" method="GET">
+                                <h2 class="title">Search For: </h2>
+                                <input type="text" name="query" placeholder="Search..." class="form-control" />
+                                <button type="submit" class="search-button btn btn-primary">Search</button>
                             </form>
-                        </div><!-- End .header-search -->
+                            </div>
+                        </div>
+                        
                         <div class="dropdown user-dropdown">
                             <a href="#" class="wishlist-link " id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="icon-user"></i>
@@ -858,6 +898,28 @@ $(document).on('change', '#city', function(e) {
     e.preventDefault();
     console.log("City changed, recalculating shipping...");
     calculateShipping();  // Call the same function to calculate shipping
+});
+
+
+
+
+
+
+document.querySelector('.search-toggle').addEventListener('click', function(e) {
+    e.preventDefault(); // Prevent default link behavior
+    document.getElementById('searchPopup').style.display = 'flex'; // Show popup
+});
+
+document.querySelector('.close').addEventListener('click', function() {
+    document.getElementById('searchPopup').style.display = 'none'; // Hide popup
+});
+
+// Close popup when clicking outside of the search-content
+window.addEventListener('click', function(e) {
+    const searchPopup = document.getElementById('searchPopup');
+    if (e.target == searchPopup) {
+        searchPopup.style.display = 'none'; // Hide popup
+    }
 });
 
 </script>

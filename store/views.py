@@ -260,6 +260,18 @@ def shop(request):
         products=Product.objects.order_by('-date')
         return render(request, 'store/shop.html',{'products':products})
   
+def search_view(request):
+    query = request.GET.get('query', '')  # Get the search query from the request
+    results = []
+
+    if query:
+        # Assuming you're searching a Product model with a 'name' field
+        results = Product.objects.filter(name__icontains=query)
+        if results.exists()==False:
+            results = Product.objects.filter(category__name__icontains=query)
+
+    return render(request, 'store/search.html', {'query': query, 'products': results})
+
 def page_not_found(request):
         return render(request, 'store/404.html')
   
@@ -274,7 +286,9 @@ def product(request,slug):
     return render(request, 'store/product.html',{'product':product,'related_products':related_product})
 
 def category(request):
-    return render(request, 'store/category.html')
+    categories=Category.objects.all()
+
+    return render(request, 'store/category.html', {'categories':categories})
 
 def account_dashboard(request):
     return render(request, 'store/account_dashboard.html')
