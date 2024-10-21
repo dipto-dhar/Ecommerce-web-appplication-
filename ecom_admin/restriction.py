@@ -14,7 +14,7 @@ def authenticated_user(allowed_roles=[]):
                 else:
                     return HttpResponse("you are not authorized")
             else:
-                return redirect('login')
+                return redirect('dashboard')
         return wrapper
     return authenticator
             

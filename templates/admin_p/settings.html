@@ -29,7 +29,8 @@
             {% csrf_token %}
             <div class="row">
                 <!-- General Settings -->
-                <div class="card col-6 mb-4">
+                <div class=" col-6 mb-4">
+                    <div class="card">
                     <div class="card-header">
                         General Settings
                     </div>
@@ -77,6 +78,7 @@
                         
                         </div>
                         
+                    </div>
                     </div>
                 </div>
 
@@ -144,38 +146,85 @@
                 </div>
 
                 <!-- Branding Settings -->
-                <div class="card col-6 mb-4">
+                <div class="col-6 mb-4">
+                    <div class="card">
                     <div class="card-header">
                         Branding Settings
                     </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            {{ form.logo.label_tag }}
-                            {{ form.logo }}
-                            {% if form.logo.errors %}
-                                <div class="text-danger">
-                                    {{ form.logo.errors }}
+                    <div class="card-body ">
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label for="logo">{{ form.logo.label_tag }}</label>
+                                <div class="custom-file">
+                                    {{ form.logo }}
+                                    <label class="custom-file-label" for="logo">Choose Logo</label>
                                 </div>
-                            {% endif %}
-                            {% if settings.logo %}
-                                <small class="form-text text-muted">Current Logo:</small>
-                                <img src="{{ settings.logo.url }}" alt="Logo" class="img-thumbnail" width="150">
-                            {% endif %}
-                        </div>
-                        <div class="form-group">
-                            {{ form.favicon.label_tag }}
-                            {{ form.favicon }}
-                            {% if form.favicon.errors %}
-                                <div class="text-danger">
-                                    {{ form.favicon.errors }}
+                                {% if form.logo.errors %}
+                                    <div class="text-danger mt-2">
+                                        {{ form.logo.errors }}
+                                    </div>
+                                {% endif %}
+                                {% if settings.logo %}
+                                    <div class="mt-3">
+                                        <small class="form-text text-muted">Current Logo:</small>
+                                        <img src="{{ settings.logo.url }}" alt="Logo" class="img-thumbnail" width="150">
+                                    </div>
+                                {% endif %}
+                            </div>
+                        
+                            <div class="form-group col-lg-6">
+                                <label for="favicon">{{ form.favicon.label_tag }}</label>
+                                <div class="custom-file">
+                                    {{ form.favicon}}
+                                    <label class="custom-file-label" for="favicon">Choose Favicon</label>
                                 </div>
-                            {% endif %}
-                            {% if settings.favicon %}
-                                <small class="form-text text-muted">Current Favicon:</small>
-                                <img src="{{ settings.favicon.url }}" alt="Favicon" class="img-thumbnail" width="50">
-                            {% endif %}
+                                {% if form.favicon.errors %}
+                                    <div class="text-danger mt-2">
+                                        {{ form.favicon.errors }}
+                                    </div>
+                                {% endif %}
+                                {% if settings.favicon %}
+                                    <div class="mt-3">
+                                        <small class="form-text text-muted">Current Favicon:</small>
+                                        <img src="{{ settings.favicon.url }}" alt="Favicon" class="img-thumbnail" width="50">
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+
                         </div>
+                        
                     </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        Social Links
+                    </div>
+                    <div class="card-body row">
+                        <div class="form-group col-6">
+                            <label for="">Facebook</label>
+                            {{ form.fb_link }}
+                        
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="">Instagram</label>
+                            {{ form.insta_link }}
+                        
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="">Twitter</label>
+                            {{ form.twiter_link }}
+                        
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="">Linkedin Link</label>
+                            {{ form.linkedin_link }}
+                        
+                        </div>
+               
+                    </div>
+                </div>
+                
                 </div>
 
 

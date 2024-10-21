@@ -11,6 +11,7 @@ from django.core.paginator import Paginator
 from .restriction import authenticated_user
 import requests
 from django.http import JsonResponse
+
 def dashboard(request):
     
 
@@ -31,12 +32,10 @@ def dashboard(request):
         return render(request,'admin_p/index.html')
 
 
-@authenticated_user(allowed_roles=['Admin','Super Admin'])
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def users(request):
     users= User.objects.all()
     return render(request,'admin_p/users.html',{'users':users})
-
-
 
 @authenticated_user(allowed_roles=['Admin','Super Admin'])
 def add_user(request):
@@ -49,7 +48,7 @@ def add_user(request):
             return redirect('users')
     return render(request,'admin_p/add-user.html',{'form':form})
 
-
+@authenticated_user(allowed_roles=['Super Admin'])
 def edit_user(request,pk):
     user=User.objects.get(id=pk)
     form=edit_user_form(instance=user)
@@ -60,12 +59,12 @@ def edit_user(request,pk):
             messages.success(request,'User has been successfully added')
             return redirect('users')
     return render(request,'admin_p/edit-user.html',{'form':form,'user':user})
-
+@authenticated_user(allowed_roles=['Super Admin'])
 def delete_user(request,pk):
     user=User.objects.get(id=pk)
     user.delete()
     return redirect('users')
-
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def contacts(request):
     contacts_list = Contacts.objects.all()
 
@@ -174,7 +173,7 @@ def delete_product(request,pk):
     messages.success(request,'Product Deleted Successfully')
     return redirect('products')
 
-
+@authenticated_user(allowed_roles=['Admin','Super Admin'])
 def bulk_delete(request):
     if request.method == 'POST':
         # Get the list of IDs from the submitted form
@@ -215,7 +214,7 @@ def delete_order(request, order_id):
     order= Order.objects.get(order_id=order_id)
     order.delete()
     return redirect('orders')
-
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def update_order_status(request):
     form= update_order_status_form()
     if request.method=='POST':
@@ -226,7 +225,7 @@ def update_order_status(request):
         form= update_order_status_form()
     
     return render(request, 'status.html',{'form':form})
-
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def update_homepage(request):
     instance=Homepage.objects.get(id=1)
     form=HomepageForm(instance=instance)
@@ -240,7 +239,7 @@ def update_homepage(request):
             messages.success(request,'Error Updating tha Page')
 
     return render(request,'admin_p/pages/home.html',{'form':form})
-
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def update_aboutpage(request):
     instance=AboutPage.objects.get(id=1)
     form=AboutPageForm(instance=instance)
@@ -254,7 +253,7 @@ def update_aboutpage(request):
             messages.success(request,'Error Updating tha Page')
 
     return render(request,'admin_p/pages/about.html',{'form':form})
-
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def update_contactpage(request):
     instance=ContactPage.objects.get(id=1)
     form=ContactPageForm(instance=instance)
@@ -271,7 +270,7 @@ def update_contactpage(request):
 
 
 
-    
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def update_termspage(request):
     instance=TermsPage.objects.get(id=1)
     form=TermsPageForm(instance=instance)
@@ -286,6 +285,7 @@ def update_termspage(request):
 
     return render(request,'admin_p/pages/terms.html',{'form':form})
 
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def update_privacypage(request):
     instance=PrivacyPolicyPage.objects.get(id=1)
     form=PrivacyPolicyPageForm(instance=instance)
@@ -305,11 +305,8 @@ def update_privacypage(request):
 
     return render(request,'admin_p/pages/privacy-policy.html',{'form':form})
 
-from django.shortcuts import render, redirect
-from .models import ShippingZone
-from django.core.paginator import Paginator
-from django.http import JsonResponse
 
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def shipping_zones(request):
     shipping_zones = ShippingZone.objects.all()
     paginator = Paginator(shipping_zones, 10)  # Show 10 shipping zones per page
@@ -323,7 +320,7 @@ def shipping_zones(request):
         'total_pages': total_pages
     })
 
-
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def delete_shipping_zone(request, zone_id):
     # Get the shipping zone by id or return a 404 error if not found
     zone = ShippingZone.objects.get(id=zone_id)
@@ -336,7 +333,7 @@ def delete_shipping_zone(request, zone_id):
     return redirect('shipping-zones')  # Redirect to the list page after deletion
     
 
-
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def add_shipping_zone(request):
 
     if request.method == 'POST':
@@ -392,9 +389,7 @@ def add_shipping_zone(request):
     
     return render(request, 'admin_p/shipping.html', {'countries': countries})
 
-
-
-
+@authenticated_user(allowed_roles=['Admin','Super Admin','Editor'])
 def shipping_zone_submit(request):
 
     if request.method == 'POST' :
@@ -421,9 +416,7 @@ def shipping_zone_submit(request):
         return redirect('shipping-zones')
 
 
-
-
-
+@authenticated_user(allowed_roles=['Admin','Super Admin'])
 def settings(request):
     settings = Settings.objects.first()
     if not settings:

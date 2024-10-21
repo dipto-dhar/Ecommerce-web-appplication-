@@ -707,7 +707,16 @@ $(document).on('change', '#state', function(e) {
         }
     });
 });
+
+
 </script>
+<script>
+    $('.custom-file-input').on('change', function() {
+        var fileName = $(this).val().split('\\').pop();
+        $(this).next('.custom-file-label').addClass("selected").html(fileName);
+    });
+</script>
+
         <!-- jQuery  -->
 
         <script src="{% static "admin_p/assets/js/modernizr.min.js" %}"></script>

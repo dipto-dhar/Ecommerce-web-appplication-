@@ -542,10 +542,37 @@ min-height:300px !important;
           
             <div class="social-icons">
                 <span class="social-label">Follow Us</span>
-                <a href="#" class="social-icon" title="Facebook"><i class="icon-facebook-f"></i></a>
-                <a href="#" class="social-icon" title="Twitter"><i class="icon-twitter"></i></a>
-                <a href="#" class="social-icon" title="Instagram"><i class="icon-instagram"></i></a>
-                <a href="#" class="social-icon" title="YouTube"><i class="icon-youtube"></i></a>
+    {% if store.twiter_link != "" %}
+    <a target="_blank" href="{{store.twiter_link}}" class="social-icon" title="Twitter"><i class="icon-twitter"></i></a>
+    {% else %}
+    {% endif %}
+
+
+    {% if store.fb_link != "" %}
+    <a target="_blank" href="{{store.fb_link}}"  class="social-icon" title="Facebook"><i class="icon-facebook-f"></i></a>
+    {% else %}
+    {% endif %}
+
+    {% if store.insta_link != "" %}
+    <a target="_blank" href="{{store.insta_link}}" class="social-icon" title="Instagram"><i class="icon-instagram"></i></a>
+    {% else %}
+    {% endif %}
+
+
+    {% if store.linkedin_link != "" %}
+    <a target="_blank" href="{{store.linkedin_link}}" class="social-icon" title="Instagram"><i class="icon-linkedin"></i></a>
+    {% else %}
+    {% endif %}
+                
+    {% if store.pinterest_link != "" %}
+    <atarget="_blank" href="{{store.pinterest_link}}"class="social-icon" title="YouTube"><i class="icon-pinterest"></i></a>
+    {% else %}
+    {% endif %}
+                
+              
+               
+               
+                
             </div>
         </div>
     </div><!-- End .footer-bottom -->
