@@ -51,17 +51,14 @@
                                         </div><!-- End .product-cat -->
                                         <h3 class="product-title"><a href="{% url 'product' product.slug %}">{{product.name}}</a></h3><!-- End .product-title -->
                                         <div class="product-price">
-                                            <span class="old-price">{{ store.store_currency}}{{product.regular_price}}</span> &nbsp; &nbsp;
-                                            <span class="new-price">{{ store.store_currency}}{{product.sale_price}}</span>
+                                            {% if product.on_sale %}
                                             
+                                            <span class="new-price">{{ store.store_currency}}{{product.sale_price}}</span>
+                                            {% else %}
+                                            <span class="new-price">{{ store.store_currency}}{{product.regular_price}}</span> &nbsp; &nbsp;
+                                            {% endif %}
                                         </div>
-                                        <div class="ratings-container ratings-container justify-content-center">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 60%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 4 Reviews )</span>
-                                        </div>
-                                        
+                                 
     
                                     </div><!-- End .product-body -->
                                 </div><!-- End .product -->

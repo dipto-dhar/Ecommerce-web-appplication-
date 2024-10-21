@@ -5,6 +5,7 @@ from ecom_admin.models import User,Product
 from .forms import register_user,update_user,update_password,shipping_info,contact_form
 from ecom_admin.models import *
 from .models import Cart, ShippingInfo, Order, OrderItem
+from django.core.paginator import Paginator
 from cart.context_processors import cart_summary
 import json
 import random
@@ -257,8 +258,14 @@ def password_update(request):
         return redirect("login")
     
 def shop(request):
-        products=Product.objects.order_by('-date')
-        return render(request, 'store/shop.html',{'products':products})
+    products = Product.objects.order_by('-date')
+
+    # Add pagination
+    paginator = Paginator(products, 12)  # Show 12 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'store/shop.html', {'page_obj': page_obj})
   
 def search_view(request):
     query = request.GET.get('query', '')  # Get the search query from the request
@@ -278,7 +285,12 @@ def page_not_found(request):
 def shop_by(request,slug):
         category=Category.objects.get(slug=slug)
         products=Product.objects.filter(category=category)
-        return render(request, 'store/shop-by.html',{'products':products,'category':category})
+        paginator = Paginator(products, 12)  # Show 12 products per page
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+
+        return render(request, 'store/shop-by.html',{'page_obj': page_obj,'category':category})
 
 def product(request,slug):
     product=Product.objects.get(slug=slug)

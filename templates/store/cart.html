@@ -54,10 +54,10 @@
 
 											{% if product.on_sale %}
 											<!-- <td class="price-col old-price"> {{product.regular_price}} {{ store.store_currency}}</td> -->
-											<td class="price-col new-price"> {{product.sale_price}} {{ store.store_currency}}</td>
+											<td class="price-col new-price"> {{ store.store_currency}}{{product.sale_price}} </td>
 
 											{% else %}
-											<td class="price-col "> {{product.regular_price}} {{ store.store_currency}}</td>
+											<td class="price-col "> {{ store.store_currency}}{{product.regular_price}} </td>
 											{% endif %}
 
 

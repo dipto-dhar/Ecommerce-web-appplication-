@@ -19,67 +19,104 @@
                     <div class="products">
                         <div class="row">
                             
-{% for product in products %}
+                            {% for product in page_obj %}
                             <div class="col-6 col-md-4 col-lg-4 col-xl-3">
-                                
-
                                 <div class="product product-2">
                                     <figure class="product-media">
                                         {% if product.on_sale and product.stock == True %}
-                            <span class="product-label label-sale">sale</span>
-                            {% elif product.stock == False %}
-                            <span class="product-label label-out">Out Of Stock</span>
-                            {% endif %}
-                                        
+                                            <span class="product-label label-sale">sale</span>
+                                        {% elif product.stock == False %}
+                                            <span class="product-label label-out">Out Of Stock</span>
+                                        {% endif %}
                                         <a href="{% url 'product' product.slug %}">
-                                            <img src="{{product.image.url}}" alt="Product image" class="product-image">
-                                            <!-- <img src="/static/store/assets/images/demos/demo-8/products/product-1-2.jpg" alt="Product image" class="product-image-hover"> -->
+                                            <img src="{{ product.image.url }}" alt="Product image" class="product-image">
                                         </a>
-    
-                                        <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable" title="Add to wishlist"><span>add to wishlist</span></a>
-                                        </div><!-- End .product-action -->
-    
-                                        <div class="product-action ">
-                                            <input type="number" id="item-qty"  value="1"  hidden >
-                                            <a href="" class="btn-product btn-cart"  id="add-cart" data-index="{{product.id}}" value="{{product.id}}"><span>add to cart</span></a>
-                                        </div><!-- End .product-action -->
-                                    </figure><!-- End .product-media -->
-    
+                                        <div class="product-action">
+                                            <a href="" class="btn-product btn-cart" id="add-cart" data-index="{{ product.id }}" value="{{ product.id }}">
+                                                <span>add to cart</span>
+                                            </a>
+                                        </div>
+                                    </figure>
                                     <div class="product-body">
-                                        <div class="product-cat">
-                                            <a href="#">{{product.category}}</a>
-                                        </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="{% url 'product' product.slug %}">{{product.name}}</a></h3><!-- End .product-title -->
+                                        <h3 class="product-title"><a href="{% url 'product' product.slug %}">{{ product.name }}</a></h3>
                                         <div class="product-price">
-                                            <span class="old-price">{{ store.store_currency}}{{product.regular_price}}</span> &nbsp; &nbsp;
-                                            <span class="new-price">{{ store.store_currency}}{{product.sale_price}}</span>
-                                            
+                                            <span class="old-price">{{ store.store_currency }}{{ product.regular_price }}</span>
+                                            <span class="new-price">{{ store.store_currency }}{{ product.sale_price }}</span>
                                         </div>
-                                        <div class="ratings-container ratings-container justify-content-center">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 60%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 4 Reviews )</span>
-                                        </div>
-                                        
-    
-                                    </div><!-- End .product-body -->
-                                </div><!-- End .product -->
-    
-    
-    
-
-                            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
-    {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        
+                        <!-- Pagination with Bootstrap styling -->
+                        
+                        
                         </div><!-- End .row -->
 
-                        <div class="load-more-container text-center">
-                            <a href="#" class="btn btn-outline btn-load-more">More Products <i class="icon-refresh"></i></a>
-                        </div><!-- End .load-more-container -->
+                    
                     </div><!-- End .products -->
 
-                
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1" aria-label="First">
+                                        <span aria-hidden="true">&laquo;&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" aria-label="First">
+                                        <span aria-hidden="true">&laquo;&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                    
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                    <li class="page-item active" aria-current="page">
+                                        <span class="page-link">{{ num }}</span>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                    
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                                        <span aria-hidden="true">&raquo;&raquo;</span>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" aria-label="Last">
+                                        <span aria-hidden="true">&raquo;&raquo;</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
                 </div><!-- End .container -->    {% else %}
                 <div class="alert alert-secondary rounded text-center" role="alert">
                     <br><br><br><br>
